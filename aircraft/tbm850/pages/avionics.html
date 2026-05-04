@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b0f12" />
+  <title>TBM850 Avionics + Environment</title>
+  <script src="../../../common/AaoWebApi.js"></script>
+  <link rel="stylesheet" href="../../../common/common.css" />
+  <script src="../aircraft.js"></script>
+  <script src="../../../common/panel-settings.js"></script>
+</head>
+<body>
+  <nav class="nav-bar">
+    <a href="overhead.html" data-panel-nav="overhead">OH</a>
+    <a href="avionics.html" class="active" data-panel-nav="avnenv">AVN/ENV</a>
+    <a href="../../../index.html?aircraft=tbm850#settings" class="nav-settings-gear" title="Settings" aria-label="Settings">&#9881;</a>
+  </nav>
+  <main>
+    <div class="grid-wrap">
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+  <script src="../../../common/nav-inapp.js"></script>
+  <script src="../../../common/common.js"></script>
+  <script src="../common.js"></script>
+  <script src="../../../common/panel-builder.js"></script>
+  <script src="../config/buttons.js"></script>
+  <script src="../config/panels/avionics.js"></script>
+  <script src="../../../common/panel-runtime.js"></script>
+  <script src="../panels/overrides.js"></script>
+  <script>SSPRuntime.boot('avionics');</script>
+</body>
+</html>

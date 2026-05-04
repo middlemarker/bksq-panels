@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="ssp-settings-open">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b0f12" />
+  <title>BKSQ Panels</title>
+  <link rel="stylesheet" href="common/common.css" />
+  <script>
+    (function () {
+      var m = window.location.search.match(/[?&]aircraft=([^&]+)/);
+      var id = m ? decodeURIComponent(m[1]) : 'starship';
+      if (id !== 'starship' && id !== 'tbm850') id = 'starship';
+      window.BKSQ_SELECTED_AIRCRAFT = id;
+      document.write('<script src="aircraft/' + id + '/aircraft.js"><\/script>');
+    })();
+  </script>
+  <script src="common/panel-settings.js"></script>
+</head>
+<body class="ssp-index-hub">
+  <div class="settings-overlay on" id="settingsOverlay" role="presentation">
+    <div class="settings-scroll">
+      <div class="settings-panel" id="settingsPanel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <h2 id="settingsTitle">BKSQ panels display</h2>
+        <p class="settings-note">Choose an aircraft, tune the shared touch layout, then open a page from the bottom bar. Settings are saved per aircraft in this browser.</p>
+
+        <div class="settings-section" style="margin-top:0;padding-top:0;border-top:none">
+          <h3 style="margin-top:0">Aircraft</h3>
+          <div class="settings-actions" style="margin-top:0">
+            <a class="btn g-instr" href="index.html?aircraft=starship#settings" style="height:auto;min-height:48px;text-decoration:none">Starship</a>
+            <a class="btn g-instr" href="index.html?aircraft=tbm850#settings" style="height:auto;min-height:48px;text-decoration:none">TBM850</a>
+          </div>
+          <p class="settings-hint">Current aircraft settings use that aircraft's event group and page list.</p>
+        </div>
+
+        <div class="settings-section">
+          <h3>Simulation</h3>
+          <div class="settings-row"><label for="rngPollMs">Poll interval (ms)</label><input type="range" id="rngPollMs" min="50" max="2000" step="50" /><input type="number" id="numPollMs" class="settings-num" min="50" max="2000" step="50" inputmode="numeric" pattern="[0-9]*" aria-label="Poll interval ms exact" /></div>
+          <p class="settings-hint">Lower = snappier, more load. Tap the number to type an exact value.</p>
+        </div>
+
+        <div class="settings-section">
+          <h3>Typography</h3>
+          <div class="settings-row"><label for="selUiFont">UI &amp; button font</label><select id="selUiFont" aria-label="UI font preset">
+            <option value="0">Cockpit (DIN / Eurostile)</option>
+            <option value="1">System UI</option>
+            <option value="2">Segoe / Roboto</option>
+            <option value="3">Monospace</option>
+            <option value="4">Serif</option>
+            <option value="5">Arial / Helvetica</option>
+          </select></div>
+          <div class="settings-row"><label for="rngPanelFont">Panel button text (px)</label><input type="range" id="rngPanelFont" min="10" max="40" step="1" /><input type="number" id="numPanelFont" class="settings-num" min="10" max="40" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Panel button text px exact" /></div>
+          <div class="settings-row"><label for="rngGaugeVal">Readout size (%)</label><input type="range" id="rngGaugeVal" min="85" max="130" step="1" /><input type="number" id="numGaugeVal" class="settings-num" min="85" max="130" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Readout size percent exact" /></div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Visibility</h3>
+          <div class="settings-row"><label for="rngBright">Screen brightness (%)</label><input type="range" id="rngBright" min="70" max="115" step="1" /><input type="number" id="numBright" class="settings-num" min="70" max="115" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Screen brightness percent exact" /></div>
+          <div class="settings-row"><label for="rngDotScale">Indicators &amp; lamps (%)</label><input type="range" id="rngDotScale" min="70" max="130" step="1" /><input type="number" id="numDotScale" class="settings-num" min="70" max="130" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Indicators and lamps percent exact" /></div>
+          <div class="settings-row settings-checkrow"><label class="settings-checklab" for="chkReduceMotion"><input type="checkbox" id="chkReduceMotion" />Reduce motion</label></div>
+          <div class="settings-row settings-checkrow"><label class="settings-checklab" for="chkTouchFlash"><input type="checkbox" id="chkTouchFlash" />Blue touch ring on press</label></div>
+          <div class="settings-row settings-checkrow"><label class="settings-checklab" for="chkPanelScrollable"><input type="checkbox" id="chkPanelScrollable" />Scrollable panel pages</label></div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Bottom nav - pages</h3>
+          <p class="settings-hint" style="margin-bottom:10px">Uncheck to hide tabs in the real bottom bar. Settings remains available.</p>
+          <div class="settings-checks" id="navPageChecks"></div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Grid &amp; bar size</h3>
+          <div class="settings-row"><label for="rngGridRow">Grid cell min height (px)</label><input type="range" id="rngGridRow" min="56" max="220" step="4" /><input type="number" id="numGridRow" class="settings-num" min="56" max="220" step="4" inputmode="numeric" pattern="[0-9]*" aria-label="Grid cell min height px exact" /></div>
+          <div class="settings-row"><label for="rngGridGapY">Grid row gap (px)</label><input type="range" id="rngGridGapY" min="4" max="32" step="1" /><input type="number" id="numGridGapY" class="settings-num" min="4" max="32" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Grid row gap px exact" /></div>
+          <div class="settings-row"><label for="rngGridGapX">Grid column gap (px)</label><input type="range" id="rngGridGapX" min="4" max="32" step="1" /><input type="number" id="numGridGapX" class="settings-num" min="4" max="32" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Grid column gap px exact" /></div>
+          <div class="settings-row"><label for="selRowAlign">Short panel alignment</label><select id="selRowAlign" aria-label="Short panel alignment"><option value="top">Top</option><option value="center">Center</option><option value="bottom">Bottom</option></select></div>
+          <p class="settings-hint">When a panel is shorter than the page, choose where the occupied rows sit vertically.</p>
+          <div class="settings-row"><label for="rngNavFont">Bottom nav text (px)</label><input type="range" id="rngNavFont" min="10" max="22" step="1" /><input type="number" id="numNavFont" class="settings-num" min="10" max="22" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Bottom nav text px exact" /></div>
+          <div class="settings-row"><label for="rngNavH">Bottom nav min height (px)</label><input type="range" id="rngNavH" min="32" max="64" step="1" /><input type="number" id="numNavH" class="settings-num" min="32" max="64" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Bottom nav min height px exact" /></div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Live preview</h3>
+          <div class="settings-preview-box" style="margin-top:0">
+            <p class="settings-preview-cap">Shared panel grid</p>
+            <div class="grid-wrap">
+              <div id="settingsPreviewGrid" class="grid" aria-hidden="true">
+                <span class="btn g-lts-int"><span class="indicator on"></span>LIGHTS</span>
+                <span class="btn g-elec">GEN 1</span>
+                <span class="btn g-bleed">BLEED</span>
+                <span class="btn g-fuel dual"><span class="hdr">FUEL SEL</span><span class="row"><span>AUTO</span><span class="lamp on"></span></span><span class="row"><span>MAN</span><span class="lamp"></span></span></span>
+                <span class="btn g-ap">FD</span>
+                <span class="btn g-wxr">WXR</span>
+                <span class="btn g-xpdr">ALT</span>
+                <span class="btn g-test-warn">TEST</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-actions">
+          <button type="button" class="primary" id="settingsClose">Done</button>
+          <button type="button" id="settingsReset">Reset defaults</button>
+        </div>
+      </div>
+    </div>
+    <nav class="nav-bar settings-nav" aria-label="Panel navigation">
+      <script>
+        (function () {
+          var m = window.BKSQ_AIRCRAFT || {};
+          var pages = m.pages || [];
+          var i, p;
+          for (i = 0; i < pages.length; i++) {
+            p = pages[i];
+            document.write('<a href="aircraft/' + m.id + '/pages/' + p.href + '" data-panel-nav="' + p.id + '">' + (p.navLabel || p.label) + '</a>');
+          }
+          document.write('<a href="#settings" class="nav-settings-gear active" data-settings-modal="1" title="Settings" aria-label="Settings">&#9881;</a>');
+        })();
+      </script>
+    </nav>
+  </div>
+
+  <nav class="nav-bar main-nav" aria-label="Panel navigation">
+    <script>
+      (function () {
+        var m = window.BKSQ_AIRCRAFT || {};
+        var pages = m.pages || [];
+        var i, p;
+        for (i = 0; i < pages.length; i++) {
+          p = pages[i];
+          document.write('<a href="aircraft/' + m.id + '/pages/' + p.href + '" data-panel-nav="' + p.id + '">' + (p.navLabel || p.label) + '</a>');
+        }
+        document.write('<a href="#settings" class="nav-settings-gear active" data-settings-modal="1" title="Settings" aria-label="Settings">&#9881;</a>');
+      })();
+    </script>
+  </nav>
+
+  <main class="hub-fallback">
+    <p class="hub-fallback-msg">Open a panel from the bottom bar or tap the gear for settings.</p>
+  </main>
+  <script src="common/nav-inapp.js"></script>
+</body>
+</html>
