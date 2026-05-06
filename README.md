@@ -1,8 +1,13 @@
 # BlackSquare AAO web panels
 
-Static web panels for **Black Square** aircraft in **AxisAndOhs (AAO)**. Each aircraft ships as HTML, CSS, and ES5 JavaScript (no build step, no modules) so the same files run on desktop browsers and older iOS/iPad home-screen web apps.
+A "touch-portal" like web panels for **Black Square** aircraft in **AxisAndOhs (AAO)**. Supporting desktop/mobile browsers, designed to support older hardware. Tested extenstively with iPad Air 1 / ipad mini 2 , running iOS 12.5.x .
 
----
+## Features
+- Support for Starship panels and TBM 850 (still WIP).
+- Touch friendly buttons with support for touch visual feedback, button state indicator, multi-state button indicator and live data feed info boxes.
+- Flexiable button sizes and text to adapt to different devices, screen sizes and touch area.
+- Simplified panel page definition (javascript) to easily change page layout buttons with minimal code.
+- 
 
 ## Installation
 
