@@ -7,7 +7,21 @@ A "touch-portal" like web panels for **Black Square** aircraft in **AxisAndOhs (
 - Touch friendly buttons with support for touch visual feedback, button state indicator, multi-state button indicator and live data feed info boxes.
 - Flexiable button sizes and text to adapt to different devices, screen sizes and touch area.
 - Simplified panel page definition (javascript) to easily change page layout buttons with minimal code.
-- 
+
+## Starship Panels
+<img src="./images/starship1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="./images/starship2.jpg" width="450"> 
+
+
+## Settings Page
+<img src="./images/settings1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="./images/settings2.jpg" width="450"> 
+
+
+## Poor man's SimPit
+Panels in use, Old iPad Air as overhead panel, and ipad mini 2 for pedestal / avionics / misc pages.
+<img src="./images/simpit.jpg" width="450">
+</div>
+
+
 
 ## Installation
 
