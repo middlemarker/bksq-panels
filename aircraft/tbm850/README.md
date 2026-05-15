@@ -12,8 +12,8 @@ Aircraft-specific files for the unified `bksq-panels` package. Copy the whole pa
 
 | File | Content |
 |------|---------|
-| `pages/overhead.html` | Upper reference rows plus the reference-position PILOT MASK, PAX OXY, OXY, and HORN TEST buttons |
-| `pages/avionics.html` | Remaining reference controls: EFIS, DH, fuel, AUX BP, TAWS, WXR range, XPDR power/mode/ident, AP trims, air conditioning, bleed, cabin temperature, panel lights |
+| `pages/overhead.html` | Upper overhead rows plus PILOT MASK, PAX OXY, OXY, and HORN TEST in the overhead grid |
+| `pages/avionics.html` | EFIS, DH, fuel, AUX BP, TAWS, WXR range, XPDR power/mode/ident, AP trims, air conditioning, bleed, cabin temperature, panel lights |
 | `pages/environment.html` | Compatibility redirect to `pages/avionics.html` |
 | `../../index.html?aircraft=tbm850#settings` | Settings page for TBM look/feel, touch sizing, nav visibility, polling, and scroll mode |
 
@@ -22,7 +22,7 @@ Aircraft-specific files for the unified `bksq-panels` package. Copy the whole pa
 The TBM pages use static JavaScript only, with no modules or build step:
 
 - `config/buttons.js` defines every supported control by name (`name -> minimal HTML + optional polls`).
-- `config/panel-builder.js` builds the existing `innerHtml + polls` shape once at page load.
+- `../../common/panel-builder.js` (shared with Starship) builds the `innerHtml + polls` shape once at page load.
 - `config/panels/*.js` stays short and describes layout by button names.
 
 This keeps the pages easy to edit while remaining compatible with older Safari / iOS 12.5 devices.
@@ -43,4 +43,4 @@ The placeholder `<AAO_URL>` is replaced when AAO serves the file, same as the st
 
 ## Pedestal
 
-No pedestal page is included: cockpit switches such as starter and ignition are driven from `AnalogTBM.xml` with **L:** variables and generic **K:** events, not a stable set of `BKSQTbm850-*` web hooks. See **CONFIG.md** for a short gap list.
+No pedestal page is included: starter, ignition, and related cockpit switches use **L:** variables and generic **K:** events in the aircraft, not the stable **`BKSQTbm850-*`** script labels used on the overhead. See **CONFIG.md** for context and a short gap list if you add a pedestal page later.

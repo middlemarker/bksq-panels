@@ -3,13 +3,13 @@
 ## AAO dispatch
 
 - **Web:** `sendTbmP('SSP_TBM_…')` → `SendEvent(1, '(>K:bksq-tbm-panel-SSP_TBM_…)')`.
-- **AAO XML:** `bksq-tbm850-scripts.xml`, group **`bksq-tbm-panel`**, one `<Script>` per label; CDATA matches the former `reference/tbmoverhead/index.html` one-liners (`BKSQTbm850-*`, `BKSQTbm850custom-*`, `Scripts-*`, `H:`, `L:`, `A:CIRCUIT`).
+- **AAO XML:** `bksq-tbm850-scripts.xml`, group **`bksq-tbm-panel`**, one `<Script>` per label. Each CDATA block is the RPN sent for that label (`BKSQTbm850-*`, `BKSQTbm850custom-*`, `Scripts-*`, `H:`, `L:`, `A:CIRCUIT`, etc.); this file is the source of truth for what each `SSP_TBM_*` does in the sim.
 
-## `SSP_TBM_*` → legacy names (quick map)
+## `SSP_TBM_*` → sim bindings (quick map)
 
-| Label | Former mechanism |
-|--------|------------------|
-| `SSP_TBM_OH_GYRO_TOGGLE` | `A:CIRCUIT SWITCH ON:57` / reference label **GYRO** |
+| Label | Sim binding |
+|--------|-------------|
+| `SSP_TBM_OH_GYRO_TOGGLE` | `A:CIRCUIT SWITCH ON:57` / overhead label **GYRO** |
 | `SSP_TBM_OH_RMI_TOGGLE` | Circuit 58 |
 | `SSP_TBM_OH_ADI2_TOGGLE` | Circuit 59 |
 | `SSP_TBM_OH_HSI2_TOGGLE` | Circuit 60 |
@@ -23,28 +23,28 @@
 | `SSP_TBM_OH_GEN_RESET_MAIN` | `K:BKSQTbm850custom-gen-main-reset` |
 | `SSP_TBM_OH_GEN_RESET_STDBY` | `K:BKSQTbm850custom-gen-stdby-reset` |
 | `SSP_TBM_OH_SOURCE_TOGGLE` | `L:BKSQ_SourceSwitch` alternates 1 ↔ 2 |
-| `SSP_TBM_AVN_*` / `SSP_TBM_ENV_*` | See `bksq-tbm850-scripts.xml` CDATA for the controls currently present on the reference-derived avionics page |
+| `SSP_TBM_AVN_*` / `SSP_TBM_ENV_*` | See `bksq-tbm850-scripts.xml` CDATA and `config/panels/avionics.js` for the controls on the avionics page |
 
 XPDR actions use **`SSP_TBM_AVN_XPDR_*`** from `common.js` only (not repeated in `config/panels/*.js`).
 
-## Circuit indices vs `AnalogTBM.xml`
+## Overhead instrument circuits (A:CIRCUIT indices)
 
-Macros in `reference/tbmoverhead/AnalogTBM.xml` (examples):
+These indices are what the overhead **GYRO** / RMI / ADI 2 / HSI 2 toggles drive. Index **61** is not used on this UI.
 
-| Macro | Index | Panel use |
+| Role | Index | Panel use |
 |--------|-------|-----------|
-| `RemoteCompassCircuit` | **57** | **GYRO** button, matching the reference page label |
-| `RMICircuit` | 58 | RMI |
-| `ADI2Circuit` | 59 | ADI 2 |
-| `HSI2Circuit` | 60 | HSI 2 |
-| `RadioAltimeter2Circuit` | **61** | Not bound on this UI (legacy single page also did not use 61) |
+| Remote compass (GYRO) | **57** | **GYRO** button |
+| RMI | 58 | RMI |
+| ADI 2 | 59 | ADI 2 |
+| HSI 2 | 60 | HSI 2 |
+| Radio altimeter 2 | **61** | Not bound here |
 
 ## Static UI layout
 
 - `config/buttons.js` is the supported button dictionary. Each entry owns the small HTML snippet and any simple polls for that control.
 - Shared **`common/panel-builder.js`** (loaded by each page) turns a panel `layout: ['buttonName', ...]` into the runtime's `innerHtml` and `polls` fields once at page load (`SSP_PANEL_FACTORY` → `TBMPanel`).
-- `config/panels/overhead.js` keeps the upper reference rows and also places PILOT MASK, PAX OXY, OXY, and HORN TEST in their original reference-grid positions.
-- `config/panels/avionics.js` keeps the remaining reference avionics/environment controls with those moved positions left empty.
+- `config/panels/overhead.js` holds the upper overhead rows and places PILOT MASK, PAX OXY, OXY, and HORN TEST in the same grid positions as on the overhead page.
+- `config/panels/avionics.js` holds the avionics and environment controls; cells left empty there are intentional gaps in the grid.
 - Root hub **`common/panel-settings.js`** applies the same configurable sizing/look-and-feel model to all aircraft pages, using static ES5 JavaScript for iOS 12.5 compatibility.
 
 ## Logic left in JavaScript (not in XML)
@@ -61,10 +61,10 @@ These need guards, ping-pong stepping, or A: reads that stay in `common.js` / `p
 - LTS test hold indicator (`var_OverheadLightTestButton` + 2 s client hold).
 - XPDR power/mode/ident (A: transponder state + throttled ident poll).
 
-## Pedestal gaps (no `tbm-pedestal.html`)
+## Pedestal (no `tbm-pedestal.html`)
 
-`AnalogTBM.xml` ties **starter**, **ignition**, **gear**, **flaps**, and **trim** power to **L:** variables and generic **K:** events (e.g. `STARTER1_SET`, `TURBINE_IGNITION_SWITCH_SET1`) inside aircraft logic. There is no parallel set of `BKSQTbm850-*` names like the overhead uses, so a pedestal web page would need **new** aircraft-exposed events or careful `SendScript` RPN. Out of scope for this bundle; list for future work:
+This package only ships **overhead** and **avionics** pages. Switches such as **starter**, **ignition**, **gear**, **flaps**, and some **trim** / power paths are handled in the aircraft with **L:** variables and generic **K:** events (for example `STARTER1_SET`, `TURBINE_IGNITION_SWITCH_SET1`) rather than the same **`BKSQTbm850-*`** style hooks used on the overhead. A pedestal web panel would need **new** aircraft-exposed events or **`SendScript`** RPN wired in AAO; that is out of scope here. Gaps to keep in mind if you extend the bundle:
 
-- `L:BKSQ_StarterSwitch`, `L:BKSQ_IgnitionSwitch` (see “Starting and Ignition Controller” in `AnalogTBM.xml`).
-- Trim / AP disconnect linkage uses `L:BKSQ_AutopilotMasterSwitch`, `L:var_trimsDisabled` (partially covered here as **AP TRIMS**).
-- Gear and flap motors: circuit macros `GearMotorCircuit`, `FlapMotorCircuit`, etc., without dedicated TBM850 web K-events in the legacy `index.html`.
+- `L:BKSQ_StarterSwitch`, `L:BKSQ_IgnitionSwitch` (starting / ignition).
+- Trim / AP disconnect linkage uses `L:BKSQ_AutopilotMasterSwitch`, `L:var_trimsDisabled` (partially covered on avionics as **AP TRIMS**).
+- Gear and flap motors: no dedicated TBM850 **`BKSQTbm850-*`** web K-events in this repo for those motors.
