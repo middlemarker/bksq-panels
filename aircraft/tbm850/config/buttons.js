@@ -97,7 +97,124 @@
     ecs_cabinTempInc: { html: sspButton('g-env', 'CABIN TEMP +', 'SSP_TBM_ENV_CABIN_TEMP_INC') },
     lts_panelDec: { html: sspButton('g-lts', 'PANEL LT &minus;', 'SSP_TBM_ENV_PANEL_LT_DEC') },
     lts_panelInc: { html: sspButton('g-lts', 'PANEL LT +', 'SSP_TBM_ENV_PANEL_LT_INC') },
-    misc_hornTest: { html: sspButton('g-horn', 'HORN TEST', 'SSP_TBM_ENV_HORN_TEST') }
+    misc_hornTest: { html: sspButton('g-horn', 'HORN TEST', 'SSP_TBM_ENV_HORN_TEST') },
+
+    /* ================================================================ *
+     * UNUSED - not placed on any config/panels/*.js layout yet.        *
+     * To enable one, copy its key (e.g. 'ice_pitot1') into the layout  *
+     * array of an existing page (overhead.js / avionics.js) or a new   *
+     * page, then refresh the panel in the browser.                     *
+     * Each entry notes the page it is intended for.                    *
+     * Sim bindings verified against ref/AnalogTBM.xml.                 *
+     * ================================================================ */
+
+    /* ---- Anti-Ice (future antiice.html / panels/antiice.js) ---- */
+    ice_pitot1: {
+      html: sspButton('g-env', 'PITOT 1', 'SSP_TBM_ICE_PITOT1_TOGGLE', 'pitot1Btn', 'pitot1Ind'),
+      polls: [{ kind: 'toggleA', btnId: 'pitot1Btn', indId: 'pitot1Ind', expr: 'CIRCUIT SWITCH ON:13, Bool' }]
+    },
+    ice_pitot2: {
+      html: sspButton('g-env', 'PITOT 2', 'SSP_TBM_ICE_PITOT2_TOGGLE', 'pitot2Btn', 'pitot2Ind'),
+      polls: [{ kind: 'toggleA', btnId: 'pitot2Btn', indId: 'pitot2Ind', expr: 'CIRCUIT SWITCH ON:14, Bool' }]
+    },
+    ice_inertSep: {
+      html: sspButton('g-env', 'INERT SEP', 'SSP_TBM_ICE_INERT_SEP_TOGGLE', 'inertSepBtn', 'inertSepInd'),
+      polls: [{ kind: 'toggle', btnId: 'inertSepBtn', indId: 'inertSepInd', lvar: 'var_InertialSeparatorSwitch', lvarType: 'Bool' }]
+    },
+    ice_propDeice: {
+      html: sspButton('g-env', 'PROP DEICE', 'SSP_TBM_ICE_PROP_DEICE_TOGGLE', 'propDeiceBtn', 'propDeiceInd'),
+      polls: [{ kind: 'toggleA', btnId: 'propDeiceBtn', indId: 'propDeiceInd', expr: 'CIRCUIT SWITCH ON:24, Bool' }]
+    },
+    ice_airframeDeice: {
+      html: sspButton('g-env', 'AF DEICE', 'SSP_TBM_ICE_AIRFRAME_DEICE_TOGGLE', 'afDeiceBtn', 'afDeiceInd'),
+      polls: [{ kind: 'toggle', btnId: 'afDeiceBtn', indId: 'afDeiceInd', lvar: 'var_airframeDeice', lvarType: 'Bool' }]
+    },
+    ice_wsL: {
+      html: sspButton('g-env', 'WS HEAT L', 'SSP_TBM_ICE_WS_L_TOGGLE', 'wsLBtn', 'wsLInd'),
+      polls: [{ kind: 'toggle', btnId: 'wsLBtn', indId: 'wsLInd', lvar: 'var_windshieldHeatSwitch_L', lvarType: 'Bool' }]
+    },
+    ice_wsR: {
+      html: sspButton('g-env', 'WS HEAT R', 'SSP_TBM_ICE_WS_R_TOGGLE', 'wsRBtn', 'wsRInd'),
+      polls: [{ kind: 'toggle', btnId: 'wsRBtn', indId: 'wsRInd', lvar: 'var_windshieldHeatSwitch_R', lvarType: 'Bool' }]
+    },
+
+    /* ---- Pedestal (future pedestal.html / panels/pedestal.js) ---- */
+    eng_starter: {
+      html: sspButton('g-power', 'STARTER', 'SSP_TBM_PED_STARTER_TOGGLE', 'starterBtn', 'starterInd'),
+      polls: [{ kind: 'toggle', btnId: 'starterBtn', indId: 'starterInd', lvar: 'BKSQ_StarterSwitch', lvarType: 'Bool' }]
+    },
+    eng_ignition: {
+      html: sspButton('g-power', 'IGNITION', 'SSP_TBM_PED_IGNITION_TOGGLE', 'ignitionBtn', 'ignitionInd'),
+      polls: [{ kind: 'toggle', btnId: 'ignitionBtn', indId: 'ignitionInd', lvar: 'BKSQ_IgnitionSwitch', lvarType: 'Number' }]
+    },
+    eng_condLever: { html: sspButton('g-power', 'COND LEVER', 'SSP_TBM_PED_COND_LEVER_CYCLE') },
+    eng_emerPwrUp: { html: sspButton('g-power', 'EMER PWR +', 'SSP_TBM_PED_EMER_PWR_INC') },
+    eng_emerPwrDn: { html: sspButton('g-power', 'EMER PWR &minus;', 'SSP_TBM_PED_EMER_PWR_DEC') },
+    trim_parkBrake: {
+      html: sspButton('g-instr', 'PARK BRAKE', 'SSP_TBM_PED_PARK_BRAKE_TOGGLE', 'parkBrakeBtn', 'parkBrakeInd'),
+      polls: [{ kind: 'toggleA', btnId: 'parkBrakeBtn', indId: 'parkBrakeInd', expr: 'BRAKE PARKING POSITION, Bool' }]
+    },
+    elec_emerGear: {
+      html: sspButton('g-power', 'EMER GEAR', 'SSP_TBM_PED_EMER_GEAR_DOOR_TOGGLE', 'emerGearBtn', 'emerGearInd'),
+      polls: [{ kind: 'toggle', btnId: 'emerGearBtn', indId: 'emerGearInd', lvar: 'var_EmergencyGearDoor', lvarType: 'Bool' }]
+    },
+
+    /* ---- Weather Radar extended (avionics page) ---- */
+    avncs_wxrAlert: { html: sspButton('g-wxr', 'WXR ALERT', 'SSP_TBM_AVN_WXR_ALERT') },
+    avncs_wxrProfile: { html: sspButton('g-wxr', 'WXR PROF', 'SSP_TBM_AVN_WXR_PROFILE') },
+    avncs_wxrMap: { html: sspButton('g-wxr', 'WXR MAP', 'SSP_TBM_AVN_WXR_MAP') },
+    avncs_wxrHold: { html: sspButton('g-wxr', 'WXR HOLD', 'SSP_TBM_AVN_WXR_HOLD') },
+    avncs_wxrTrackL: { html: sspButton('g-wxr', 'WXR TRK &larr;', 'SSP_TBM_AVN_WXR_TRACK_L') },
+    avncs_wxrTrackR: { html: sspButton('g-wxr', 'WXR TRK &rarr;', 'SSP_TBM_AVN_WXR_TRACK_R') },
+    avncs_wxrModePush: { html: sspButton('g-wxr', 'WXR MODE PSH', 'SSP_TBM_AVN_WXR_MODE_PUSH') },
+    avncs_wxrTiltUp: { html: sspButton('g-wxr', 'WXR TILT +', 'SSP_TBM_AVN_WXR_TILT_INC') },
+    avncs_wxrTiltDn: { html: sspButton('g-wxr', 'WXR TILT &minus;', 'SSP_TBM_AVN_WXR_TILT_DEC') },
+    avncs_wxrBriUp: { html: sspButton('g-wxr', 'WXR BRI +', 'SSP_TBM_AVN_WXR_BRI_INC') },
+    avncs_wxrBriDn: { html: sspButton('g-wxr', 'WXR BRI &minus;', 'SSP_TBM_AVN_WXR_BRI_DEC') },
+    avncs_wxrGainUp: { html: sspButton('g-wxr', 'WXR GAIN +', 'SSP_TBM_AVN_WXR_GAIN_INC') },
+    avncs_wxrGainDn: { html: sspButton('g-wxr', 'WXR GAIN &minus;', 'SSP_TBM_AVN_WXR_GAIN_DEC') },
+
+    /* ---- Oxygen detail (overhead page) ---- */
+    oxy_copilotMask: {
+      html: sspButton('g-oxy', 'COPLT MASK', 'SSP_TBM_OXY_COPILOT_MASK_TOGGLE', 'cpltMaskBtn', 'cpltMaskInd'),
+      polls: [{ kind: 'toggle', btnId: 'cpltMaskBtn', indId: 'cpltMaskInd', lvar: 'var_coPilotOxygen', lvarType: 'Bool' }]
+    },
+    oxy_pilotO2: {
+      html: sspButton('g-oxy', 'PILOT O2', 'SSP_TBM_OXY_PILOT_TOGGLE', 'pilotO2Btn', 'pilotO2Ind'),
+      polls: [{ kind: 'toggle', btnId: 'pilotO2Btn', indId: 'pilotO2Ind', lvar: 'var_pilotOxygen', lvarType: 'Bool' }]
+    },
+    oxy_isolate: {
+      html: sspButton('g-oxy', 'OXY ISO', 'SSP_TBM_OXY_ISOLATION_TOGGLE', 'oxyIsoBtn', 'oxyIsoInd'),
+      polls: [{ kind: 'toggle', btnId: 'oxyIsoBtn', indId: 'oxyIsoInd', lvar: 'var_oxygenIsolationValve', lvarType: 'Bool' }]
+    },
+
+    /* ---- Doors / visors (overhead or future misc page) ---- */
+    misc_pilotDoor: { html: sspButton('g-instr', 'PLT DOOR', 'SSP_TBM_DOOR_PILOT_CYCLE') },
+    misc_aftDoor: { html: sspButton('g-instr', 'AFT DOOR', 'SSP_TBM_DOOR_AFT_CYCLE') },
+    misc_pilotLadder: {
+      html: sspButton('g-instr', 'PLT LADDER', 'SSP_TBM_DOOR_PILOT_LADDER_TOGGLE', 'pltLadderBtn', 'pltLadderInd'),
+      polls: [{ kind: 'toggle', btnId: 'pltLadderBtn', indId: 'pltLadderInd', lvar: 'var_PilotLadder', lvarType: 'Bool' }]
+    },
+    misc_aftLadder: {
+      html: sspButton('g-instr', 'AFT LADDER', 'SSP_TBM_DOOR_AFT_LADDER_TOGGLE', 'aftLadderBtn', 'aftLadderInd'),
+      polls: [{ kind: 'toggle', btnId: 'aftLadderBtn', indId: 'aftLadderInd', lvar: 'var_AftLadder', lvarType: 'Bool' }]
+    },
+    misc_visorLUp: { html: sspButton('g-instr', 'VISOR L +', 'SSP_TBM_DOOR_VISOR_L_INC') },
+    misc_visorLDn: { html: sspButton('g-instr', 'VISOR L &minus;', 'SSP_TBM_DOOR_VISOR_L_DEC') },
+    misc_visorRUp: { html: sspButton('g-instr', 'VISOR R +', 'SSP_TBM_DOOR_VISOR_R_INC') },
+    misc_visorRDn: { html: sspButton('g-instr', 'VISOR R &minus;', 'SSP_TBM_DOOR_VISOR_R_DEC') },
+
+    /* ---- Avionics extras (avionics page) ---- */
+    avncs_eadiBriUp: { html: sspButton('g-instr', 'EADI BRI +', 'SSP_TBM_AVN_EADI_BRI_INC') },
+    avncs_eadiBriDn: { html: sspButton('g-instr', 'EADI BRI &minus;', 'SSP_TBM_AVN_EADI_BRI_DEC') },
+    avncs_ehsiBriUp: { html: sspButton('g-instr', 'EHSI BRI +', 'SSP_TBM_AVN_EHSI_BRI_INC') },
+    avncs_ehsiBriDn: { html: sspButton('g-instr', 'EHSI BRI &minus;', 'SSP_TBM_AVN_EHSI_BRI_DEC') },
+    avncs_radio1Mode: { html: sspButton('g-instr', 'RADIO 1 MODE', 'SSP_TBM_AVN_RADIO1_MODE_CYCLE') },
+    avncs_radio2Mode: { html: sspButton('g-instr', 'RADIO 2 MODE', 'SSP_TBM_AVN_RADIO2_MODE_CYCLE') },
+    avncs_pilotCws: { html: sspButton('g-instr', 'PILOT CWS', 'SSP_TBM_AVN_PILOT_CWS') },
+    avncs_gearHornMute: { html: sspButton('g-horn', 'GEAR HORN MUTE', 'SSP_TBM_AVN_GEAR_HORN_MUTE') },
+    avncs_altAlertAck: { html: sspButton('g-instr', 'ALT ALERT ACK', 'SSP_TBM_AVN_ALT_ALERT_ACK') },
+    avncs_etmMode: { html: sspButton('g-instr', 'ETM MODE', 'SSP_TBM_AVN_ETM_MODE_CYCLE') }
   };
 
   window.TBMPanel = window.SSP_PANEL_FACTORY(window.TBM_BUTTONS, { gridClass: 'grid' });

@@ -1,200 +1,311 @@
 # BlackSquare AAO web panels
 
-A "touch-portal" like web panels for **Black Square** aircraft in **AxisAndOhs (AAO)**. Supporting desktop/mobile browsers, designed to support older hardware. Tested extenstively with iPad Air 1 / ipad mini 2 , running iOS 12.5.x .
+Touch-panel pages for **Black Square** aircraft in **AxisAndOhs (AAO)**. Open them on any phone, tablet, or second monitor while MSFS is running. Tested on iPad Air 1 and iPad mini 2 running iOS 12.5.
 
-## Features
-- Support for Starship panels and TBM 850 (still WIP).
-- Touch friendly buttons with support for touch visual feedback, button state indicator, multi-state button indicator and live data feed info boxes.
-- Flexiable button sizes and text to adapt to different devices, screen sizes and touch area.
-- Simplified panel page definition (javascript) to easily change page layout buttons with minimal code.
+**Supported aircraft:** Beechcraft Starship, TBM 850
 
-## Starship Panels
-<img src="./images/starship1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="./images/starship2.jpg" width="450"> 
+## Screenshots
 
+### Starship panels
+<img src="./images/starship1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/starship2.jpg" width="450">
 
-## Settings Page
-<img src="./images/settings1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="./images/settings2.jpg" width="450"> 
+### Settings page
+<img src="./images/settings1.jpg" width="450">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./images/settings2.jpg" width="450">
 
-
-## Poor man's SimPit
-Panels in use, Old iPad Air as overhead panel, and ipad mini 2 for pedestal / avionics / misc pages.
+### Poor man's SimPit
+iPad Air as overhead panel, iPad mini 2 for pedestal / avionics.
 <img src="./images/simpit.jpg" width="450">
-</div>
-
-
-
-## Installation
-
-1. **Copy** the entire `bksq-panels` folder into the directory AAO serves as web content (same idea as the stock AAO panel template).
-2. **Import** the aircraft script package you need in AAO (one XML per aircraft so labels stay unambiguous):
-   - Starship: `aircraft/starship/bksq-starship-scripts.xml`
-   - TBM850: `aircraft/tbm850/bksq-tbm850-scripts.xml`
-3. **Open** `index.html` from this folder in the browser (or add it as an AAO web panel URL pointing at that file).
-
-MSFS must be running with AAO connected; the panels talk to the sim through AAO’s web API (`common/AaoWebApi.js`).
 
 ---
 
-## Usage
+## Installation
 
-### Hub and aircraft selection
+### Step 1 — Copy the folder
 
-- Open **`index.html`**. It loads **`?aircraft=starship`** or **`?aircraft=tbm850`** (default is Starship if the query is missing or unknown).
-- The hub shows **Settings** and links into each aircraft’s panel pages.
-- From any panel page, use the **bottom nav** to switch pages; the **gear** link opens the hub settings (`index.html?aircraft=…#settings`).
+Copy the entire `bksq-panels` folder into the directory AAO uses for web content. This is the same folder where the stock AAO panel template lives, for example:
 
-### Panel pages
+```
+C:\Users\YourName\Documents\AAO\WebContent\bksq-panels\
+```
 
-- **Starship**: overhead, ECS, anti-ice, avionics (AP) deck, MFD shell, misc, pedestal, tests — see `aircraft/starship/aircraft.js` → `pages`.
-- **TBM850**: overhead, avionics — see `aircraft/tbm850/aircraft.js`.
+Keep the folder structure intact — do **not** copy individual aircraft subfolders by themselves.
 
-### iOS / home-screen web app
+### Step 2 — Import the AAO script file for your aircraft
 
-Scripts keep navigation inside the app (see `common/nav-inapp.js`). Add to home screen as usual; panel and settings links should stay in the web view instead of jumping to Mobile Safari.
+In AAO, go to **Script List → Import** and add the XML file for your aircraft:
+
+| Aircraft | File to import |
+|----------|----------------|
+| Starship | `bksq-panels\aircraft\starship\bksq-starship-scripts.xml` |
+| TBM 850 | `bksq-panels\aircraft\tbm850\bksq-tbm850-scripts.xml` |
+
+You only need to import the file for the aircraft you fly. Importing both is fine.
+
+### Step 3 — Open the panel hub
+
+In AAO's web panel URL field (or in your browser), point to:
+
+```
+http://localhost:<AAO_PORT>/bksq-panels/index.html
+```
+
+Replace `<AAO_PORT>` with the port AAO uses — typically `8888`. The hub shows links to every panel page for your aircraft.
+
+**MSFS must be running and AAO must be connected** before buttons will respond. Without the sim, you will see connection errors in the browser console — that is normal.
+
+---
+
+## Opening panels on a tablet or phone
+
+1. Make sure your tablet / phone is on the **same Wi-Fi network** as your sim PC.
+2. Find your PC's local IP address (run `ipconfig` in a command prompt, look for the IPv4 address — something like `192.168.1.10`).
+3. Open this address in Safari / Chrome on your device:
+   ```
+   http://192.168.1.10:<AAO_PORT>/bksq-panels/index.html
+   ```
+4. **iOS tip:** tap the Share button → **Add to Home Screen**. The panels will open full-screen and navigation stays inside the app instead of jumping to Safari.
+
+---
+
+## Navigating the panels
+
+- The **hub** (`index.html`) is the starting point. Select your aircraft and use the links to open each panel page.
+- Inside a panel page, the **bottom bar** has tabs to switch between pages (Overhead, Avionics, etc.).
+- The **gear icon** in the bottom bar returns to the hub settings.
+- **Settings are saved per aircraft** in your browser and persist between sessions.
+
+### Available pages
+
+**Starship:** Overhead, ECS, Anti-Ice, Autopilot, MFD, Misc, Pedestal, Tests
+
+**TBM 850:** Overhead, Avionics *(Pedestal is not included — see `aircraft/tbm850/README.md` for details)*
 
 ---
 
 ## Settings
 
-Settings are edited on **`index.html`** (the hub). They are **saved per aircraft** in the browser using **`localStorage`**, under the key defined in each `aircraft/<id>/aircraft.js` as **`storageKey`** (e.g. `bksq-starship-ui-settings-v1`).
+Open settings from the hub (`index.html → gear icon`). Changes apply immediately and are saved in your browser.
 
-| Area | What it controls |
-|------|------------------|
-| **Aircraft** | Which aircraft’s defaults and nav list apply on the hub. |
-| **Simulation** | **Poll interval (ms)** — how often the panel asks AAO for L:vars / updates (clamped 50–2000 ms). |
-| **Typography** | UI font preset, **panel button text size**, gauge readout scale. |
-| **Visibility** | Brightness, lamp/indicator scale, reduce motion, touch flash, scrollable panel pages. |
-| **Bottom nav** | Show/hide individual tabs for the current aircraft. |
-| **Grid & bar** | Minimum row height, row/column gaps, vertical alignment when a panel is short, bottom bar font/height. |
-
-Default numeric values come from **`aircraft.js`** → **`defaults`** for that aircraft. Changing aircraft on the hub switches which saved profile is loaded.
+| Setting | What it does |
+|---------|--------------|
+| **Aircraft** | Select Starship or TBM 850. Your choice is saved automatically — the same aircraft loads next time you open the hub, even without a URL parameter. |
+| **Poll interval** | How often the panel reads sim variables (default 100 ms). Lower = more responsive, higher = less CPU. Minimum 50 ms. |
+| **Button text size** | Scale the text on panel buttons to fit your screen. |
+| **Touch flash** | Brief visual flash when you tap a button. |
+| **Scrollable pages** | Allow panel pages to scroll if buttons overflow the screen height. |
+| **Bottom nav tabs** | Show or hide individual page tabs for the current aircraft. |
+| **Row height / gaps** | Adjust grid spacing for different screen sizes. |
 
 ---
 
-## Repository layout
+## Modding — Changing and customising panels
 
-```text
-index.html                 # Hub: aircraft pick + settings
-common/
-  AaoWebApi.js             # AAO bridge (StartAPI, SendEvent, GetSimVar, …)
-  common.css, common.js    # Shared UI + sendP / getLVar / getAVar helpers
-  nav-inapp.js               # In-app navigation (esp. iOS standalone)
-  panel-runtime.js           # Boot, poll loop, declarative poll kinds
-  panel-settings.js          # Hub settings UI + apply CSS variables
-  panel-builder.js           # Layout → HTML + polls; SSP_PANEL_FACTORY
-aircraft/
-  starship/
-    aircraft.js              # BKSQ_AIRCRAFT meta, pages[], defaults, storageKey
-    config/buttons.js        # SSP_BUTTONS + StarshipPanel factory
-    config/panels/*.js       # Per-page layout: arrays of button names
-    pages/*.html             # Thin shells: scripts + SSPRuntime.boot('…')
-    panels/overrides.js      # Extra onPoll logic (temps, gauges, XPDR, …)
-    bksq-starship-scripts.xml
-  tbm850/
-    aircraft.js
-    config/buttons.js        # TBM_BUTTONS + TBMPanel factory
-    config/panels/*.js
-    pages/*.html
-    panels/overrides.js
-    bksq-tbm850-scripts.xml
+This section explains how to rearrange, hide, or add buttons. No build tools or programming experience are required. Every file is plain JavaScript that you can edit in Notepad.
+
+### Where the files are
+
+```
+bksq-panels/
+  aircraft/
+    tbm850/
+      config/
+        buttons.js          ← button definitions (HTML + what they do)
+        panels/
+          overhead.js       ← which buttons appear on the Overhead page, in what order
+          avionics.js       ← which buttons appear on the Avionics page
+    starship/
+      config/
+        buttons.js
+        panels/
+          overhead.js
+          ecs.js
+          antiice.js
+          autopilot.js
+          pedestal.js
+          misc.js
+          tests.js
 ```
 
-Starship and TBM both use the **same** `common/panel-builder.js`. Aircraft-specific markup and polls live in **`config/buttons.js`**; each page only lists **layout** tokens in **`config/panels/<page>.js`**.
+**To change a page layout**, edit the corresponding `config/panels/<page>.js` file.  
+**To change what a button does**, edit `config/buttons.js`.
 
 ---
 
-## Editing layouts
+### Rearranging or hiding buttons
 
-Layouts are **flat lists** of token strings passed to **`StarshipPanel({ … })`** or **`TBMPanel({ … })`** (see any `config/panels/*.js`).
+Open `aircraft/tbm850/config/panels/overhead.js` (or the Starship equivalent). It looks like this:
 
-- **`'empty'`** — spacer / placeholder cell (uses the `empty` entry in the button dictionary).
-- **`'lts_instrIndir'`**, **`'ice_wsL'`**, … — names of entries in **`config/buttons.js`**.
+```js
+window.SSP_PANELS.overhead = TBMPanel({
+  layout: [
+    'avncs_gyro', 'avncs_rmi', 'avncs_adi2', 'avncs_hsi2', 'elec_genRstMain', 'elec_genRstStby', 'empty', 'empty',
+    'lts_test',   'empty',     'empty',       'empty',       'elec_source',     'elec_generator',  'empty', 'empty',
+    ...
+  ]
+});
+```
 
-The builder concatenates each entry’s **`html`** and **`polls`** once at load time. The runtime still does a single **`#grid.innerHTML = …`** per page, same as hand-written HTML.
+Each string in the list is a button name. The list fills the grid **left to right, 8 per row**. `'empty'` is a blank spacer.
 
-**Grid row width** is implicit: each contiguous run of tokens in the array forms one row only if your page is designed that way. In practice, Starship panel files group **8** cells per row (or **6** on the pedestal’s first row where two cells are `wide-2` gauges). Keep the same counts as the existing pages when rearranging.
+**To move a button to a different position**, cut the name from where it is and paste it where you want it. Keep the total count per row at 8.
 
-**Special grids**: Starship **anti-ice** uses `gridClass: 'grid ice-grid'`; CSS **`p-*`** classes on buttons position cells — order in the layout array is not visual order.
+**Example — move `lts_test` to the end of row 1:**
 
----
+Before:
+```js
+'avncs_gyro', 'avncs_rmi', 'avncs_adi2', 'avncs_hsi2', 'elec_genRstMain', 'elec_genRstStby', 'empty',   'empty',
+'lts_test',   'empty',     ...
+```
 
-## Developing: button naming (`config/buttons.js`)
+After:
+```js
+'avncs_gyro', 'avncs_rmi', 'avncs_adi2', 'avncs_hsi2', 'elec_genRstMain', 'elec_genRstStby', 'lts_test', 'empty',
+'empty',      'empty',     ...
+```
 
-Tokens are grouped by **system prefix** so you can add controls without tying names to a single page:
+**To hide a button**, replace its name with `'empty'`:
 
-| Prefix | Typical use |
-|--------|-------------|
-| `lts_` | Lighting / panel lights |
-| `gnd_` | Ground safety (Starship OH) |
-| `ice_` | Anti-ice / deice |
-| `avncs_` | Avionics deck, AP, fire, xpdr, chrono, TBM EFIS/TAWS/XPDR |
-| `ecs_` | Environmental, bleed, press, ECS oxygen |
-| `misc_` | Misc panel |
-| `elec_` | Pedestal electrical |
-| `eng_` | Ignition, starters |
-| `prop_` | Propeller (autofeather, sync, governor) |
-| `fuel_` | Fuel |
-| `pedst_` | Pedestal avionics services (stby gyro, GND COMM, alt blow) |
-| `trim_` | Trim, parking brake |
-| `oxy_` | TBM oxygen |
-| `test_` | Starship test holds |
+```js
+// Before — GYRO button is visible
+'avncs_gyro', 'avncs_rmi', ...
 
-**DOM element `id`s and `SSP_*` labels** should stay **stable** if you rename layout tokens: sim bindings and `overrides.js` key off those ids and event names.
+// After — GYRO button hidden, blank space in its place
+'empty', 'avncs_rmi', ...
+```
 
-### Adding a button (declarative panel)
-
-1. Open **`aircraft/<aircraft>/config/buttons.js`**.
-2. Add a property **`myPrefix_myControl`** with:
-   - **`html`**: string from helpers on **`window.SSPPanelHelpers`** (`sendButton`, `button`, `dual`, `gauge`, `holdButton`, …), or raw HTML if needed.
-   - **`polls`** (optional): array of poll objects; kinds are implemented in **`common/panel-runtime.js`** (`toggle`, `toggleA`, `lamps`, `testLatched`, `avarText`, `custom`, …).
-3. Append **`'myPrefix_myControl'`** to the right place in **`config/panels/<page>.js`** **`layout`** array.
-4. If you introduce a **new `SSP_*` label**, add it to that aircraft’s **`.xml`** and run **`node aircraft/starship/tools/check-manifest.js`** (Starship) to catch typos.
-
-**TBM** uses **`sendTbmP`** for SSP events: pass **`sender: 'sendTbmP'`** in `sendButton` options (see existing `sspButton` wrapper in TBM `buttons.js`).
-
-**Starship** defaults to **`sendP`**.
-
-### Helpers (`common/panel-builder.js`)
-
-- **`sendButton(cls, label, sspLabel, { id, ind, sender })`** — click sends `sendP('SSP_…')` or `sendTbmP('SSP_…')`.
-- **`button(cls, label, onclickJs, id, ind)`** — arbitrary `onclick` source string.
-- **`dual(…)`** — multi-lamp / multi-row controls.
-- **`gauge(…)`** — readout cells.
-- **`holdButton(cls, label, sspLabel, { id, ind, holdMs })`** — test-style **`SSPRuntime.testHold`** (Starship tests page).
+After saving, **refresh the panel page in your browser** — no AAO restart needed.
 
 ---
 
-## Developing: new panel page
+### Adding a new button
 
-1. **`aircraft/<id>/aircraft.js`** — add **`{ id, label, navLabel, href }`** to **`pages`** (this drives the hub and optional nav visibility).
-2. **`aircraft/<id>/pages/<name>.html`** — copy an existing page; fix **title**, **nav** `active` / `href`, **`SSPRuntime.boot('panelId')`**, and script order:
-   - `nav-inapp.js` → `common.js` → **`panel-builder.js`** → **`../config/buttons.js`** → **`../config/panels/<name>.js`** → **`panel-runtime.js`** → **`../panels/overrides.js`** → boot.
-3. **`aircraft/<id>/config/panels/<name>.js`** — set **`window.SSP_PANELS.<panelId> = StarshipPanel({ … })`** (or **`TBMPanel`**) with **`id`**, **`layout`**, and optional **`gridClass`**, **`pollIntervalMs`**, **`extraPolls`**.
+Adding a button is a two-step process: define the button, then add it to a layout.
 
-**Special cases**
+#### Step 1 — Define the button in `config/buttons.js`
 
-- **MFD** / custom UIs may use **`renderMode: 'innerHtml'`** and a pre-built string, or legacy **`rows`/`cells`** (see **`aircraft/starship/CONFIG.md`**).
-- **Starship tests** use the shared **`buttons.js`** entries under **`test_*`** and a normal **`StarshipPanel`** layout.
+Open `aircraft/tbm850/config/buttons.js` (or the Starship version). Find the section that matches the system you want to control (e.g. `avncs_` for avionics, `lts_` for lights). Add a new entry:
+
+```js
+// Simple button that sends one event when tapped
+avncs_myNewButton: {
+  html: sspButton('g-efis', 'MY LABEL', 'SSP_TBM_AVN_EFIS_PTR_R')
+},
+```
+
+- First argument `'g-efis'` is the button style class (controls the colour stripe). Use an existing class from nearby buttons.
+- Second argument `'MY LABEL'` is the text shown on the button.
+- Third argument `'SSP_TBM_…'` is the AAO script label this button triggers. It must match a label defined in `bksq-tbm850-scripts.xml`.
+
+**TBM 850 available style classes:**
+
+| Class | Used for |
+|-------|----------|
+| `g-instr` | Instruments (GYRO, RMI, ADI) |
+| `g-gen` | Generator / electrical |
+| `g-power` | Power source |
+| `g-lts` | Lights tests |
+| `g-efis` | EFIS / avionics |
+| `g-fuel` | Fuel |
+| `g-oxy` | Oxygen |
+| `g-taws` | TAWS / terrain |
+| `g-wxr` | Weather radar |
+| `g-xpdr` | Transponder |
+| `g-ecs` | Air conditioning / bleed |
+
+#### Step 2 — Add the button name to a layout
+
+Open the panel layout file where you want the button to appear, e.g. `config/panels/avionics.js`, and add `'avncs_myNewButton'` in the position you want:
+
+```js
+layout: [
+  'avncs_efisPtrR', 'avncs_efisPtrL', 'avncs_efisComposite', 'avncs_myNewButton', ...
+]
+```
+
+Save both files, then refresh the browser.
 
 ---
 
-## Overrides and complex logic
+### Adding a button that shows on/off state
 
-Put per-tick or cross-control logic in **`aircraft/<id>/panels/overrides.js`**: **`SSP_PANEL_OVERRIDES.onPoll(panelId, ctx)`** runs after declarative **`polls`**. Use **`custom`** poll entries to delegate a single slot to a function in **`SSP_PANEL_OVERRIDES.polls[id]`** if needed.
+If you want the button to light up when a switch is ON, add a `polls` entry:
+
+```js
+avncs_myToggle: {
+  html: sspButton('g-efis', 'MY SW', 'SSP_TBM_AVN_MY_SWITCH', 'mySwBtn', 'mySwInd'),
+  polls: [{ kind: 'toggle', btnId: 'mySwBtn', indId: 'mySwInd', lvar: 'var_MySwitchState', lvarType: 'Bool' }]
+},
+```
+
+- `'mySwBtn'` and `'mySwInd'` are HTML element IDs — they just need to be unique strings.
+- `lvar: 'var_MySwitchState'` is the MSFS L-variable name to read for the on/off state.
+- The button indicator glows when the L-variable is non-zero.
+
+For a sim A-variable (not L-variable), use `kind: 'toggleA'` and `expr:` instead:
+
+```js
+polls: [{ kind: 'toggleA', btnId: 'myBtn', indId: 'myInd', expr: 'CIRCUIT SWITCH ON:57, Bool' }]
+```
 
 ---
 
-## Optional checks and local preview
+### Verifying your AAO script labels (optional)
 
-- **Starship script manifest**: from `aircraft/starship`, run **`node tools/check-manifest.js`**. It scans **`config/panels/*.js`** and **`config/buttons.js`** for **`SSP_*`** strings and compares them to **`bksq-starship-scripts.xml`**.
-- **Quick local server**: from repo root, `python -m http.server 8080` — open `http://127.0.0.1:8080/index.html`. The simulator is still required for real AAO traffic; without it you will see expected API errors in the console.
-- **`_test_unify.py`** (Playwright): smoke-test that panels boot and expected element ids exist (optional dev dependency).
+If you add a button that uses a new `SSP_TBM_*` or `SSP_STARSHIP_*` label, you can check it against the XML with Node.js:
+
+```
+node aircraft/tbm850/tools/check-manifest.js
+node aircraft/starship/tools/check-manifest.js
+```
+
+This prints any labels that exist in the JavaScript but are missing from the XML (or vice versa). Node.js is free to install and not required for normal use.
+
+---
+
+### Testing without MSFS running
+
+You can preview layout changes in a browser without AAO or MSFS:
+
+```
+python -m http.server 8080
+```
+
+Open `http://127.0.0.1:8080/index.html`. Buttons and layout render normally; tapping a button will show a console error (expected — AAO is not there). This is useful for checking that the grid looks right before flying.
+
+---
+
+## File layout reference
+
+```
+index.html                     Hub: aircraft selector + settings
+common/
+  AaoWebApi.js                 AAO bridge (auto-configured by AAO)
+  common.js                    Shared helpers (sendP, getLVar, getAVar)
+  panel-builder.js             Turns layout token lists into HTML
+  panel-runtime.js             Boot, poll loop, button state updates
+  panel-settings.js            Settings UI and CSS variable application
+aircraft/
+  starship/
+    aircraft.js                Aircraft meta, page list, default settings
+    config/buttons.js          All Starship button definitions
+    config/panels/*.js         Per-page layout (list of button names)
+    pages/*.html               Panel pages (thin shells, no content to edit)
+    panels/overrides.js        Custom per-tick logic for complex controls
+    bksq-starship-scripts.xml  AAO script labels for Starship
+  tbm850/
+    aircraft.js
+    config/buttons.js          All TBM 850 button definitions
+    config/panels/*.js         Per-page layout
+    pages/*.html
+    panels/overrides.js
+    bksq-tbm850-scripts.xml    AAO script labels for TBM 850
+```
 
 ---
 
 ## Further reading
 
-- **`aircraft/starship/CONFIG.md`** — panel object fields, **`rows`/`cells`** cell schema, poll kinds reference.
-- **`aircraft/tbm850/CONFIG.md`** — TBM **`SSP_TBM_*`** notes, circuit indices, logic that stays in JS.
-
-There is no shared aircraft XML in this bundle; each type keeps its own **`bksq-*-scripts.xml`**. If a future aircraft shares RPN, you could add something like **`common/common-bksq-panel.xml`** and document the import order here.
+- `aircraft/starship/README.md` — Starship-specific page list and notes
+- `aircraft/tbm850/README.md` — TBM 850-specific page list and pedestal gap notes
+- `aircraft/starship/CONFIG.md` — Developer reference: panel object fields, poll kinds
+- `aircraft/tbm850/CONFIG.md` — TBM 850 script label map and circuit indices

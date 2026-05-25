@@ -1,2 +1,10 @@
+Version: v0.2
+=========================================
+- Aircraft selection is now persistent: last used aircraft is saved to localStorage
+  and restored automatically when opening index.html without a URL parameter.
+- Active aircraft button in settings is highlighted with an accent outline.
+- Improved README files: clear installation steps, tablet/phone setup, settings
+  reference, and a dedicated modding section with concrete code examples.
+
 Version: v0.1
 =========================================

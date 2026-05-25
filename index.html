@@ -10,9 +10,14 @@
   <link rel="stylesheet" href="common/common.css" />
   <script>
     (function () {
+      var LAST_AC_KEY = 'bksq-panels-last-aircraft';
       var m = window.location.search.match(/[?&]aircraft=([^&]+)/);
-      var id = m ? decodeURIComponent(m[1]) : 'starship';
+      var id = m ? decodeURIComponent(m[1]) : null;
+      if (id !== 'starship' && id !== 'tbm850') {
+        try { id = localStorage.getItem(LAST_AC_KEY); } catch (e) {}
+      }
       if (id !== 'starship' && id !== 'tbm850') id = 'starship';
+      try { localStorage.setItem(LAST_AC_KEY, id); } catch (e) {}
       window.BKSQ_SELECTED_AIRCRAFT = id;
       document.write('<script src="aircraft/' + id + '/aircraft.js"><\/script>');
     })();
@@ -29,10 +34,24 @@
         <div class="settings-section" style="margin-top:0;padding-top:0;border-top:none">
           <h3 style="margin-top:0">Aircraft</h3>
           <div class="settings-actions" style="margin-top:0">
-            <a class="btn g-instr" href="index.html?aircraft=starship#settings" style="height:auto;min-height:48px;text-decoration:none">Starship</a>
-            <a class="btn g-instr" href="index.html?aircraft=tbm850#settings" style="height:auto;min-height:48px;text-decoration:none">TBM850</a>
+            <a id="acBtn_starship" class="btn g-instr" href="index.html?aircraft=starship#settings" style="height:auto;min-height:48px;text-decoration:none">Starship</a>
+            <a id="acBtn_tbm850"  class="btn g-instr" href="index.html?aircraft=tbm850#settings"  style="height:auto;min-height:48px;text-decoration:none">TBM850</a>
           </div>
-          <p class="settings-hint">Current aircraft settings use that aircraft's event group and page list.</p>
+          <script>
+            (function () {
+              var id = window.BKSQ_SELECTED_AIRCRAFT || 'starship';
+              var btn = document.getElementById('acBtn_' + id);
+              if (btn) { btn.classList.add('active'); btn.setAttribute('aria-current', 'page'); }
+            })();
+          </script>
+          <p class="settings-hint">Current aircraft: <strong id="acCurrentLabel"></strong>. Selection is remembered between sessions.</p>
+          <script>
+            (function () {
+              var labels = { starship: 'Starship', tbm850: 'TBM850' };
+              var el = document.getElementById('acCurrentLabel');
+              if (el) el.textContent = labels[window.BKSQ_SELECTED_AIRCRAFT] || window.BKSQ_SELECTED_AIRCRAFT;
+            })();
+          </script>
         </div>
 
         <div class="settings-section">

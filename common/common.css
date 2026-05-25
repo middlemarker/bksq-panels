@@ -475,6 +475,7 @@ html.ssp-settings-open body.ssp-index-hub > nav.nav-bar.main-nav{display:none!im
 .settings-actions{display:-webkit-flex;display:flex;margin-top:18px;-webkit-flex-wrap:wrap;flex-wrap:wrap}
 .settings-actions button{padding:12px 18px;border-radius:10px;font-weight:800;font-size:12px;letter-spacing:.5px;text-transform:uppercase;border:1px solid rgba(255,255,255,.14);cursor:pointer;color:#e6eef6;background:linear-gradient(180deg,#1e2832,#101418);margin:0 10px 10px 0}
 .settings-actions button.primary{border-color:rgba(89,167,255,.4);color:#9fd0ff}
+.settings-actions a.btn[aria-current="page"]{box-shadow:0 0 0 2px var(--accent);border-color:rgba(89,167,255,.5);background:-webkit-linear-gradient(top,#2a4a6a,#152535);background:linear-gradient(180deg,#2a4a6a 0%,#152535 100%)}
 .hub-fallback{display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;text-align:center}
 .hub-fallback-msg{margin:0;font-size:14px;opacity:.76;max-width:32em;line-height:1.45}
 html.ssp-settings-open body.ssp-index-hub > main.hub-fallback{-webkit-flex:0 0 auto;flex:0 0 auto;min-height:0;max-height:0;overflow:hidden;padding:0;margin:0}
