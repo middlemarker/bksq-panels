@@ -118,7 +118,7 @@
      * array of an existing page (overhead.js / avionics.js) or a new   *
      * page, then refresh the panel in the browser.                     *
      * Each entry notes the page it is intended for.                    *
-     * Sim bindings verified against ref/AnalogTBM.xml.                 *
+     * Sim bindings verified with tools/verify-analogtbm.js.          *
      * ================================================================ */
 
     /* ---- Anti-Ice (future antiice.html / panels/antiice.js) ---- */

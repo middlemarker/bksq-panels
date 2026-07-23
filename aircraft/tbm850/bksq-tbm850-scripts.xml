@@ -45,9 +45,9 @@
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_OFF</label><script><![CDATA[1 (>K:Scripts-xpndr-off)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_ALT</label><script><![CDATA[1 (>K:Scripts-xpndr-alt)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_IDENT</label><script><![CDATA[1 (>K:Scripts-xpndr-ident)]]></script></Script>
-    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_FUNC</label><script><![CDATA[1 (>K:Scripts-xpndr-func)]]></script></Script>
-    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_STARTSTOP</label><script><![CDATA[1 (>K:Scripts-xpndr-startstop)]]></script></Script>
-    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_CLR</label><script><![CDATA[1 (>K:Scripts-xpndr-clr)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_FUNC</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_FUNC)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_STARTSTOP</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_STARTSTOP)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_CLR</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_CLR)]]></script></Script>
 
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_TOGGLE</label><script><![CDATA[(L:bksq_TabletVisible, Bool) ! (>L:bksq_TabletVisible, Bool)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_UP</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 + 1.4 min (>L:var_efb_rot_y, Number)]]></script></Script>
@@ -62,7 +62,7 @@
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_CABIN_TEMP_INC</label><script><![CDATA[1 (>K:BKSQTbm850-ecs_cabin_temp_inc)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_HORN_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-oh_horn_push_and_release)]]></script></Script>
 
-    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_FAN_FLOW_TOGGLE</label><script><![CDATA[(L:var_FanSwitch, Number) 1 == if{ 0 (>L:var_FanSwitch, Number) } els{ 1 (>L:var_FanSwitch, Number) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_FAN_FLOW_TOGGLE</label><script><![CDATA[(L:var_FanSwitch, Bool) ! (>L:var_FanSwitch, Bool)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_OXY_MASTER_TOGGLE</label><script><![CDATA[(L:var_oxygenMaster, Bool) ! (>L:var_oxygenMaster, Bool)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PAX_OXY_TOGGLE</label><script><![CDATA[(L:var_passengerOxygen, Bool) ! (>L:var_passengerOxygen, Bool)]]></script></Script>
 
@@ -70,7 +70,7 @@
     <!-- RESERVED LABELS - defined here, no buttons.js entries placed on any  -->
     <!-- page layout yet. Each is a 1:1 match with an entry in the UNUSED     -->
     <!-- section at the bottom of config/buttons.js.                          -->
-    <!-- Bindings verified against ref/AnalogTBM.xml.                         -->
+    <!-- Bindings verified with tools/verify-analogtbm.js (local AnalogTBM).  -->
     <!-- =================================================================== -->
 
     <!-- Anti-Ice (future antiice.html). A:CIRCUIT indices from AnalogTBM     -->

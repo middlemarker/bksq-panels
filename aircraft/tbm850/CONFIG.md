@@ -1,5 +1,14 @@
 # TBM850 panel configuration
 
+## Verification tools
+
+| Command | Purpose |
+|---------|---------|
+| `node aircraft/tbm850/tools/check-manifest.js` | `SSP_TBM_*` labels in JS ↔ `bksq-tbm850-scripts.xml` |
+| `node aircraft/tbm850/tools/verify-analogtbm.js` | L:/H:/circuit indices in panel XML ↔ local `ref/AnalogTBM.xml` (gitignored) |
+
+`ref/` holds local aircraft reference files only — not tracked in git. Place `AnalogTBM.xml` there for binding audits.
+
 ## AAO dispatch
 
 - **Web:** `sendTbmP('SSP_TBM_…')` → `SendEvent(1, '(>K:bksq-tbm-panel-SSP_TBM_…)')`.
@@ -22,10 +31,11 @@
 | `SSP_TBM_OH_ANN_TEST_1` / `_2` | `…annunciator_test_1/2_push_and_release` |
 | `SSP_TBM_OH_GEN_RESET_MAIN` | `K:BKSQTbm850custom-gen-main-reset` |
 | `SSP_TBM_OH_GEN_RESET_STDBY` | `K:BKSQTbm850custom-gen-stdby-reset` |
-| `SSP_TBM_OH_SOURCE_TOGGLE` | `L:BKSQ_SourceSwitch` alternates 1 ↔ 2 |
+| `SSP_TBM_OH_SOURCE_TOGGLE` | `L:BKSQ_SourceSwitch` alternates 1 ↔ 2 (BAT ↔ GPU) |
+| `SSP_TBM_AVN_FUEL_SEL_AUTO` | `K:BKSQTbm850-fuel_selector_auto_toggle`; UI polls `A:CIRCUIT SWITCH ON:40` (FuelSelectorCircuit) |
 | `SSP_TBM_AVN_*` / `SSP_TBM_ENV_*` | See `bksq-tbm850-scripts.xml` CDATA and `config/panels/avionics.js` for the controls on the avionics page |
 
-XPDR actions use **`SSP_TBM_AVN_XPDR_*`** from `common.js` only (not repeated in `config/panels/*.js`).
+XPDR actions use **`SSP_TBM_AVN_XPDR_*`**. PWR/MODE/IDENT use `Scripts-xpndr-*` K-events via `common.js`. FUNC/ST/SP/CLR use AS330 **Input Events**: `0 (>IE:NAVCOM_TRANSPONDER_FUNC|STARTSTOP|CLR)` (verified in sim event watcher).
 
 ## Overhead instrument circuits (A:CIRCUIT indices)
 
@@ -63,7 +73,7 @@ These need guards, ping-pong stepping, or A: reads that stay in `common.js` / `p
 
 ## Pedestal (no `tbm-pedestal.html`)
 
-This package only ships **overhead** and **avionics** pages. Switches such as **starter**, **ignition**, **gear**, **flaps**, and some **trim** / power paths are handled in the aircraft with **L:** variables and generic **K:** events (for example `STARTER1_SET`, `TURBINE_IGNITION_SWITCH_SET1`) rather than the same **`BKSQTbm850-*`** style hooks used on the overhead. A pedestal web panel would need **new** aircraft-exposed events or **`SendScript`** RPN wired in AAO; that is out of scope here. Gaps to keep in mind if you extend the bundle:
+This package ships **overhead**, **avionics (AVN/ENV)**, and **EFB** pages. Switches such as **starter**, **ignition**, **gear**, **flaps**, and some **trim** / power paths are handled in the aircraft with **L:** variables and generic **K:** events (for example `STARTER1_SET`, `TURBINE_IGNITION_SWITCH_SET1`) rather than the same **`BKSQTbm850-*`** style hooks used on the overhead. A pedestal web panel would need **new** aircraft-exposed events or **`SendScript`** RPN wired in AAO; that is out of scope here. Gaps to keep in mind if you extend the bundle:
 
 - `L:BKSQ_StarterSwitch`, `L:BKSQ_IgnitionSwitch` (starting / ignition).
 - Trim / AP disconnect linkage uses `L:BKSQ_AutopilotMasterSwitch`, `L:var_trimsDisabled` (partially covered on avionics as **AP TRIMS**).
@@ -71,7 +81,7 @@ This package only ships **overhead** and **avionics** pages. Switches such as **
 
 ## Reserved labels (defined, not yet on a page)
 
-These `SSP_TBM_*` labels are defined in `bksq-tbm850-scripts.xml` and have matching button entries in `config/buttons.js` under the **UNUSED** banner. They are not placed on any `config/panels/*.js` layout yet — drop the button key into a layout array to activate one. All sim bindings were verified against `ref/AnalogTBM.xml`.
+These `SSP_TBM_*` labels are defined in `bksq-tbm850-scripts.xml` and have matching button entries in `config/buttons.js` under the **UNUSED** banner. They are not placed on any `config/panels/*.js` layout yet — drop the button key into a layout array to activate one. Run `node tools/verify-analogtbm.js` against a local `AnalogTBM.xml` copy to re-check L:/H:/circuit bindings.
 
 ### Anti-Ice (intended for a future `pages/antiice.html`)
 

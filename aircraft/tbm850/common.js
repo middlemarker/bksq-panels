@@ -31,8 +31,8 @@ window.TBM = {
     try {
       sendTbmP('SSP_TBM_AVN_FUEL_SEL_AUTO');
       setTimeout(function () {
-        var cur = getLVar('var_AutoFuelSelectorSwitch', 'Bool');
-        TBM.setFuelSelVisual(cur);
+        var cur = getAVar('CIRCUIT SWITCH ON:40, Bool');
+        TBM.setFuelSelVisual(cur ? 1 : 0);
       }, 120);
     } catch (e) {}
   },

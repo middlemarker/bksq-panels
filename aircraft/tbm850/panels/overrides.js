@@ -24,8 +24,8 @@ window.SSP_PANEL_OVERRIDES = {
     }
     if (pid === 'avionics' || pid === 'environment') {
       if (document.getElementById('fuelSelToggle')) {
-        var fauto = getLVar('var_AutoFuelSelectorSwitch', 'Bool');
-        if (fauto !== undefined) TBM.setFuelSelVisual(fauto);
+        var fauto = getAVar('CIRCUIT SWITCH ON:40, Bool');
+        if (fauto !== undefined) TBM.setFuelSelVisual(fauto ? 1 : 0);
       }
       if (document.getElementById('auxBpToggle')) {
         TBM.setAuxBpVisual(getLVar('BKSQ_fuelPumpSwitch', 'Number'));
@@ -45,7 +45,7 @@ window.SSP_PANEL_OVERRIDES = {
         TBM.updateXpdrVisuals();
       }
       if (document.getElementById('fanFlowToggle')) {
-        var fan = getLVar('var_FanSwitch', 'Number');
+        var fan = getLVar('var_FanSwitch', 'Bool');
         if (fan !== undefined) TBM.setFanFlowVisual(fan);
       }
       if (document.getElementById('airCondToggle')) {
