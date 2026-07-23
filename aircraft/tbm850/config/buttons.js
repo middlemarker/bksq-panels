@@ -81,6 +81,19 @@
     avncs_xpdrMode: { html: dual('g-xpdr', 'XPDR MODE', 'TBM.toggleXpdrMode()', 'xpdrModeToggle', [['ALT', 'xpdrAltLamp'], ['STDBY', 'xpdrStbyLamp']]) },
     avncs_xpdrIdent: { html: actionButton('g-xpdr', 'XPDR IDENT', 'TBM.xpdrIdent()', 'xpdrIdentBtn', 'xpdrIdentInd') },
     avncs_xpdrPwr: { html: actionButton('g-xpdr', 'XPDR PWR', 'TBM.toggleXpdrPwr()', 'xpdrPwrToggle', 'xpdrPwrInd') },
+    avncs_xpdrFunc: { html: sspButton('g-xpdr', 'XPDR FUNC', 'SSP_TBM_AVN_XPDR_FUNC') },
+    avncs_xpdrStartStop: { html: sspButton('g-xpdr', 'XPDR ST/SP', 'SSP_TBM_AVN_XPDR_STARTSTOP') },
+    avncs_xpdrClr: { html: sspButton('g-xpdr', 'XPDR CLR', 'SSP_TBM_AVN_XPDR_CLR') },
+
+    misc_efb: {
+      html: sspButton('g-misc', 'EFB<br>SHOW / HIDE', 'SSP_TBM_MISC_TABLET_TOGGLE', 'tabletBtn', 'tabletInd'),
+      polls: [{ kind: 'toggle', btnId: 'tabletBtn', indId: 'tabletInd', lvar: 'bksq_TabletVisible', lvarType: 'Bool' }]
+    },
+    misc_efbTiltUp: { html: sspButton('g-misc', 'EFB TILT<br>&uarr; UP', 'SSP_TBM_MISC_TABLET_UP') },
+    misc_efbSavePos: { html: sspButton('g-misc', 'EFB DEFAULT<br>POSITION', 'SSP_TBM_MISC_TABLET_SAVE') },
+    misc_efbTiltLeft: { html: sspButton('g-misc', 'EFB TILT<br>&larr; LEFT', 'SSP_TBM_MISC_TABLET_LEFT') },
+    misc_efbTiltDown: { html: sspButton('g-misc', 'EFB TILT<br>&darr; DOWN', 'SSP_TBM_MISC_TABLET_DOWN') },
+    misc_efbTiltRight: { html: sspButton('g-misc', 'EFB TILT<br>RIGHT &rarr;', 'SSP_TBM_MISC_TABLET_RIGHT') },
 
     ecs_airCond: { html: dual('g-env', 'AIR COND', 'TBM.toggleAirCond()', 'airCondToggle', [['ON', 'acOnLamp'], ['FAN', 'acFanLamp'], ['OFF', 'acOffLamp']]) },
     ecs_fanFlow: { html: dual('g-env', 'FAN FLOW', 'TBM.toggleFanFlow()', 'fanFlowToggle', [['AUTO', 'fanAutoLamp'], ['LO', 'fanLoLamp']]) },

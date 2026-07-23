@@ -45,6 +45,16 @@
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_OFF</label><script><![CDATA[1 (>K:Scripts-xpndr-off)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_ALT</label><script><![CDATA[1 (>K:Scripts-xpndr-alt)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_IDENT</label><script><![CDATA[1 (>K:Scripts-xpndr-ident)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_FUNC</label><script><![CDATA[1 (>K:Scripts-xpndr-func)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_STARTSTOP</label><script><![CDATA[1 (>K:Scripts-xpndr-startstop)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_CLR</label><script><![CDATA[1 (>K:Scripts-xpndr-clr)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_TOGGLE</label><script><![CDATA[(L:bksq_TabletVisible, Bool) ! (>L:bksq_TabletVisible, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_UP</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 + 1.4 min (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_SAVE</label><script><![CDATA[-0.206 (>L:var_efb_rot_y, Number) -0.365 (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_LEFT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 - -1.2 max (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_DOWN</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 - -1.5 max (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_RIGHT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 + 4 min (>L:var_efb_rot_x, Number)]]></script></Script>
 
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PANEL_LT_DEC</label><script><![CDATA[1 (>K:BKSQTbm850-light_int_panel_dec)]]></script></Script>
     <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PANEL_LT_INC</label><script><![CDATA[1 (>K:BKSQTbm850-light_int_panel_inc)]]></script></Script>

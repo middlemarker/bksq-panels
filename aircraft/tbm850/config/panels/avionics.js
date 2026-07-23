@@ -6,8 +6,8 @@ window.SSP_PANELS.avionics = TBMPanel({
     'avncs_efisPtrR', 'avncs_efisPtrL','empty', 'empty', 'empty',  'fuel_shift', 'fuel_sel', 'fuel_auxBp',  
     'empty', 'empty', 'empty', 'empty','empty', 'ecs_airCond', 'ecs_fanFlow', 'ecs_bleed', 
 	'avncs_tawsTest', 'avncs_tawsInhb', 'avncs_tawsAnn', 'empty', 'avncs_apTrims', 'avncs_wxrMode', 'avncs_wxrRngDec', 'avncs_wxrRngInc', 
-    'lts_panelDec', 'lts_panelInc', 'avncs_xpdrPwr', 'avncs_xpdrMode', 'avncs_xpdrIdent','empty', 'ecs_cabinTempDec', 'ecs_cabinTempInc',
-	  'lts_deiceLtTest', 'lts_gearChkDown', 'lts_gearLtTest', 'lts_ittTest', 'lts_ecsLtTest', 'empty', 'empty','empty'
+    'lts_panelDec', 'lts_panelInc', 'avncs_xpdrPwr', 'avncs_xpdrMode', 'avncs_xpdrIdent', 'avncs_xpdrFunc', 'avncs_xpdrStartStop', 'avncs_xpdrClr',
+    'lts_deiceLtTest', 'lts_gearChkDown', 'lts_gearLtTest', 'lts_ittTest', 'lts_ecsLtTest', 'ecs_cabinTempDec', 'ecs_cabinTempInc', 'empty'
 	
 	
   ]

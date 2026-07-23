@@ -14,7 +14,8 @@
     },
     pages: [
       { id: 'overhead', label: 'Overhead (OH)', navLabel: 'OH', href: 'overhead.html' },
-      { id: 'avnenv', label: 'Avionics + Env (AVN/ENV)', navLabel: 'AVN/ENV', href: 'avionics.html' }
+      { id: 'avnenv', label: 'Avionics + Env (AVN/ENV)', navLabel: 'AVN/ENV', href: 'avionics.html' },
+      { id: 'efb', label: 'EFB', navLabel: 'EFB', href: 'efb.html' }
     ]
   };
 })();
