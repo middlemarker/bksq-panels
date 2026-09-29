@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0b0f12" />
+  <title>Starship Anti-Ice</title>
+  <script src="../../../common/AaoWebApi.js"></script>
+  <link rel="stylesheet" href="../../../common/common.css" />
+  <script src="../aircraft.js"></script>
+  <script src="../../../common/panel-settings.js"></script>
+</head>
+<body>
+  <nav class="nav-bar">
+    <a href="overhead.html" data-panel-nav="overhead">OH</a>
+    <a href="ecs.html" data-panel-nav="ecs">ECS</a>
+    <a href="antiice.html" class="active" data-panel-nav="antiice">ICE</a>
+    <a href="autopilot.html" data-panel-nav="autopilot">AVNCS</a>
+    <a href="mfd.html" data-panel-nav="mfd">MFD</a>
+    <a href="misc.html" data-panel-nav="misc">Msc</a>
+    <a href="pedestal.html" data-panel-nav="pedestal">Ped</a>
+    <a href="tests.html" data-panel-nav="tests">Tests</a>
+    <a href="../../../index.html?aircraft=starship#settings" class="nav-settings-gear" title="Settings" aria-label="Settings">&#9881;</a>
+  </nav>
+  <main>
+    <div class="grid-wrap">
+      <div class="grid" id="grid"></div>
+    </div>
+  </main>
+  <script src="../../../common/nav-inapp.js"></script>
+  <script src="../../../common/common.js"></script>
+  <script src="../../../common/panel-builder.js"></script>
+  <script src="../config/buttons.js"></script>
+  <script src="../config/panels/antiice.js"></script>
+  <script src="../../../common/panel-runtime.js"></script>
+  <script src="../panels/overrides.js"></script>
+  <script>SSPRuntime.boot('antiice');</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScriptList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <scripts>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_STATIC_SOURCE_TOGGLE</label><script><![CDATA[(L:var_AlternateStaticSwitch, Bool) ! (>L:var_AlternateStaticSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_UNIT_TOGGLE</label><script><![CDATA[(L:BKSQ_CABINTEMPDISPLAYFORCECELSIUS, Bool) ! (>L:BKSQ_CABINTEMPDISPLAYFORCECELSIUS, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_PRESS_DUMP_DEC</label><script><![CDATA[(L:var_ManualCabinAltKnob, Number) 5 - 0 max (>L:var_ManualCabinAltKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_PRESS_DUMP_INC</label><script><![CDATA[(L:var_ManualCabinAltKnob, Number) 5 + 100 min (>L:var_ManualCabinAltKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_PILOT_DEC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_1_Position, Number) 10 - 0 max (>L:XMLVAR_Cabin_Air_1_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_PILOT_INC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_1_Position, Number) 10 + 100 min (>L:XMLVAR_Cabin_Air_1_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_COPILOT_DEC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_2_Position, Number) 10 - 0 max (>L:XMLVAR_Cabin_Air_2_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_COPILOT_INC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_2_Position, Number) 10 + 100 min (>L:XMLVAR_Cabin_Air_2_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_DEFROST_DEC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_3_Position, Number) 10 - 0 max (>L:XMLVAR_Cabin_Air_3_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_AIR_DEFROST_INC</label><script><![CDATA[(L:XMLVAR_Cabin_Air_3_Position, Number) 10 + 100 min (>L:XMLVAR_Cabin_Air_3_Position, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_OXY_SYS_TOGGLE</label><script><![CDATA[(L:XMLVAR_Cabin_Air_4_Position, Number) 50 > if{ 0 (>L:XMLVAR_Cabin_Air_4_Position, Number) } els{ 100 (>L:XMLVAR_Cabin_Air_4_Position, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_OXY_PILOT_TOGGLE</label><script><![CDATA[(L:var_pilotOxygen, Bool) ! (>L:var_pilotOxygen, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_OXY_COPILOT_TOGGLE</label><script><![CDATA[(L:var_copilotOxygen, Bool) (L:var_coPilotOxygen, Bool) or ! s0 l0 (>L:var_copilotOxygen, Bool) l0 (>L:var_coPilotOxygen, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_OXY_PAX_TOGGLE</label><script><![CDATA[(L:XMLVAR_Cabin_Air_5_Position, Number) 0 == if{ 100 (>L:XMLVAR_Cabin_Air_5_Position, Number) } els{ 0 (>L:XMLVAR_Cabin_Air_5_Position, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_BLEED_MODE_CYCLE</label><script><![CDATA[0 1 2 3 4 5 4 3 2 1 (L:var_BleedAirValveSwitch, Number) (L:SSP_ECS_BLEED_SEQ, Number) 10 iseq (>L:var_BleedAirValveSwitch, Number) (>L:SSP_ECS_BLEED_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_BLEED_MODE_DEC</label><script><![CDATA[(L:var_BleedAirValveSwitch, Number) 1 - 0 max (>L:var_BleedAirValveSwitch, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_BLEED_MODE_INC</label><script><![CDATA[(L:var_BleedAirValveSwitch, Number) 1 + 5 min (>L:var_BleedAirValveSwitch, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_MODE_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_EnvironmentalModeKnob, Number) (L:SSP_ECS_TEMP_MODE_SEQ, Number) 4 iseq (>L:var_EnvironmentalModeKnob, Number) (>L:SSP_ECS_TEMP_MODE_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_SCOPE_CKPT_CAB_TOGGLE</label><script><![CDATA[(L:AAOCockCabTmp, Number) ! (>L:AAOCockCabTmp, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_CKPT_DEC</label><script><![CDATA[(L:var_CockpitTemperatureKnob, Number) 1 - 0 max (>L:var_CockpitTemperatureKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_CKPT_INC</label><script><![CDATA[(L:var_CockpitTemperatureKnob, Number) 1 + 25 min (>L:var_CockpitTemperatureKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_CAB_DEC</label><script><![CDATA[(L:var_CabinTemperatureKnob, Number) 1 - 0 max (>L:var_CabinTemperatureKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_CAB_INC</label><script><![CDATA[(L:var_CabinTemperatureKnob, Number) 1 + 25 min (>L:var_CabinTemperatureKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_MAN_DEC</label><script><![CDATA[(L:var_cabinTempManualSet, Number) 1 - 50 max (>L:var_cabinTempManualSet, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_TEMP_MAN_INC</label><script><![CDATA[(L:var_cabinTempManualSet, Number) 1 + 90 min (>L:var_cabinTempManualSet, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_ALT_DEC</label><script><![CDATA[(L:var_pressurizationGoal, Feet) 50 - -1000 max (>L:var_pressurizationGoal, Feet)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_ALT_INC</label><script><![CDATA[(L:var_pressurizationGoal, Feet) 50 + 15000 min (>L:var_pressurizationGoal, Feet)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_ALT_FAST_DEC</label><script><![CDATA[(L:var_pressurizationGoal, Feet) 250 - -1000 max (>L:var_pressurizationGoal, Feet)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_ALT_FAST_INC</label><script><![CDATA[(L:var_pressurizationGoal, Feet) 250 + 15000 min (>L:var_pressurizationGoal, Feet)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_RATE_DEC</label><script><![CDATA[(L:var_pressurizationClimbRate, Number) 50 - 150 max (>L:var_pressurizationClimbRate, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ECS_CAB_RATE_INC</label><script><![CDATA[(L:var_pressurizationClimbRate, Number) 50 + 2000 min (>L:var_pressurizationClimbRate, Number)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ENG_AUTO_IGN_L_TOGGLE</label><script><![CDATA[(L:var_AutoIgnitionSwitch_L, Bool) ! (>L:var_AutoIgnitionSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ENG_AUTO_IGN_R_TOGGLE</label><script><![CDATA[(L:var_AutoIgnitionSwitch_R, Bool) ! (>L:var_AutoIgnitionSwitch_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_BATT_TOGGLE</label><script><![CDATA[(L:VAR_BATTERYTIE, Number) 0 == if{ 1 1 (>IE:2:ELECTRICAL_BATTERY_1) } els{ 1 0 (>IE:2:ELECTRICAL_BATTERY_1) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_BATT_AMPS_MODE_TOGGLE</label><script><![CDATA[(L:var_BatteryAmpsMode, Bool) ! (>L:var_BatteryAmpsMode, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_EXT_PWR_TOGGLE</label><script><![CDATA[(L:var_ExternalPowerSwitch, Bool) ! (>L:var_ExternalPowerSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_PROP_SYNC_TOGGLE</label><script><![CDATA[(L:var_AutoFeatherSwitch, Number) 2 == (L:var_AutoFeatherSwitch, Number) 0 == or if{ 1 (>L:var_AutoFeatherSwitch, Number) } (L:var_AutoFeatherSwitch, Number) 1 == if{ 2 (>L:var_AutoFeatherSwitch, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_STBY_GYRO_TOGGLE</label><script><![CDATA[(L:var_StandbyInstrumentsSwitch, Bool) ! (>L:var_StandbyInstrumentsSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_GND_COMM_TOGGLE</label><script><![CDATA[(L:var_GroundComOn, Bool) ! (>L:var_GroundComOn, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_AVIO_ALT_BLOW_TOGGLE</label><script><![CDATA[(L:var_AvionicsAlternateBlowerSwitch, Bool) ! (>L:var_AvionicsAlternateBlowerSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_GPU_TOGGLE</label><script><![CDATA[(L:BKSQ_EXTERNALPOWERON, Bool) ! (>L:BKSQ_EXTERNALPOWERON, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_GEN_TIES_CYCLE</label><script><![CDATA[(L:var_busTieManOpen, Bool) 1 == if{ 0 (>L:var_busTieManOpen, Bool) } els{ (L:var_busTieManClose, Bool) 1 == if{ 0 (>L:var_busTieManClose, Bool) } els{ 1 (>L:var_busTieManOpen, Bool) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_GEN_L_CYCLE</label><script><![CDATA[(A:GENERAL ENG MASTER ALTERNATOR:1, Bool) 0 == if{ 1 (>K:TOGGLE_ALTERNATOR1) 1 (>L:SSP_PED_GEN_L_PHASE, Number) } els{ (L:SSP_PED_GEN_L_PHASE, Number) 2 < if{ 1 (>L:VAR_GENERATORRESET_L, Bool) (WAIT:250) 0 (>L:VAR_GENERATORRESET_L, Bool) 2 (>L:SSP_PED_GEN_L_PHASE, Number) } els{ 1 (>K:TOGGLE_ALTERNATOR1) 0 (>L:SSP_PED_GEN_L_PHASE, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_GEN_R_CYCLE</label><script><![CDATA[(A:GENERAL ENG MASTER ALTERNATOR:2, Bool) 0 == if{ 1 (>K:TOGGLE_ALTERNATOR2) 1 (>L:SSP_PED_GEN_R_PHASE, Number) } els{ (L:SSP_PED_GEN_R_PHASE, Number) 2 < if{ 1 (>L:VAR_GENERATORRESET_R, Bool) (WAIT:250) 0 (>L:VAR_GENERATORRESET_R, Bool) 2 (>L:SSP_PED_GEN_R_PHASE, Number) } els{ 1 (>K:TOGGLE_ALTERNATOR2) 0 (>L:SSP_PED_GEN_R_PHASE, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_STBY_IND_PWR_HOLD</label><script><![CDATA[1 (>L:var_StandbyBatteryPushTest, Bool) (WAIT:900) 0 (>L:var_StandbyBatteryPushTest, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_PROP_AUTOFEATHER_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_AutoFeatherSwitch, Number) (L:SSP_PED_AUTOFEATHER_SEQ, Number) 4 iseq (>L:var_AutoFeatherSwitch, Number) (>L:SSP_PED_AUTOFEATHER_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ENG_STARTER_L_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_StarterSwitch_L, Number) (L:SSP_PED_STARTER_L_SEQ, Number) 4 iseq (>L:var_StarterSwitch_L, Number) (>L:SSP_PED_STARTER_L_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ENG_STARTER_R_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_StarterSwitch_R, Number) (L:SSP_PED_STARTER_R_SEQ, Number) 4 iseq (>L:var_StarterSwitch_R, Number) (>L:SSP_PED_STARTER_R_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_PROP_GOV_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_PropGovTestSwitch_Override, Number) (L:SSP_PED_GOV_SEQ, Number) 4 iseq (>L:var_PropGovTestSwitch_Override, Number) (>L:SSP_PED_GOV_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_TRIM_PITCH_MODE_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_PitchTrimModeSwitch, Number) (L:SSP_PED_PITCHTRIM_SEQ, Number) 4 iseq (>L:var_PitchTrimModeSwitch, Number) (>L:SSP_PED_PITCHTRIM_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_TRIM_ROLL_MODE_TOGGLE</label><script><![CDATA[(L:var_RollTrimModeSwitch, Bool) ! (>L:var_RollTrimModeSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_TRIM_RUDDER_MODE_TOGGLE</label><script><![CDATA[(L:var_RudderTrimModeSwitch, Bool) ! (>L:var_RudderTrimModeSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_BRAKE_PARK_TOGGLE</label><script><![CDATA[1 (>K:PARKING_BRAKES)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_FUEL_TRANSFER_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_FuelTransferKnob, Number) (L:SSP_PED_XFER_SEQ, Number) 4 iseq (>L:var_FuelTransferKnob, Number) (>L:SSP_PED_XFER_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_FUEL_AFT_QTY_L_HOLD</label><script><![CDATA[1 (>L:var_AftTankQuantityButton_L, Bool) (WAIT:900) 0 (>L:var_AftTankQuantityButton_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_FUEL_AFT_QTY_R_HOLD</label><script><![CDATA[1 (>L:var_AftTankQuantityButton_R, Bool) (WAIT:900) 0 (>L:var_AftTankQuantityButton_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_FUEL_STBY_PUMP_L_TOGGLE</label><script><![CDATA[(L:var_StandbyFuelPump_L, Bool) ! (>L:var_StandbyFuelPump_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_FUEL_STBY_PUMP_R_TOGGLE</label><script><![CDATA[(L:var_StandbyFuelPump_R, Bool) ! (>L:var_StandbyFuelPump_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_VOLT_SEL_DEC</label><script><![CDATA[(L:var_MultimeterMode, Number) 5 + 6 % (>L:var_MultimeterMode, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_PED_ELEC_VOLT_SEL_INC</label><script><![CDATA[(L:var_MultimeterMode, Number) 1 + 6 % (>L:var_MultimeterMode, Number)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_FIRE_WALL_VALVE_L_TOGGLE</label><script><![CDATA[(L:var_FirewallValvePushed_L, Bool) ! (>L:var_FirewallValvePushed_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_FIRE_WALL_VALVE_R_TOGGLE</label><script><![CDATA[(L:var_FirewallValvePushed_R, Bool) ! (>L:var_FirewallValvePushed_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_FIRE_EXTING_L_TOGGLE</label><script><![CDATA[(L:var_ExtinguisherPushed_L, Bool) ! (>L:var_ExtinguisherPushed_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_FIRE_EXTING_R_TOGGLE</label><script><![CDATA[(L:var_ExtinguisherPushed_R, Bool) ! (>L:var_ExtinguisherPushed_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_FD_TOGGLE</label><script><![CDATA[1 (>H:MSP_FlightDirectorOff_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_HALF_BANK_TOGGLE</label><script><![CDATA[1 (>H:MSP_HalfBank_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_DESCEND_TOGGLE</label><script><![CDATA[1 (>H:MSP_Descend_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_IAS_TOGGLE</label><script><![CDATA[1 (>H:MSP_Airspeed_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_IAS_PROF_TOGGLE</label><script><![CDATA[1 (>H:MSP_AirspeedProfile_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_TRANSFER_TOGGLE</label><script><![CDATA[(L:var_AutopilotSource, Bool) ! (>L:var_AutopilotSource, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_TURB_TOGGLE</label><script><![CDATA[(L:var_AutopilotTurbulenceMode, Bool) ! (>L:var_AutopilotTurbulenceMode, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_CWS_PRESS</label><script><![CDATA[1 (>L:var_PilotCws, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_GO_AROUND</label><script><![CDATA[1 (>K:AUTO_THROTTLE_TO_GA)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_OAT_MODE</label><script><![CDATA[1 (>H:ASI_AirspeedTemperatureMode_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_BANK_ANGLE_DEC</label><script><![CDATA[(L:var_ApTurnKnob, Number) 5 - -30 max (>L:var_ApTurnKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_AP_BANK_ANGLE_INC</label><script><![CDATA[(L:var_ApTurnKnob, Number) 5 + 30 min (>L:var_ApTurnKnob, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_XPDR_SELECT_TOGGLE</label><script><![CDATA[(L:var_TransponderSelectSwitch, Bool) ! (>L:var_TransponderSelectSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_XPDR_PWR_TOGGLE</label><script><![CDATA[(A:TRANSPONDER STATE:1, Enum) 0 == if{ 1 (>A:TRANSPONDER STATE:1, Enum) } els{ 0 (>A:TRANSPONDER STATE:1, Enum) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_XPDR_MODE_TOGGLE</label><script><![CDATA[(A:TRANSPONDER STATE:1, Enum) 0 != if{ (A:TRANSPONDER STATE:1, Enum) 4 == if{ 1 (>A:TRANSPONDER STATE:1, Enum) } els{ 4 (>A:TRANSPONDER STATE:1, Enum) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_XPDR_IDENT_PRESS</label><script><![CDATA[1 (>K:XPNDR_IDENT_ON)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CHRONO_START_STOP</label><script><![CDATA[1 (>H:Chrono_StartStop_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CHRONO_ZERO</label><script><![CDATA[1 (>H:Chrono_ZeroAdvance_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CHRONO_SEL_LEFT</label><script><![CDATA[1 (>H:Chrono_SelectLeft_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CHRONO_SEL_RIGHT</label><script><![CDATA[1 (>H:Chrono_SelectRight_1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_MARKER_SOUND_TOGGLE</label><script><![CDATA[1 (>K:MARKER_SOUND_TOGGLE)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_DME_MODE_DEC</label><script><![CDATA[(L:var_dmeMode, Number) 1 - 0 max (>L:var_dmeMode, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_DME_MODE_INC</label><script><![CDATA[(L:var_dmeMode, Number) 1 + 3 min (>L:var_dmeMode, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_EICAS_OIL_PRESS</label><script><![CDATA[1 (>H:EICAS_Line1)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CAS_UP_PRESS</label><script><![CDATA[1 (>H:EICAS_Line2)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_CAS_DN_PRESS</label><script><![CDATA[1 (>H:EICAS_Line3)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_AVNCS_RTU_833_BOTH_TOGGLE</label><script><![CDATA[1 (>K:COM_1_SPACING_MODE_SWITCH) 1 (>K:COM_2_SPACING_MODE_SWITCH)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_STALL_WARN_TOGGLE</label><script><![CDATA[(L:var_StallWarningHeatSwitch, Number) ! (>L:var_StallWarningHeatSwitch, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_PITOT_L_TOGGLE</label><script><![CDATA[(L:var_PitotHeatSwitch_L, Bool) ! (>L:var_PitotHeatSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_PITOT_R_TOGGLE</label><script><![CDATA[(L:var_PitotHeatSwitch_R, Bool) ! (>L:var_PitotHeatSwitch_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_WS_L_TOGGLE</label><script><![CDATA[0 1 2 1 (L:var_WindshieldAntiIceSwitch_L, Bool) (L:SSP_ICE_WS_L_SEQ, Number) 4 iseq (>L:var_WindshieldAntiIceSwitch_L, Bool) (>L:SSP_ICE_WS_L_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_WS_R_TOGGLE</label><script><![CDATA[0 1 2 1 (L:var_WindshieldAntiIceSwitch_R, Bool) (L:SSP_ICE_WS_R_SEQ, Number) 4 iseq (>L:var_WindshieldAntiIceSwitch_R, Bool) (>L:SSP_ICE_WS_R_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_WS_HEAT_MODE_TOGGLE</label><script><![CDATA[(L:var_WindshieldHeatMode, Bool) ! (>L:var_WindshieldHeatMode, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_GROUND_ICE_TEST_TOGGLE</label><script><![CDATA[(L:var_GroundIceDetectorTest, Bool) ! (>L:var_GroundIceDetectorTest, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_ANTI_SKID_TOGGLE</label><script><![CDATA[(L:var_AntiSkidSwitch, Bool) ! (>L:var_AntiSkidSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_INERT_SEP_ACT_L_TOGGLE</label><script><![CDATA[(L:var_InertialSeparatorActuatorSwitch_L, Bool) ! (>L:var_InertialSeparatorActuatorSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_INERT_SEP_ACT_R_TOGGLE</label><script><![CDATA[(L:var_InertialSeparatorActuatorSwitch_R, Bool) ! (>L:var_InertialSeparatorActuatorSwitch_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_VENT_HEAT_L_TOGGLE</label><script><![CDATA[(L:var_FuelVentSwitchHeat_L, Number) ! (>L:var_FuelVentSwitchHeat_L, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_VENT_HEAT_R_TOGGLE</label><script><![CDATA[(L:var_FuelVentSwitchHeat_R, Number) ! (>L:var_FuelVentSwitchHeat_R, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_INERT_SEP_MAIN_L_TOGGLE</label><script><![CDATA[(L:var_InertialSeparatorSwitch_L, Bool) ! (>L:var_InertialSeparatorSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_INERT_SEP_MAIN_R_TOGGLE</label><script><![CDATA[(L:var_InertialSeparatorSwitch_R, Bool) ! (>L:var_InertialSeparatorSwitch_R, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_FWD_WING_DEICE_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_ForwardWingDeiceSwitch, Number) (L:AAOFwdDeice) 4 iseq (>L:var_ForwardWingDeiceSwitch, Number) (>L:AAOFwdDeice)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_ICE_MAIN_WING_DEICE_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_MainWingDeiceSwitch, Number) (L:AAOMainDeice) 4 iseq (>L:var_MainWingDeiceSwitch, Number) (>L:AAOMainDeice)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_GEAR_HORN_SILENCE</label><script><![CDATA[2 (>L:var_GearWarningHornLatching, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_GEAR_DOWNLOCK_RELEASE</label><script><![CDATA[0 (>L:var_DownlockLatching, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_DOOR_BYPASS_TOGGLE</label><script><![CDATA[(L:var_doorPressureBypass, Bool) ! (>L:var_doorPressureBypass, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_WIPER_CYCLE</label><script><![CDATA[0 1 2 3 2 1 (L:var_WiperKnob, Number) (L:SSP_MISC_WIPER_SEQ, Number) 6 iseq (>L:var_WiperKnob, Number) (>L:SSP_MISC_WIPER_SEQ, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_REGISTRATION_TOGGLE</label><script><![CDATA[(L:bksq_ForceShow2024Registration, Bool) ! (>L:bksq_ForceShow2024Registration, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_BARO_UNIT_TOGGLE</label><script><![CDATA[(L:var_ReversionaryBaroUnitSwitch_L, Bool) ! (>L:var_ReversionaryBaroUnitSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_CABIN_DOOR_TOGGLE</label><script><![CDATA[(L:bksq_CabinDoor, Bool) ! (>L:bksq_CabinDoor, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_BAGGAGE_L_TOGGLE</label><script><![CDATA[(L:var_BaggageDoorHandle_L, Number) 0 == if{ 100 (>L:var_BaggageDoorHandle_L, Number) } els{ 0 (>L:var_BaggageDoorHandle_L, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_BAGGAGE_R_TOGGLE</label><script><![CDATA[(L:var_BaggageDoorHandle_R, Number) 0 == if{ 100 (>L:var_BaggageDoorHandle_R, Number) } els{ 0 (>L:var_BaggageDoorHandle_R, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_MULTIMETER_CYCLE</label><script><![CDATA[(L:var_MultimeterMode, Number) 1 + 6 % (>L:var_MultimeterMode, Number)]]></script></Script>
+    <!-- RtuAutoTuneDisableSwitch: same toggle as cockpit, then mirror to number (emissive / WASM reads number). -->
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_AOA_SOURCE_TOGGLE</label><script><![CDATA[(L:var_aoaSource, Bool) ! (>L:var_aoaSource, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_HEADPHONE_TOGGLE</label><script><![CDATA[(L:BKSQ_HEADPHONESIMULATIONTARGET, Number) 0 == if{ 0.5 (>L:BKSQ_HEADPHONESIMULATIONTARGET, Number) } els{ 0 (>L:BKSQ_HEADPHONESIMULATIONTARGET, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_DBU_EJECT_TOGGLE</label><script><![CDATA[(L:var_DbuLoaded, Number) 0 == if{ 100 (>L:var_DbuLoaded, Number) } els{ 0 (>L:var_DbuLoaded, Number) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_TOGGLE</label><script><![CDATA[(L:bksq_TabletVisible, Bool) ! (>L:bksq_TabletVisible, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_UP</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 + 1.4 min (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_SAVE</label><script><![CDATA[0.238 (>L:var_efb_rot_y, Number) -0.318 (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_LEFT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 - -1.2 max (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_DOWN</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 - -1.5 max (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MISC_TABLET_RIGHT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 + 4 min (>L:var_efb_rot_x, Number)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_INSTR_INDIR_CYCLE</label><script><![CDATA[(L:var_InstrumentIndirectLightingKnob, Number) s0 l0 25 < if{ 50 (>L:var_InstrumentIndirectLightingKnob, Number) } els{ l0 75 < if{ 100 (>L:var_InstrumentIndirectLightingKnob, Number) } els{ 0 (>L:var_InstrumentIndirectLightingKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_CKPT_AREA_CYCLE</label><script><![CDATA[(L:var_CockpitAreaLightingKnob, Number) s0 l0 25 < if{ 50 (>L:var_CockpitAreaLightingKnob, Number) } els{ l0 75 < if{ 100 (>L:var_CockpitAreaLightingKnob, Number) } els{ 0 (>L:var_CockpitAreaLightingKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_STORM_CYCLE</label><script><![CDATA[0 1 2 1 (L:var_CockpitStormLightsKnob, Number) (L:AAOStarStorm, Number) 4 iseq (>L:var_CockpitStormLightsKnob, Number) (>L:AAOStarStorm, Number)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_MAP_L_CYCLE</label><script><![CDATA[(L:var_MapLightKnob_L, Number) s0 l0 25 < if{ 50 (>L:var_MapLightKnob_L, Number) } els{ l0 75 < if{ 100 (>L:var_MapLightKnob_L, Number) } els{ 0 (>L:var_MapLightKnob_L, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_MAP_R_CYCLE</label><script><![CDATA[(L:var_MapLightKnob_R, Number) s0 l0 25 < if{ 50 (>L:var_MapLightKnob_R, Number) } els{ l0 75 < if{ 100 (>L:var_MapLightKnob_R, Number) } els{ 0 (>L:var_MapLightKnob_R, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_DISP_PILOT_CYCLE</label><script><![CDATA[(L:var_PilotDisplaysKnob, Number) s0 l0 25 < if{ 50 (>L:var_PilotDisplaysKnob, Number) } els{ l0 75 < if{ 100 (>L:var_PilotDisplaysKnob, Number) } els{ 0 (>L:var_PilotDisplaysKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_DISP_CENTER_CYCLE</label><script><![CDATA[(L:var_CenterDisplaysKnob, Number) s0 l0 25 < if{ 50 (>L:var_CenterDisplaysKnob, Number) } els{ l0 75 < if{ 100 (>L:var_CenterDisplaysKnob, Number) } els{ 0 (>L:var_CenterDisplaysKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_PANEL_MAIN_CYCLE</label><script><![CDATA[(L:var_MainPanelBacklightingKnob, Number) s0 l0 25 < if{ 50 (>L:var_MainPanelBacklightingKnob, Number) } els{ l0 75 < if{ 100 (>L:var_MainPanelBacklightingKnob, Number) } els{ 0 (>L:var_MainPanelBacklightingKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_PANEL_CONSOLE_CYCLE</label><script><![CDATA[(L:var_ConsolePanelBacklightingKnob, Number) s0 l0 25 < if{ 50 (>L:var_ConsolePanelBacklightingKnob, Number) } els{ l0 75 < if{ 100 (>L:var_ConsolePanelBacklightingKnob, Number) } els{ 0 (>L:var_ConsolePanelBacklightingKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_SUBPANEL_CYCLE</label><script><![CDATA[(L:var_SubpanelDisplayKnobs, Number) s0 l0 25 < if{ 50 (>L:var_SubpanelDisplayKnobs, Number) } els{ l0 75 < if{ 100 (>L:var_SubpanelDisplayKnobs, Number) } els{ 0 (>L:var_SubpanelDisplayKnobs, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_DIMMER_DISP_COPILOT_CYCLE</label><script><![CDATA[(L:var_CopilotDisplaysKnob, Number) s0 l0 25 < if{ 50 (>L:var_CopilotDisplaysKnob, Number) } els{ l0 75 < if{ 100 (>L:var_CopilotDisplaysKnob, Number) } els{ 0 (>L:var_CopilotDisplaysKnob, Number) } }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_MASTER_TOGGLE</label><script><![CDATA[(L:var_MasterPanelLights, Bool) ! (>L:var_MasterPanelLights, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_CAB_OVHD_TOGGLE</label><script><![CDATA[(L:var_CabinOverheadLighting, Bool) ! (>L:var_CabinOverheadLighting, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_CAB_AISLE_TOGGLE</label><script><![CDATA[(L:var_CabinAisleLighting, Bool) ! (>L:var_CabinAisleLighting, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_BAR_TOGGLE</label><script><![CDATA[(L:var_CabinBarLighting, Bool) ! (>L:var_CabinBarLighting, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_NO_SMOKE_TOGGLE</label><script><![CDATA[(L:var_NoSmokingLights, Bool) ! (>L:var_NoSmokingLights, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_SEAT_BELTS_TOGGLE</label><script><![CDATA[(L:var_SeatBeltLights, Bool) ! (>L:var_SeatBeltLights, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_ENTRY_CKPT_TOGGLE</label><script><![CDATA[(L:var_CabinCockpitLighting, Bool) ! (>L:var_CabinCockpitLighting, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_LIGHTS_DOOR_TOGGLE</label><script><![CDATA[(L:var_CabinDoorLight, Bool) ! (>L:var_CabinDoorLight, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_LDG_WING_TOGGLE</label><script><![CDATA[(L:LIGHTING_LANDING_1, Bool) 0 == if{ 1 1 (>IE:2:LIGHTING_LANDING_1) } els{ 1 0 (>IE:2:LIGHTING_LANDING_1) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_LDG_NOSE_TOGGLE</label><script><![CDATA[(L:LIGHTING_LANDING_3, Bool) 0 == if{ 1 1 (>IE:2:LIGHTING_LANDING_3) } els{ 1 0 (>IE:2:LIGHTING_LANDING_3) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_TAXI_TOGGLE</label><script><![CDATA[(A:LIGHT TAXI, Bool) 0 == if{ 1 1 (>IE:2:LIGHTING_TAXI_1) } els{ 1 0 (>IE:2:LIGHTING_TAXI_1) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_WING_TOGGLE</label><script><![CDATA[(L:LIGHTING_WING_1, Bool) 0 == if{ 1 1 (>IE:2:LIGHTING_WING_1) } els{ 1 0 (>IE:2:LIGHTING_WING_1) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_NAV_TOGGLE</label><script><![CDATA[(A:LIGHT NAV, Bool) 0 == if{ 1 1 (>IE:2:LIGHTING_NAV_1) } els{ 1 0 (>IE:2:LIGHTING_NAV_1) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_STROBE_LOW_TOGGLE</label><script><![CDATA[(L:var_StrobeLight_Low, Bool) ! (>L:var_StrobeLight_Low, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_ANTI_COLL_TOGGLE</label><script><![CDATA[(L:var_StrobeLight_High, Bool) ! (>L:var_StrobeLight_High, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_EXT_STROBE_EFFECT_TOGGLE</label><script><![CDATA[(L:BKSQ_NewStrobeEffect, Bool) ! (>L:BKSQ_NewStrobeEffect, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_CHOCKS_TOGGLE</label><script><![CDATA[(L:bksq_WheelChocks, Bool) ! (>L:bksq_WheelChocks, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_PITOT_COVERS_TOGGLE</label><script><![CDATA[(A:SIM ON GROUND, Bool) if{ (L:bksq_PitotCovers, Bool) ! (>L:bksq_PitotCovers, Bool) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_ENGINE_COVERS_TOGGLE</label><script><![CDATA[(A:SIM ON GROUND, Bool) if{ (L:bksq_EngineCovers, Bool) ! (>L:bksq_EngineCovers, Bool) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_GEAR_PINS_TOGGLE</label><script><![CDATA[(A:SIM ON GROUND, Bool) (A:TOTAL WORLD VELOCITY, feet per second) 0.1 < and if{ (L:bksq_DownlockPins, Bool) ! (>L:bksq_DownlockPins, Bool) }]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_CTRL_LOCK_TOGGLE</label><script><![CDATA[(L:bksq_controlLocks, Bool) ! (>L:bksq_controlLocks, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_OH_GND_HIDE_YOKE_TOGGLE</label><script><![CDATA[(L:XMLVAR_YokeHidden1, Bool) ! s1 l1 (>L:XMLVAR_YokeHidden1, Bool) l1 (>L:XMLVAR_YokeHidden2, Bool)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_PAGE_ADVANCE_PRESS</label><script><![CDATA[1 (>H:MFD_PageAdvance)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LINE_ADVANCE_PRESS</label><script><![CDATA[1 (>H:MFD_LineAdvance)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_1_PRESS</label><script><![CDATA[1 (>H:MFD_Line1L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_2_PRESS</label><script><![CDATA[1 (>H:MFD_Line2L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_3_PRESS</label><script><![CDATA[1 (>H:MFD_Line3L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_4_PRESS</label><script><![CDATA[1 (>H:MFD_Line4L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_5_PRESS</label><script><![CDATA[1 (>H:MFD_Line5L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKL_6_PRESS</label><script><![CDATA[1 (>H:MFD_Line6L)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_1_PRESS</label><script><![CDATA[1 (>H:MFD_Line1R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_2_PRESS</label><script><![CDATA[1 (>H:MFD_Line2R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_3_PRESS</label><script><![CDATA[1 (>H:MFD_Line3R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_4_PRESS</label><script><![CDATA[1 (>H:MFD_Line4R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_5_PRESS</label><script><![CDATA[1 (>H:MFD_Line5R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKR_6_PRESS</label><script><![CDATA[1 (>H:MFD_Line6R)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_1_PRESS</label><script><![CDATA[1 (>H:MFD_Line1B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_2_PRESS</label><script><![CDATA[1 (>H:MFD_Line2B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_3_PRESS</label><script><![CDATA[1 (>H:MFD_Line3B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_4_PRESS</label><script><![CDATA[1 (>H:MFD_Line4B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_5_PRESS</label><script><![CDATA[1 (>H:MFD_Line5B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_6_PRESS</label><script><![CDATA[1 (>H:MFD_Line6B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_LSKB_7_PRESS</label><script><![CDATA[1 (>H:MFD_Line7B)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_UP_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Up)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_DOWN_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Down)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_LEFT_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Left)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_RIGHT_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Right)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_CENTER_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Center)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_UP_FAST_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Up) (WAIT:40) 1 (>H:MFD_Joystick_Up)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_DOWN_FAST_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Down) (WAIT:40) 1 (>H:MFD_Joystick_Down)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_LEFT_FAST_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Left) (WAIT:40) 1 (>H:MFD_Joystick_Left)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_MFD_JOY_RIGHT_FAST_PRESS</label><script><![CDATA[1 (>H:MFD_Joystick_Right) (WAIT:40) 1 (>H:MFD_Joystick_Right)]]></script></Script>
+
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FIRE_EXT_L_HOLD</label><script><![CDATA[1 (>L:var_FireExtinguisherTest_L_IsDown, Bool) (WAIT:1000) 0 (>L:var_FireExtinguisherTest_L_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FIRE_EXT_R_HOLD</label><script><![CDATA[1 (>L:var_FireExtinguisherTest_R_IsDown, Bool) (WAIT:1000) 0 (>L:var_FireExtinguisherTest_R_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FIRE_DET_L_HOLD</label><script><![CDATA[1 (>L:var_FireDetectorTest_L_IsDown, Bool) (WAIT:1000) 0 (>L:var_FireDetectorTest_L_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FIRE_DET_R_HOLD</label><script><![CDATA[1 (>L:var_FireDetectorTest_R_IsDown, Bool) (WAIT:1000) 0 (>L:var_FireDetectorTest_R_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FLAP_MON_L_HOLD</label><script><![CDATA[1 (>L:var_FlapTest_L_IsDown, Bool) (WAIT:1000) 0 (>L:var_FlapTest_L_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_FLAP_MON_R_HOLD</label><script><![CDATA[1 (>L:var_FlapTest_R_IsDown, Bool) (WAIT:1000) 0 (>L:var_FlapTest_R_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_AUX_BATT_HOLD</label><script><![CDATA[1 (>L:var_AuxBatteryTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_AuxBatteryTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_BATT_MON_HOLD</label><script><![CDATA[1 (>L:var_BatteryMonitorTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_BatteryMonitorTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_PRESS_HOLD</label><script><![CDATA[1 (>L:var_PressurizationTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_PressurizationTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_LOW_FUEL_HOLD</label><script><![CDATA[1 (>L:var_FuelWarningTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_FuelWarningTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_STALL_WARN_HOLD</label><script><![CDATA[1 (>L:var_StallWarningTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_StallWarningTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_AIRSPEED_WARN_HOLD</label><script><![CDATA[1 (>L:var_AirspeedWarningTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_AirspeedWarningTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_GEAR_WARN_HOLD</label><script><![CDATA[1 (>L:var_GearWarningTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_GearWarningTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_ANNUNCIATOR_HOLD</label><script><![CDATA[1 (>L:var_AnnunciatorTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_AnnunciatorTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_BLEED_AIR_HOLD</label><script><![CDATA[1 (>L:var_BleedAirTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_BleedAirTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_DEICE_VAC_HOLD</label><script><![CDATA[1 (>L:var_DeiceVacuumTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_DeiceVacuumTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_DEICE_STBY_HOLD</label><script><![CDATA[1 (>L:var_DeiceStandbyTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_DeiceStandbyTest_IsDown, Bool)]]></script></Script>
+    <Script><group>bksq-starship-panel</group><label>SSP_TEST_DEICE_MAIN_HOLD</label><script><![CDATA[1 (>L:var_DeiceMainTest_IsDown, Bool) (WAIT:1000) 0 (>L:var_DeiceMainTest_IsDown, Bool)]]></script></Script>
+  </scripts>
+</ScriptList>

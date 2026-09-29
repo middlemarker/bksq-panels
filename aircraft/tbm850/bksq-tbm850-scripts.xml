@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScriptList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <scripts>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_GYRO_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:57, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:57, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:57, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_RMI_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:58, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:58, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:58, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_ADI2_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:59, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:59, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:59, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_HSI2_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:60, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:60, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:60, Bool) }]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_LIGHTS_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-oh_lights_test_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_DEICE_LT_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-deice_lights_test_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_GEAR_DOWN_CHK</label><script><![CDATA[1 (>K:BKSQTbm850-landing_gear_down_check_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_GEAR_LT_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-landing_gear_light_test_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_ITT_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-itt_test_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_ECS_LT_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-ecs_light_test_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_ANN_TEST_1</label><script><![CDATA[1 (>K:BKSQTbm850-annunciator_test_1_push_and_release)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_ANN_TEST_2</label><script><![CDATA[1 (>K:BKSQTbm850-annunciator_test_2_push_and_release)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_GEN_RESET_MAIN</label><script><![CDATA[1 (>K:BKSQTbm850custom-gen-main-reset)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_GEN_RESET_STDBY</label><script><![CDATA[1 (>K:BKSQTbm850custom-gen-stdby-reset)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OH_SOURCE_TOGGLE</label><script><![CDATA[(L:BKSQ_SourceSwitch, Number) 1 == if{ 2 (>L:BKSQ_SourceSwitch, Number) } els{ 1 (>L:BKSQ_SourceSwitch, Number) }]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_ANN_BRIGHT</label><script><![CDATA[1 (>K:BKSQTbm850-annunciator_brightness_toggle)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EFIS_PTR_R</label><script><![CDATA[1 (>K:BKSQTbm850-efis_btn_bearing_pointer_1)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EFIS_PTR_L</label><script><![CDATA[1 (>K:BKSQTbm850-efis_btn_bearing_pointer_2)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EFIS_COMPOSITE</label><script><![CDATA[1 (>K:BKSQTbm850-efis_composite_toggle)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_DH_DEC</label><script><![CDATA[1 (>K:BKSQTbm850-efis_dh_dec)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_DH_INC</label><script><![CDATA[1 (>K:BKSQTbm850-efis_dh_inc)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_DH_MODE_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-efis_alt_mode_test)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_DH_MODE_NORM</label><script><![CDATA[1 (>K:BKSQTbm850-efis_alt_mode_norm)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_DH_MODE_DH_SET</label><script><![CDATA[1 (>K:BKSQTbm850-efis_alt_mode_dh_set)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_FUEL_SHIFT</label><script><![CDATA[1 (>K:BKSQTbm850-fuel_shift_press)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_FUEL_SEL_AUTO</label><script><![CDATA[1 (>K:BKSQTbm850-fuel_selector_auto_toggle)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_PILOT_MASK</label><script><![CDATA[1 (>K:BKSQTbm850-oh_oxygen_pilot_toggle)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_TAWS_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-terrain_test_push)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_TAWS_TERR_INHB_TOGGLE</label><script><![CDATA[(L:var_TerrainInhibited, Bool) ! (>L:var_TerrainInhibited, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_TAWS_ANN_LT</label><script><![CDATA[1 (>K:BKSQTbm850-terrain_warning_lights_push_and_release)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_RNG_INC</label><script><![CDATA[1 (>H:bksq_wradar1_radarRangeInc)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_RNG_DEC</label><script><![CDATA[1 (>H:bksq_wradar1_radarRangeDec)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_STDBY</label><script><![CDATA[1 (>K:Scripts-xpndr-stdby)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_OFF</label><script><![CDATA[1 (>K:Scripts-xpndr-off)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_ALT</label><script><![CDATA[1 (>K:Scripts-xpndr-alt)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_IDENT</label><script><![CDATA[1 (>K:Scripts-xpndr-ident)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_FUNC</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_FUNC)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_STARTSTOP</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_STARTSTOP)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_XPDR_CLR</label><script><![CDATA[0 (>IE:NAVCOM_TRANSPONDER_CLR)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_TOGGLE</label><script><![CDATA[(L:bksq_TabletVisible, Bool) ! (>L:bksq_TabletVisible, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_UP</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 + 1.4 min (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_SAVE</label><script><![CDATA[-0.206 (>L:var_efb_rot_y, Number) -0.365 (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_LEFT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 - -1.2 max (>L:var_efb_rot_x, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_DOWN</label><script><![CDATA[(L:var_efb_rot_y, Number) 0.1 - -1.5 max (>L:var_efb_rot_y, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_MISC_TABLET_RIGHT</label><script><![CDATA[(L:var_efb_rot_x, Number) 0.1 + 4 min (>L:var_efb_rot_x, Number)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PANEL_LT_DEC</label><script><![CDATA[1 (>K:BKSQTbm850-light_int_panel_dec)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PANEL_LT_INC</label><script><![CDATA[1 (>K:BKSQTbm850-light_int_panel_inc)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_CABIN_TEMP_DEC</label><script><![CDATA[1 (>K:BKSQTbm850-ecs_cabin_temp_dec)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_CABIN_TEMP_INC</label><script><![CDATA[1 (>K:BKSQTbm850-ecs_cabin_temp_inc)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_HORN_TEST</label><script><![CDATA[1 (>K:BKSQTbm850-oh_horn_push_and_release)]]></script></Script>
+
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_FAN_FLOW_TOGGLE</label><script><![CDATA[(L:var_FanSwitch, Bool) ! (>L:var_FanSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_OXY_MASTER_TOGGLE</label><script><![CDATA[(L:var_oxygenMaster, Bool) ! (>L:var_oxygenMaster, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ENV_PAX_OXY_TOGGLE</label><script><![CDATA[(L:var_passengerOxygen, Bool) ! (>L:var_passengerOxygen, Bool)]]></script></Script>
+
+    <!-- =================================================================== -->
+    <!-- RESERVED LABELS - defined here, no buttons.js entries placed on any  -->
+    <!-- page layout yet. Each is a 1:1 match with an entry in the UNUSED     -->
+    <!-- section at the bottom of config/buttons.js.                          -->
+    <!-- Bindings verified with tools/verify-analogtbm.js (local AnalogTBM).  -->
+    <!-- =================================================================== -->
+
+    <!-- Anti-Ice (future antiice.html). A:CIRCUIT indices from AnalogTBM     -->
+    <!-- Macro "PitotHeat1Circuit"=13, "PitotHeat2Circuit"=14,                -->
+    <!-- "InertialSeparatorCircuit"=15, "WindshieldHeat_LCircuit"=22,         -->
+    <!-- "WindshieldHeat_RCircuit"=23, "PropDeiceCircuit"=24,                 -->
+    <!-- "AirframeDeiceCircuit"=25.                                           -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_PITOT1_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:13, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:13, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:13, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_PITOT2_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:14, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:14, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:14, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_INERT_SEP_TOGGLE</label><script><![CDATA[(L:var_InertialSeparatorSwitch, Bool) ! (>L:var_InertialSeparatorSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_PROP_DEICE_TOGGLE</label><script><![CDATA[(A:CIRCUIT SWITCH ON:24, Bool) 0 == if{ 1 (>A:CIRCUIT SWITCH ON:24, Bool) } els{ 0 (>A:CIRCUIT SWITCH ON:24, Bool) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_AIRFRAME_DEICE_TOGGLE</label><script><![CDATA[(L:var_airframeDeice, Bool) ! (>L:var_airframeDeice, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_WS_L_TOGGLE</label><script><![CDATA[(L:var_windshieldHeatSwitch_L, Bool) ! (>L:var_windshieldHeatSwitch_L, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_ICE_WS_R_TOGGLE</label><script><![CDATA[(L:var_windshieldHeatSwitch_R, Bool) ! (>L:var_windshieldHeatSwitch_R, Bool)]]></script></Script>
+
+    <!-- Pedestal (future pedestal.html). L:BKSQ_* vars are written by the   -->
+    <!-- aircraft init blocks in AnalogTBM.xml; safe to drive directly.       -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_STARTER_TOGGLE</label><script><![CDATA[(L:BKSQ_StarterSwitch, Bool) ! (>L:BKSQ_StarterSwitch, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_IGNITION_TOGGLE</label><script><![CDATA[(L:BKSQ_IgnitionSwitch, Number) 0 == if{ 1 (>L:BKSQ_IgnitionSwitch, Number) } els{ 0 (>L:BKSQ_IgnitionSwitch, Number) }]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_COND_LEVER_CYCLE</label><script><![CDATA[(L:BKSQ_ConditionLever, Number) 1 + 3 % (>L:BKSQ_ConditionLever, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_EMER_PWR_INC</label><script><![CDATA[(L:var_emergencyPowerLeverPosition, Number) 1 + 100 min (>L:var_emergencyPowerLeverPosition, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_EMER_PWR_DEC</label><script><![CDATA[(L:var_emergencyPowerLeverPosition, Number) 1 - 0 max (>L:var_emergencyPowerLeverPosition, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_PARK_BRAKE_TOGGLE</label><script><![CDATA[1 (>K:PARKING_BRAKES)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_PED_EMER_GEAR_DOOR_TOGGLE</label><script><![CDATA[(L:var_EmergencyGearDoor, Bool) ! (>L:var_EmergencyGearDoor, Bool)]]></script></Script>
+
+    <!-- Weather Radar extended. H-events verified at AnalogTBM.xml lines    -->
+    <!-- 10729+. Tilt / brightness / gain step the L-vars directly.           -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_ALERT</label><script><![CDATA[1 (>H:bksq_wradar1_radarAlertToggle)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_PROFILE</label><script><![CDATA[1 (>H:bksq_wradar1_radarProfile)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_MAP</label><script><![CDATA[1 (>H:bksq_wradar1_radarMap)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_HOLD</label><script><![CDATA[1 (>H:bksq_wradar1_radarHold)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_TRACK_L</label><script><![CDATA[1 (>H:bksq_wradar1_radarTrackLeft)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_TRACK_R</label><script><![CDATA[1 (>H:bksq_wradar1_radarTrackRight)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_MODE_PUSH</label><script><![CDATA[1 (>H:BKSQ_RadarModePush)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_TILT_INC</label><script><![CDATA[(L:var_RadarTilt, Number) 1 + 90 min (>L:var_RadarTilt, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_TILT_DEC</label><script><![CDATA[(L:var_RadarTilt, Number) 1 - -15 max (>L:var_RadarTilt, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_BRI_INC</label><script><![CDATA[(L:var_RadarBrightness, Number) 5 + 100 min (>L:var_RadarBrightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_BRI_DEC</label><script><![CDATA[(L:var_RadarBrightness, Number) 5 - 0 max (>L:var_RadarBrightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_GAIN_INC</label><script><![CDATA[(L:var_RadarGain, Number) 5 + 100 min (>L:var_RadarGain, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_WXR_GAIN_DEC</label><script><![CDATA[(L:var_RadarGain, Number) 5 - 0 max (>L:var_RadarGain, Number)]]></script></Script>
+
+    <!-- Oxygen detail. Distinct from PILOT MASK (K-event) and OXY MASTER.    -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OXY_COPILOT_MASK_TOGGLE</label><script><![CDATA[(L:var_coPilotOxygen, Bool) ! (>L:var_coPilotOxygen, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OXY_PILOT_TOGGLE</label><script><![CDATA[(L:var_pilotOxygen, Bool) ! (>L:var_pilotOxygen, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_OXY_ISOLATION_TOGGLE</label><script><![CDATA[(L:var_oxygenIsolationValve, Bool) ! (>L:var_oxygenIsolationValve, Bool)]]></script></Script>
+
+    <!-- Doors / visors. Door latches use 3 states (0/1/2) per AnalogTBM init -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_PILOT_CYCLE</label><script><![CDATA[(L:var_PilotDoorLockedLatching, Number) 1 + 3 % (>L:var_PilotDoorLockedLatching, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_AFT_CYCLE</label><script><![CDATA[(L:var_AftDoorLockedLatching, Number) 1 + 3 % (>L:var_AftDoorLockedLatching, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_PILOT_LADDER_TOGGLE</label><script><![CDATA[(L:var_PilotLadder, Bool) ! (>L:var_PilotLadder, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_AFT_LADDER_TOGGLE</label><script><![CDATA[(L:var_AftLadder, Bool) ! (>L:var_AftLadder, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_VISOR_L_INC</label><script><![CDATA[(L:var_Visor_L, Number) 5 + 100 min (>L:var_Visor_L, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_VISOR_L_DEC</label><script><![CDATA[(L:var_Visor_L, Number) 5 - 0 max (>L:var_Visor_L, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_VISOR_R_INC</label><script><![CDATA[(L:var_Visor_R, Number) 5 + 100 min (>L:var_Visor_R, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_DOOR_VISOR_R_DEC</label><script><![CDATA[(L:var_Visor_R, Number) 5 - 0 max (>L:var_Visor_R, Number)]]></script></Script>
+
+    <!-- Avionics extras. EADI/EHSI brightness, radio modes, CWS, alerts.    -->
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EADI_BRI_INC</label><script><![CDATA[(L:var_EADI_Brightness, Number) 5 + 100 min (>L:var_EADI_Brightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EADI_BRI_DEC</label><script><![CDATA[(L:var_EADI_Brightness, Number) 5 - 0 max (>L:var_EADI_Brightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EHSI_BRI_INC</label><script><![CDATA[(L:var_EHSI_Brightness, Number) 5 + 100 min (>L:var_EHSI_Brightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_EHSI_BRI_DEC</label><script><![CDATA[(L:var_EHSI_Brightness, Number) 5 - 0 max (>L:var_EHSI_Brightness, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_RADIO1_MODE_CYCLE</label><script><![CDATA[(L:var_radio1Mode, Number) 1 + 3 % (>L:var_radio1Mode, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_RADIO2_MODE_CYCLE</label><script><![CDATA[(L:var_radio2Mode, Number) 1 + 2 % (>L:var_radio2Mode, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_PILOT_CWS</label><script><![CDATA[1 (>L:var_PilotCws, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_GEAR_HORN_MUTE</label><script><![CDATA[0 (>L:var_GearWarningHorn, Bool)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_ALT_ALERT_ACK</label><script><![CDATA[0 (>L:var_altitudeAlert, Number)]]></script></Script>
+    <Script><group>bksq-tbm-panel</group><label>SSP_TBM_AVN_ETM_MODE_CYCLE</label><script><![CDATA[(L:var_EtmMode, Number) 1 + 4 % (>L:var_EtmMode, Number)]]></script></Script>
+  </scripts>
+</ScriptList>
