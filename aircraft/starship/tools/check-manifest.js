@@ -26,10 +26,11 @@ function readConfigSsps() {
   });
   var found = {};
   var re = /SSP_[A-Z0-9_]+/g;
+  var jsGlobals = { SSP_BUTTONS: true, SSP_PANELS: true, SSP_PANEL_FACTORY: true };
   var scan = function (text) {
     var m;
     while ((m = re.exec(text)) !== null) {
-      found[m[0]] = true;
+      if (!jsGlobals[m[0]]) found[m[0]] = true;
     }
   };
   for (var i = 0; i < files.length; i++) {

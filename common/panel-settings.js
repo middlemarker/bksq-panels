@@ -68,8 +68,20 @@
       gaugeValScalePct: d.gaugeValScalePct || 100,
       reduceMotion: !!d.reduceMotion,
       showTouchFlash: d.showTouchFlash !== false,
-      panelScrollable: !!d.panelScrollable
+      panelScrollable: !!d.panelScrollable,
+      autoHomePage: '',
+      autoHomeIdleSec: d.autoHomeIdleSec || 20
     };
+  }
+
+  function normalizeAutoHomePage(id) {
+    var pages = getMeta().pages || [];
+    var i;
+    if (typeof id !== 'string' || !id) return '';
+    for (i = 0; i < pages.length; i++) {
+      if (pages[i].id === id) return id;
+    }
+    return '';
   }
 
   function storageKey() {
@@ -103,7 +115,7 @@
   var NUM_KEYS = [
     'panelBtnFontPx', 'panelGridRowMinPx', 'panelGridGapPx', 'panelGridGapXPx',
     'navFontPx', 'navMinHPx', 'pollIntervalMs', 'uiFontIndex', 'uiBrightnessPct',
-    'dotScalePct', 'gaugeValScalePct'
+    'dotScalePct', 'gaugeValScalePct', 'autoHomeIdleSec'
   ];
 
   function nOr(n, fallback) {
@@ -128,6 +140,8 @@
     if (typeof s.reduceMotion !== 'boolean') s.reduceMotion = !!d.reduceMotion;
     if (typeof s.showTouchFlash !== 'boolean') s.showTouchFlash = !!d.showTouchFlash;
     if (typeof s.panelScrollable !== 'boolean') s.panelScrollable = !!d.panelScrollable;
+    s.autoHomeIdleSec = Math.max(5, Math.min(300, Math.round(nOr(s.autoHomeIdleSec, d.autoHomeIdleSec))));
+    s.autoHomePage = normalizeAutoHomePage(s.autoHomePage);
     return ensureNavPages(s);
   }
 
@@ -151,6 +165,7 @@
       if (typeof o.reduceMotion === 'boolean') s.reduceMotion = o.reduceMotion;
       if (typeof o.showTouchFlash === 'boolean') s.showTouchFlash = o.showTouchFlash;
       if (typeof o.panelScrollable === 'boolean') s.panelScrollable = o.panelScrollable;
+      if (typeof o.autoHomePage === 'string') s.autoHomePage = o.autoHomePage;
     } catch (e) {
       s = defaults();
     }
@@ -200,7 +215,8 @@
     document.documentElement.classList.toggle('ssp-row-align-bottom', s.panelRowAlign === 'bottom');
     try {
       b = s.uiBrightnessPct;
-      if (document.body) document.body.style.filter = b === 100 ? '' : 'brightness(' + (b / 100).toFixed(3) + ')';
+      document.documentElement.style.setProperty('--ssp-ui-brightness', (b / 100).toFixed(3));
+      if (document.body) document.body.style.filter = '';
     } catch (e2) {}
     links = document.querySelectorAll('.nav-bar a[data-panel-nav]');
     for (i = 0; i < links.length; i++) {
@@ -264,6 +280,7 @@
         if (typeof partial.reduceMotion === 'boolean') next.reduceMotion = partial.reduceMotion;
         if (typeof partial.showTouchFlash === 'boolean') next.showTouchFlash = partial.showTouchFlash;
         if (typeof partial.panelScrollable === 'boolean') next.panelScrollable = partial.panelScrollable;
+        if (typeof partial.autoHomePage === 'string') next.autoHomePage = partial.autoHomePage;
         if (typeof partial.panelRowAlign === 'string') next.panelRowAlign = partial.panelRowAlign;
         else if (partial.panelRowPadPct !== undefined && partial.panelRowPadPct !== null) next.panelRowAlign = padPctToAlign(partial.panelRowPadPct);
         for (i = 0; i < NUM_KEYS.length; i++) {
@@ -332,6 +349,7 @@
     var resetBtn = document.getElementById('settingsReset');
     var sel = document.getElementById('selUiFont');
     var rowAlignSel = document.getElementById('selRowAlign');
+    var autoHomeSel = document.getElementById('selAutoHomePage');
 
     function attrN(el, name) {
       var v = Number(el.getAttribute(name));
@@ -357,6 +375,8 @@
       var c, pages, i, navCb, navId;
       if (sel) sel.value = String(s.uiFontIndex);
       if (rowAlignSel) rowAlignSel.value = normalizePanelRowAlign(s.panelRowAlign);
+      if (autoHomeSel) autoHomeSel.value = s.autoHomePage;
+      setBoth('rngAutoHomeIdle', 'numAutoHomeIdle', s.autoHomeIdleSec);
       c = document.getElementById('chkReduceMotion'); if (c) c.checked = !!s.reduceMotion;
       c = document.getElementById('chkTouchFlash'); if (c) c.checked = !!s.showTouchFlash;
       c = document.getElementById('chkPanelScrollable'); if (c) c.checked = !!s.panelScrollable;
@@ -455,6 +475,26 @@
       rowAlignSel.addEventListener('change', apply);
       rowAlignSel.addEventListener('input', apply);
     }
+    function buildAutoHomeSelect() {
+      var pages = getMeta().pages || [];
+      var i, o;
+      if (!autoHomeSel || autoHomeSel.getAttribute('data-built')) return;
+      autoHomeSel.setAttribute('data-built', '1');
+      o = document.createElement('option');
+      o.value = '';
+      o.textContent = 'Off';
+      autoHomeSel.appendChild(o);
+      for (i = 0; i < pages.length; i++) {
+        o = document.createElement('option');
+        o.value = pages[i].id;
+        o.textContent = pages[i].label || pages[i].id;
+        autoHomeSel.appendChild(o);
+      }
+      autoHomeSel.addEventListener('change', function () {
+        window.SSP_UI_SETTINGS.set({ autoHomePage: autoHomeSel.value });
+        sync();
+      });
+    }
     function buildNavChecks() {
       var box = document.getElementById('navPageChecks');
       var pages = getMeta().pages || [];
@@ -485,6 +525,8 @@
     buildFontSelect();
     bindRowAlignSelect();
     buildNavChecks();
+    buildAutoHomeSelect();
+    wireNumeric('rngAutoHomeIdle', 'numAutoHomeIdle', 'autoHomeIdleSec');
     wireNumeric('rngPollMs', 'numPollMs', 'pollIntervalMs');
     wireNumeric('rngPanelFont', 'numPanelFont', 'panelBtnFontPx');
     wireNumeric('rngGaugeVal', 'numGaugeVal', 'gaugeValScalePct');

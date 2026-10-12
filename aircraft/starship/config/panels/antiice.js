@@ -2,8 +2,8 @@ window.SSP_PANELS = window.SSP_PANELS || {};
 window.SSP_PANELS.antiice = StarshipPanel({
   id: 'antiice',
   gridClass: 'grid ice-grid',
-  /* The `ice-grid` CSS positions each button by its `p-*` class, not by
-   * source order, so this list is just the set of cells to render. */
+  layoutEditDisabled: true,
+  /* ice-grid CSS positions each button by p-* class, not by source order. */
   layout: [
     'ice_stallWarn', 'ice_pitotL', 'ice_pitotR',
     'ice_wsL', 'ice_wsR', 'ice_wsMod',

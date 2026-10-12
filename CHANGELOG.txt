@@ -1,3 +1,46 @@
+Version: v0.3 (2026-10-12)
+=========================================
+Panels
+- TBM 850: new EFB page; transponder FUNC, ST/SP and CLR on the avionics page
+  (AS330 input events). Fuel selector and fan flow bindings verified against
+  the aircraft files.
+- Grid column count is fixed per page (8 by default, Tests 9) instead of
+  shrinking to 6/4 columns on narrow screens such as iPad mini portrait.
+- Screen brightness uses a light overlay instead of a full-page filter
+  (faster on old iPads).
+
+Edit mode (EDIT in the bottom bar)
+- Drag and drop to swap buttons; works with touch on iOS 12.
+- Move and Delete modes; tap an empty (+) cell to open an in-place button
+  picker with live previews, search, per-system chips, "For this spot"
+  suggestions, recent picks, and "Then next empty" for filling rows fast.
+- Undo (40 steps), optional palette strip, column/row steppers, Reset page.
+- { } JSON sheet: export/import this page or all customised pages, copy,
+  download (not on iOS 12), load from file, and paste-ready config code.
+- Layouts are saved per page in the browser and applied on every load.
+
+Navigation and settings
+- Bottom bar now has the same right-side buttons everywhere, including the
+  settings screen: auto-home (house icon) and EDIT, before the gear.
+  On the settings screen they open the Auto-home settings and the last
+  panel page in edit mode; the last page's tab is underlined.
+- Auto-home: set a home page from the bottom bar or settings; other pages
+  return to it after a configurable idle time (default 20 s).
+
+Performance
+- One AAO request in flight at a time, cached request URL, adaptive interval
+  on slow links, screen updates driven by fresh data, cached element lookups.
+
+Documentation
+- New user guide, developer guide, AI-agent docs (AGENTS.md, docs/ai/) and a
+  generated layout audit (docs/LAYOUT-AUDIT.md). README trimmed to a landing
+  page. Tools: tools/check-es5.js, tools/audit-layouts.js (runs the real
+  config files, so findings match what the panels render).
+
+Cleanup
+- Removed stray test files and the unused TBM environment panel config.
+- Dropped references to the retired Python generator scripts.
+
 Version: v0.2
 =========================================
 - Aircraft selection is now persistent: last used aircraft is saved to localStorage

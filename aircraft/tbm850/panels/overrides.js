@@ -22,7 +22,7 @@ window.SSP_PANEL_OVERRIDES = {
       }
       return;
     }
-    if (pid === 'avionics' || pid === 'environment') {
+    if (pid === 'avionics') {
       if (document.getElementById('fuelSelToggle')) {
         var fauto = getAVar('CIRCUIT SWITCH ON:40, Bool');
         if (fauto !== undefined) TBM.setFuelSelVisual(fauto ? 1 : 0);

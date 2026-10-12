@@ -2,7 +2,7 @@
 
 Panel pages for the **Black Square TBM 850** in AAO. These files work as part of the `bksq-panels` package — copy the **whole package root**, not this folder alone.
 
-For full installation instructions see the [root README](../../README.md).
+For installation and everyday use see the [user guide](../../docs/USER-GUIDE.md); for authoring see the [developer guide](../../docs/DEVELOPER-GUIDE.md).
 
 ---
 
@@ -23,8 +23,11 @@ This registers the `bksq-tbm-panel` script group that the buttons depend on. Wit
 | Page | How to open | What's on it |
 |------|-------------|--------------|
 | **Overhead** | Hub → TBM 850 → Overhead | Instrument circuits (GYRO, RMI, ADI 2, HSI 2), Generator reset (MAIN / STDBY), Power source switch, Lights test buttons (LTS TST, DE-ICE LT TST, GEAR CHK DN, GEAR LT TST, ITT TST, ECS LT TEST, ANN LT 1/2), Oxygen (PILOT MASK, PAX OXY, OXY MASTER), HORN TEST |
-| **Avionics** | Hub → TBM 850 → Avionics | EFIS pointer L/R and Composite, DH −/+ and DH Mode, ANN LT LVL, TAWS Test / Terrain Inhibit / ANN LT, WXR Mode / Range −/+, Fuel Shift, Fuel Selector, AUX Boost Pump, Transponder power / mode / ident, AP Trims, Air conditioning, Bleed, Cabin temperature |
-| **Environment** | (redirect) | Opens Avionics — all environment controls are on that page |
+| **Avionics** | Bottom bar → AVN/ENV | EFIS pointer L/R and Composite, DH −/+ and DH Mode, ANN LT LVL, TAWS Test / Terrain Inhibit / ANN LT, WXR Mode / Range −/+, Fuel Shift, Fuel Selector, AUX Boost Pump, Transponder power / mode / ident / FUNC / ST-SP / CLR, AP Trims, Air conditioning, Bleed, Cabin temperature |
+| **EFB** | Bottom bar → EFB | Electronic flight bag tablet controls |
+| **Environment** | (redirect) | Old bookmark; opens Avionics — all environment controls are on that page |
+
+Every page's bottom bar also has **⌂** (auto-home) and **EDIT** (on-device layout editor) — see the [user guide](../../docs/USER-GUIDE.md#edit-mode).
 
 ---
 
@@ -38,12 +41,15 @@ Adding a pedestal page would require wiring new RPN scripts in AAO. See `CONFIG.
 
 ## Modding TBM 850 panels
 
-See the [root README modding section](../../README.md#modding--changing-and-customising-panels) for full step-by-step instructions with examples. The TBM 850-specific files to edit are:
+**Easiest:** rearrange, add or remove buttons on the device with **EDIT** in the bottom bar — no files to change. Layouts are saved in the browser; use **{ } JSON** to back them up or move them to another device, and **Config code** to turn a layout into the shipped default. See the [user guide](../../docs/USER-GUIDE.md#edit-mode).
+
+To change the shipped files instead, see the [developer guide](../../docs/DEVELOPER-GUIDE.md). The TBM 850-specific files are:
 
 | Task | File |
 |------|------|
 | Change button positions on Overhead | `config/panels/overhead.js` |
 | Change button positions on Avionics | `config/panels/avionics.js` |
+| Change button positions on EFB | `config/panels/efb.js` |
 | Change what a button does, or add a new button | `config/buttons.js` |
 | Custom per-tick logic for multi-state controls | `panels/overrides.js` |
 
@@ -65,7 +71,9 @@ Button names in `config/buttons.js` and layout files use these prefixes:
 
 `config/buttons.js` has an **`UNUSED — not placed on any page`** banner near the bottom. Below it are ~40 additional buttons that are already wired to the sim and listed in `bksq-tbm850-scripts.xml`, but no page layout uses them yet. They cover anti-ice, pedestal (starter / ignition / condition lever / emergency power / parking brake), extended weather radar (alert / profile / map / hold / track / tilt / brightness / gain), oxygen detail (copilot mask / pilot O2 / isolation valve), doors / visors, and avionics extras (EADI/EHSI brightness, radio modes, CWS, gear horn mute, ETM).
 
-**To enable one**, copy its key from `config/buttons.js` into the `layout` array of an existing page (or a new one):
+**To enable one on your device**, open EDIT, tap an empty cell and pick it in the picker (the per-system chips list them all).
+
+**To ship it**, copy its key from `config/buttons.js` into the `layout` array of an existing page (or a new one):
 
 ```js
 layout: [
@@ -89,7 +97,7 @@ Open `config/panels/overhead.js`. Find `'misc_hornTest'` and replace it with `'e
 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty'
 ```
 
-Save the file and refresh the panel in your browser.
+Save the file and refresh the panel in your browser. If the page still shows your old arrangement, you have a saved layout on that device: EDIT → **Reset page**.
 
 ---
 

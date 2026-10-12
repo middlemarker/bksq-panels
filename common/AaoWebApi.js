@@ -2,6 +2,13 @@ function AaoWebApi(){
 	var AAO_URL = "<AAO_URL>";
 	
 	var aaoTimeout;
+	var _inFlight = false;
+	var _urlDirty = true;
+	var _cachedGetUrl = '';
+	var _dataRevision = 0;
+	var _dataListeners = [];
+	var _baseInterval = 100;
+	var _lastRtt = 0;
 
     var mainLoopRequestObj = {};
 	mainLoopRequestObj.getstringvars = [];
@@ -16,19 +23,58 @@ function AaoWebApi(){
 	var simvars = {};
 	var simstringvars = {};
 
-    function _dataLoop() {
-		var dxhttp = new XMLHttpRequest();
-		dxhttp.addEventListener("load", _dataRequestListener);
+	function rebuildGetUrl() {
 		var url = encodeURI(AAO_URL + "?json=" + JSON.stringify(mainLoopRequestObj));
-		url = url.replace(/\+/g, '%2B').replace(/&/g, '%26').replace(/#/g, '%23');
-		dxhttp.open("GET", url);
+		_cachedGetUrl = url.replace(/\+/g, '%2B').replace(/&/g, '%26').replace(/#/g, '%23');
+	}
+
+	function markUrlDirty() {
+		_urlDirty = true;
+	}
+
+	function notifyDataListeners() {
+		var i;
+		for (i = 0; i < _dataListeners.length; i++) {
+			try { _dataListeners[i](); } catch (e) {}
+		}
+	}
+
+	function scheduleNextLoop() {
+		var wait = _baseInterval;
+		if (_lastRtt > wait * 0.75) {
+			wait = Math.min(2000, Math.max(wait, _lastRtt + 25));
+		}
+		if (aaoTimeout) clearTimeout(aaoTimeout);
+		aaoTimeout = setTimeout(_dataLoop, wait);
+	}
+
+    function _dataLoop() {
+		if (_inFlight) return;
+		if (_urlDirty) {
+			rebuildGetUrl();
+			_urlDirty = false;
+		}
+		_inFlight = true;
+		var started = Date.now();
+		var dxhttp = new XMLHttpRequest();
+		dxhttp.addEventListener("load", function () {
+			_inFlight = false;
+			_lastRtt = Date.now() - started;
+			_dataRequestListener.call(dxhttp);
+			scheduleNextLoop();
+		});
+		dxhttp.addEventListener("error", function () {
+			_inFlight = false;
+			_lastRtt = 2000;
+			scheduleNextLoop();
+		});
+		dxhttp.open("GET", _cachedGetUrl);
 		dxhttp.send();
 		mainLoopRequestObj.setstringvars = [];
 		mainLoopRequestObj.setvars = [];
 		mainLoopRequestObj.buttons = [];
 		mainLoopRequestObj.triggers = [];
 		mainLoopRequestObj.scripts = [];
-
     };
 	
 	function _dataRequestListener() {
@@ -46,6 +92,8 @@ function AaoWebApi(){
 				simstringvars[commObj.getstringvars[i].var] = commObj.getstringvars[i].value;
 			}
 		}
+		_dataRevision++;
+		notifyDataListeners();
     };
 	
 	this.GetSimVar = function(inGetvar){
@@ -55,6 +103,7 @@ function AaoWebApi(){
 				simstringvars[inGetvar] = "";
 				var toget = { "var": inGetvar, "value": ""};
 				mainLoopRequestObj.getstringvars.push(toget);
+				markUrlDirty();
 				return "";
 			} else{
 				return simstringvars[inGetvar];
@@ -65,6 +114,7 @@ function AaoWebApi(){
 				simvars[inGetvar] = 0.0;
 				var toget = { "var": inGetvar, "value": 0.0};
 				mainLoopRequestObj.getvars.push(toget);
+				markUrlDirty();
 				return 0.0;
 			} else{
 				return simvars[inGetvar];
@@ -133,15 +183,30 @@ function AaoWebApi(){
         relxhttp.open("POST", relurl);
         relxhttp.send();
 	};
+
+	this.getDataRevision = function () {
+		return _dataRevision;
+	};
+
+	this.onData = function (fn) {
+		if (typeof fn === 'function') _dataListeners.push(fn);
+	};
 	
 	this.StartAPI = function(interval) {
-		aaoTimeout = setInterval(_dataLoop, interval);
+		_baseInterval = interval || 100;
+		if (aaoTimeout){
+			clearTimeout(aaoTimeout);
+			aaoTimeout = null;
+		}
+		_inFlight = false;
+		aaoTimeout = setTimeout(_dataLoop, 0);
 	};
 	
 	this.StopAPI = function(interval) {
 		if (aaoTimeout){
-			clearInterval(aaoTimeout);
+			clearTimeout(aaoTimeout);
 			aaoTimeout = null;
 		}
+		_inFlight = false;
 	};
 }

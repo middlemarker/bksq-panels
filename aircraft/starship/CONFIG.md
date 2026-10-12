@@ -1,10 +1,12 @@
 # Starship panel config (SSP_PANELS)
 
-Static `.js` files under `config/panels/` assign to `window.SSP_PANELS.<panelId>`. Typical page load order: `common.js` → **`panel-builder.js`** → **`config/buttons.js`** → `config/panels/<name>.js` → `panel-runtime.js` → `panels/overrides.js` → `SSPRuntime.boot('panelId')`.
+> **Docs:** [docs/USER-GUIDE.md](../../docs/USER-GUIDE.md), [docs/DEVELOPER-GUIDE.md](../../docs/DEVELOPER-GUIDE.md), [docs/LAYOUT-AUDIT.md](../../docs/LAYOUT-AUDIT.md), [AGENTS.md](../../AGENTS.md).
+
+Static `.js` files under `config/panels/` assign to `window.SSP_PANELS.<panelId>`. Typical page load order: `common.js` → **`panel-builder.js`** → **`config/buttons.js`** → `config/panels/<name>.js` → `panel-runtime.js` → `panel-nav.js` → `panels/overrides.js` → `SSPRuntime.boot('panelId')` (full order in the [developer guide](../../docs/DEVELOPER-GUIDE.md)).
 
 **Current default:** most panels use **`StarshipPanel({ layout: [...] })`**, which expands to **`renderMode: 'innerHtml'`** from **`config/buttons.js`**. Legacy **`renderMode: 'rows'`** / **`cells`** remains supported for special pages (e.g. MFD); see below.
 
-**Regenerating from HTML (optional):** If you keep backup copies of the old monolithic pages with `var OH_LAYOUT_HTML = \`...\`;` (etc.), run `python tools/gen-panel-configs.py` to refresh `overhead.js`, `ecs.js`, `pedestal.js`, `autopilot.js`. Run `python tools/gen-overrides.py` after changing **monolithic** `ecs.html` / `pedestal.html` that still contain `UpdateLoop` (thin pages skip regeneration and keep `panels/overrides.js` as-is).
+**Hand-maintained:** `config/panels/*.js` and `panels/overrides.js` are edited directly. The old HTML-to-config generator scripts are gone; there is no regeneration step.
 
 ## Panel object
 
@@ -14,6 +16,8 @@ Static `.js` files under `config/panels/` assign to `window.SSP_PANELS.<panelId>
 | `title` | Optional; for documentation only. |
 | `gridClass` | `className` for `#grid` (e.g. `grid`, `grid ice-grid`, `mfd-shell`). |
 | `skipFitGrid` | If true, do not call `fitGrid()` after render (e.g. MFD shell). |
+| `cols` | Grid column count (default 8; Tests uses 9). Applied inline at boot. |
+| `layoutEditDisabled` | If true, edit mode refuses the page and saved layouts are ignored (Anti-Ice, MFD). |
 | `renderMode` | `rows` (default), `cells` (flat list), or `innerHtml` (raw string). |
 | `rows` | Array of rows; each row is an array of **cells**. |
 | `cells` | Flat array when `renderMode === 'cells'`. |

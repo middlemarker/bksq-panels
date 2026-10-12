@@ -230,5 +230,5 @@
     avncs_etmMode: { html: sspButton('g-instr', 'ETM MODE', 'SSP_TBM_AVN_ETM_MODE_CYCLE') }
   };
 
-  window.TBMPanel = window.SSP_PANEL_FACTORY(window.TBM_BUTTONS, { gridClass: 'grid' });
+  window.TBMPanel = window.SSP_PANEL_FACTORY(window.TBM_BUTTONS, { gridClass: 'grid', cols: 8 });
 })();

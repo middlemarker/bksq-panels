@@ -50,25 +50,40 @@ function fitGrid() {
   if (document.documentElement.classList.contains('ssp-panel-scrollable')) {
     grid.style.webkitTransform = 'none';
     grid.style.transform = 'none';
+    grid.classList.remove('ssp-grid-scaling');
     return;
   }
   grid.style.webkitTransform = 'none';
   grid.style.transform = 'none';
+  grid.classList.remove('ssp-grid-scaling');
   void grid.offsetHeight;
   mainRect = main.getBoundingClientRect();
   gridRect = grid.getBoundingClientRect();
-  scaleH = Math.min(1, (mainRect.height - 2) / gridRect.height);
+  var editDockPad = 0;
+  if (document.documentElement.classList.contains('ssp-edit-mode')) {
+    editDockPad = parseFloat(window.getComputedStyle(main).paddingTop) || 0;
+  }
+  scaleH = Math.min(1, (mainRect.height - 2 - editDockPad) / gridRect.height);
   scaleW = Math.min(1, (mainRect.width - 12) / gridRect.width);
   scale = Math.min(scaleH, scaleW);
   if (scale < 0.999) {
+    grid.classList.add('ssp-grid-scaling');
     grid.style.webkitTransform = 'scale(' + scale + ')';
     grid.style.transform = 'scale(' + scale + ')';
   }
 }
 
-function setToggleVisual(btnId, indId, isOn, onLabel, offLabel) {
-  var btn = document.getElementById(btnId);
-  var ind = document.getElementById(indId);
+function getAVarIfMissing(primary, fallbackExpr) {
+  if (primary !== undefined && primary !== null && primary !== '') {
+    var n = Number(primary);
+    if (isFinite(n)) return primary;
+  }
+  return getAVar(fallbackExpr);
+}
+
+function setToggleVisual(btnId, indId, isOn, onLabel, offLabel, btnEl, indEl) {
+  var btn = btnEl || document.getElementById(btnId);
+  var ind = indEl || document.getElementById(indId);
   if (!ind) return;
   isOn = !!isOn;
   if (btn && !btn.getAttribute('data-fixed-label') && onLabel != null && arguments.length >= 5) {
@@ -92,10 +107,10 @@ function setToggleVisual(btnId, indId, isOn, onLabel, offLabel) {
   else ind.classList.remove('on');
 }
 
-function setLamps(lampIds, activeIdx) {
+function setLamps(lampIds, activeIdx, lampEls) {
   var i, el, want;
   for (i = 0; i < lampIds.length; i++) {
-    el = document.getElementById(lampIds[i]);
+    el = (lampEls && lampEls[i]) || document.getElementById(lampIds[i]);
     if (!el) continue;
     want = (i === activeIdx);
     if (el._sspOn === want) continue;
@@ -105,13 +120,13 @@ function setLamps(lampIds, activeIdx) {
   }
 }
 
-function setValDisplay(id, val) {
-  var el = document.getElementById(id);
-  if (!el) return;
+function setValDisplay(id, val, el) {
+  var node = el || document.getElementById(id);
+  if (!node) return;
   var text = (val !== undefined && val !== null) ? String(val) : '-';
-  if (el._sspText === text) return;
-  el._sspText = text;
-  el.textContent = text;
+  if (node._sspText === text) return;
+  node._sspText = text;
+  node.textContent = text;
 }
 
 function renderLayout(targetId, layoutHtml) {

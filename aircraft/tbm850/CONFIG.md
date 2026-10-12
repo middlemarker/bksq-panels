@@ -1,5 +1,7 @@
 # TBM850 panel configuration
 
+> **Docs:** Install, settings, and edit mode — [docs/USER-GUIDE.md](../../docs/USER-GUIDE.md). Architecture and authoring — [docs/DEVELOPER-GUIDE.md](../../docs/DEVELOPER-GUIDE.md). Layout findings — [docs/LAYOUT-AUDIT.md](../../docs/LAYOUT-AUDIT.md).
+
 ## Verification tools
 
 | Command | Purpose |

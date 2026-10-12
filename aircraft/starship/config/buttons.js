@@ -458,5 +458,5 @@
   };
 
   window.SSP_BUTTONS = BTNS;
-  window.StarshipPanel = window.SSP_PANEL_FACTORY(BTNS, { gridClass: 'grid' });
+  window.StarshipPanel = window.SSP_PANEL_FACTORY(BTNS, { gridClass: 'grid', cols: 8 });
 })();

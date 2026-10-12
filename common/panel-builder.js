@@ -188,14 +188,22 @@
     var buttons = spec.buttons || {};
     var html = [];
     var polls = [];
+    var i;
     addLayout(buttons, html, polls, spec.layout);
     pushPolls(polls, spec.extraPolls);
     pushPolls(polls, spec.polls);
+    var sourceLayout = [];
+    if (spec.layout) {
+      for (i = 0; i < spec.layout.length; i++) {
+        if (typeof spec.layout[i] === 'string') sourceLayout.push(spec.layout[i]);
+      }
+    }
     var out = {
       renderMode: 'innerHtml',
       gridClass: spec.gridClass || 'grid',
       innerHtml: html.join(''),
-      polls: polls
+      polls: polls,
+      sourceLayout: sourceLayout
     };
     if (spec.id != null) out.id = spec.id;
     if (spec.title != null) out.title = spec.title;
@@ -203,6 +211,8 @@
     if (spec.profiles != null) out.profiles = spec.profiles;
     if (spec.defaultProfile != null) out.defaultProfile = spec.defaultProfile;
     if (spec.skipFitGrid) out.skipFitGrid = true;
+    if (spec.cols != null) out.cols = spec.cols;
+    if (spec.layoutEditDisabled) out.layoutEditDisabled = true;
     return out;
   };
 
@@ -231,5 +241,47 @@
       if (!merged.buttons) merged.buttons = buttons;
       return window.SSPPanel(merged);
     };
+  };
+
+  function layoutStorageKey(pageId) {
+    var meta = window.BKSQ_AIRCRAFT || {};
+    var base = meta.storageKey || 'bksq-panels-ui';
+    return base + ':layout:' + pageId;
+  }
+
+  window.SSP_LAYOUT_STORE = window.SSP_LAYOUT_STORE || {
+    mergePanel: function (pageId, panel) {
+      if (!panel || panel.renderMode !== 'innerHtml' || panel.layoutEditDisabled) return;
+      var raw;
+      try {
+        raw = localStorage.getItem(layoutStorageKey(pageId));
+      } catch (e0) {
+        return;
+      }
+      if (!raw) return;
+      var o;
+      try {
+        o = JSON.parse(raw);
+      } catch (e1) {
+        return;
+      }
+      if (!o || !o.layout || !o.layout.length) return;
+      var buttons = panel._buttonsDict;
+      if (!buttons) {
+        if (window.SSP_BUTTONS) buttons = window.SSP_BUTTONS;
+        else if (window.TBM_BUTTONS) buttons = window.TBM_BUTTONS;
+      }
+      if (!buttons) return;
+      var rebuilt = window.SSPPanel({
+        buttons: buttons,
+        layout: o.layout,
+        cols: o.cols != null ? o.cols : panel.cols,
+        gridClass: panel.gridClass
+      });
+      panel.innerHtml = rebuilt.innerHtml;
+      panel.polls = rebuilt.polls;
+      if (o.cols != null) panel.cols = o.cols;
+      if (rebuilt.sourceLayout) panel.sourceLayout = rebuilt.sourceLayout;
+    }
   };
 })();

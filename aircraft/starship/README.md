@@ -2,7 +2,7 @@
 
 Panel pages for the **Black Square Beechcraft Starship** in AAO. These files work as part of the `bksq-panels` package — copy the **whole package root**, not this folder alone.
 
-For full installation instructions see the [root README](../../README.md).
+For installation and everyday use see the [user guide](../../docs/USER-GUIDE.md); for authoring see the [developer guide](../../docs/DEVELOPER-GUIDE.md).
 
 ---
 
@@ -31,11 +31,15 @@ This registers the `bksq-starship-panel` script group that the buttons depend on
 | **Pedestal** | Hub → Starship → Pedestal | Electrical, ignition, starters, propeller (autofeather, sync, governor), fuel, trim, parking brake |
 | **Tests** | Hub → Starship → Tests | Test-hold buttons (press and hold to trigger) |
 
+Every page's bottom bar also has **⌂** (auto-home) and **EDIT** (on-device layout editor; not available on Anti-Ice and MFD) — see the [user guide](../../docs/USER-GUIDE.md#edit-mode).
+
 ---
 
 ## Modding Starship panels
 
-See the [root README modding section](../../README.md#modding--changing-and-customising-panels) for full step-by-step instructions with examples. The Starship-specific files to edit are:
+**Easiest:** rearrange, add or remove buttons on the device with **EDIT** in the bottom bar — no files to change. Layouts are saved in the browser; use **{ } JSON** to back them up or move them to another device, and **Config code** to turn a layout into the shipped default. See the [user guide](../../docs/USER-GUIDE.md#edit-mode).
+
+To change the shipped files instead, see the [developer guide](../../docs/DEVELOPER-GUIDE.md). The Starship-specific files are:
 
 | Task | File |
 |------|------|
@@ -80,7 +84,7 @@ Open `config/panels/overhead.js`. Find `'gnd_hideYoke'` in the ground safety row
 'gnd_chocks', 'gnd_pitotCovr', 'gnd_engCovr', 'gnd_gearPins', 'gnd_ctrlLock', 'empty',        'empty', 'empty'
 ```
 
-Save and refresh the browser.
+Save and refresh the browser. If the page still shows your old arrangement, you have a saved layout on that device: EDIT → **Reset page**.
 
 ### Quick example — move the TAXI light button to be next to LANDING
 
@@ -100,13 +104,13 @@ To put TAXI right after the two LANDING buttons, swap it with `lts_wing`:
 
 ## Anti-Ice page note
 
-The Anti-Ice page uses a special `gridClass: 'grid ice-grid'`. Buttons are positioned by CSS classes (`p-*`), so the **visual position does not follow left-to-right order** in the layout array. If you rearrange the anti-ice layout, check the result in the browser — the CSS classes on individual buttons control where they appear, not their position in the list.
+The Anti-Ice page uses a special `gridClass: 'grid ice-grid'`. Buttons are positioned by CSS classes (`p-*`), so the **visual position does not follow left-to-right order** in the layout array. If you rearrange the anti-ice layout, check the result in the browser — the CSS classes on individual buttons control where they appear, not their position in the list. For the same reason edit mode is disabled on Anti-Ice (and MFD), and saved layouts are never applied to them.
 
 ---
 
 ## Verifying script labels (optional)
 
-If you add a button that uses a new `SSP_STARSHIP_*` label, check it against the XML with Node.js:
+If you add a button that uses a new `SSP_*` label, check it against the XML with Node.js:
 
 ```
 node aircraft/starship/tools/check-manifest.js

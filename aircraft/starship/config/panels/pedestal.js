@@ -3,7 +3,7 @@ window.SSP_PANELS.pedestal = StarshipPanel({
   id: 'pedestal',
   layout: [
     /* ROW 1: electrical gauges + volt select. The first two gauges are
-     * `wide-2`, so the row only has 6 slots. */
+     * wide-2, so the row only has 6 slots. */
     'elec_battAmpGauge', 'elec_voltsDcGauge', 'elec_rLoadGauge', 'elec_voltModeGauge', 'elec_voltDec', 'elec_voltInc',
     /* ROW 2: left engine column + primary elec */
     'eng_autoIgnL', 'eng_autoIgnR', 'elec_batt', 'elec_genL', 'elec_genR', 'elec_battAmps', 'elec_extPwr', 'elec_busTie',

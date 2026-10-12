@@ -3,6 +3,7 @@ window.SSP_PANELS.mfd = {
   id: 'mfd',
   gridClass: 'mfd-shell',
   skipFitGrid: true,
+  layoutEditDisabled: true,
   renderMode: 'innerHtml',
   innerHtml:
     '<div class="mfd-top">' +

@@ -15,9 +15,9 @@
     pages: [
       { id: 'overhead', label: 'Overhead (OH)', navLabel: 'OH', href: 'overhead.html' },
       { id: 'ecs', label: 'ECS', navLabel: 'ECS', href: 'ecs.html' },
-      { id: 'antiice', label: 'Anti-ice (ICE)', navLabel: 'ICE', href: 'antiice.html' },
+      { id: 'antiice', label: 'Anti-ice (ICE)', navLabel: 'ICE', href: 'antiice.html', noEdit: true },
       { id: 'autopilot', label: 'Avionics (AVNCS)', navLabel: 'AVNCS', href: 'autopilot.html' },
-      { id: 'mfd', label: 'MFD', navLabel: 'MFD', href: 'mfd.html' },
+      { id: 'mfd', label: 'MFD', navLabel: 'MFD', href: 'mfd.html', noEdit: true },
       { id: 'misc', label: 'Misc (Msc)', navLabel: 'Msc', href: 'misc.html' },
       { id: 'pedestal', label: 'Pedestal (Ped)', navLabel: 'Ped', href: 'pedestal.html' },
       { id: 'tests', label: 'Tests', navLabel: 'Tests', href: 'tests.html' }

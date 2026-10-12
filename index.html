@@ -90,6 +90,13 @@
         </div>
 
         <div class="settings-section">
+          <h3>Auto-home</h3>
+          <div class="settings-row"><label for="selAutoHomePage">Home page</label><select id="selAutoHomePage" aria-label="Auto-home page"></select></div>
+          <div class="settings-row"><label for="rngAutoHomeIdle">Return after idle (s)</label><input type="range" id="rngAutoHomeIdle" min="5" max="300" step="5" /><input type="number" id="numAutoHomeIdle" class="settings-num" min="5" max="300" step="5" inputmode="numeric" pattern="[0-9]*" aria-label="Auto-home idle seconds exact" /></div>
+          <p class="settings-hint">When a home page is set, any other panel page goes back to it after this many seconds without a touch. The &#8962; button in the bottom bar of a panel page sets that page as home (tap again to turn off).</p>
+        </div>
+
+        <div class="settings-section">
           <h3>Grid &amp; bar size</h3>
           <div class="settings-row"><label for="rngGridRow">Grid cell min height (px)</label><input type="range" id="rngGridRow" min="56" max="220" step="4" /><input type="number" id="numGridRow" class="settings-num" min="56" max="220" step="4" inputmode="numeric" pattern="[0-9]*" aria-label="Grid cell min height px exact" /></div>
           <div class="settings-row"><label for="rngGridGapY">Grid row gap (px)</label><input type="range" id="rngGridGapY" min="4" max="32" step="1" /><input type="number" id="numGridGapY" class="settings-num" min="4" max="32" step="1" inputmode="numeric" pattern="[0-9]*" aria-label="Grid row gap px exact" /></div>
@@ -160,5 +167,7 @@
     <p class="hub-fallback-msg">Open a panel from the bottom bar or tap the gear for settings.</p>
   </main>
   <script src="common/nav-inapp.js"></script>
+  <script src="common/panel-nav.js"></script>
+  <script>SSP_NAV_TOOLS.mountHub();</script>
 </body>
 </html>

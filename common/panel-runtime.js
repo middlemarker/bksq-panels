@@ -9,6 +9,9 @@ var SSPRuntime = (window.SSPRuntime = {
   _holdUntil: {},
   _pollTimer: null,
   _panelId: null,
+  _tickPending: false,
+  _lastDataRev: -1,
+  _dataHooked: false,
 
   lampMaps: {
     wiper4: function (v) {
@@ -95,11 +98,18 @@ var SSPRuntime = (window.SSPRuntime = {
   },
 
   _applyPoll: function (poll) {
+    var now = Date.now();
+    if (poll.everyMs) {
+      if (!poll._lastEvery) poll._lastEvery = 0;
+      if (now - poll._lastEvery < poll.everyMs) return;
+      poll._lastEvery = now;
+    }
+    var el = poll._el || {};
     var kind = poll.kind;
     if (kind === 'toggle') {
       var v = SSPRuntime._readL(poll.lvar, poll.lvarType || 'Bool');
       var on = SSPRuntime._truthy(poll, v);
-      setToggleVisual(poll.btnId, poll.indId, on);
+      setToggleVisual(poll.btnId, poll.indId, on, undefined, undefined, el.btn, el.ind);
       return;
     }
     if (kind === 'toggleOr') {
@@ -121,20 +131,20 @@ var SSPRuntime = (window.SSPRuntime = {
           break;
         }
       }
-      setToggleVisual(poll.btnId, poll.indId, on);
+      setToggleVisual(poll.btnId, poll.indId, on, undefined, undefined, el.btn, el.ind);
       return;
     }
     if (kind === 'toggleA') {
       var av0 = getAVar(poll.expr);
-      setToggleVisual(poll.btnId, poll.indId, av0 == 1);
+      setToggleVisual(poll.btnId, poll.indId, av0 == 1, undefined, undefined, el.btn, el.ind);
       return;
     }
     if (kind === 'testLatched') {
       var held = SSPRuntime.isHeld(poll.btnId);
       var lv = SSPRuntime._readL(poll.lvar, poll.lvarType || 'Bool');
       var on2 = !!(held || lv == 1);
-      setToggleVisual(poll.btnId, poll.indId, on2);
-      var b = document.getElementById(poll.btnId);
+      setToggleVisual(poll.btnId, poll.indId, on2, undefined, undefined, el.btn, el.ind);
+      var b = el.btn || document.getElementById(poll.btnId);
       if (b && b._sspLatched !== on2) {
         b._sspLatched = on2;
         if (on2) b.classList.add('latched');
@@ -147,12 +157,12 @@ var SSPRuntime = (window.SSPRuntime = {
       var fn = SSPRuntime.lampMaps[poll.map];
       if (!fn) return;
       var idx = fn(raw);
-      setLamps(poll.lampIds, idx);
+      setLamps(poll.lampIds, idx, el.lamps);
       return;
     }
     if (kind === 'lvarText') {
       var vt = SSPRuntime._readL(poll.lvar, poll.lvarType || 'Number');
-      setValDisplay(poll.id, vt !== undefined && vt !== null ? String(vt) : undefined);
+      setValDisplay(poll.id, vt !== undefined && vt !== null ? String(vt) : undefined, el.val);
       return;
     }
     if (kind === 'avarText') {
@@ -161,13 +171,50 @@ var SSPRuntime = (window.SSPRuntime = {
         av = Number(av);
         av = isNaN(av) ? undefined : av.toFixed(poll.decimals);
       }
-      setValDisplay(poll.id, av !== undefined && av !== null ? String(av) : undefined);
+      setValDisplay(poll.id, av !== undefined && av !== null ? String(av) : undefined, el.val);
       return;
     }
     if (kind === 'custom') {
       var h = window.SSP_PANEL_OVERRIDES && window.SSP_PANEL_OVERRIDES.polls && window.SSP_PANEL_OVERRIDES.polls[poll.id];
       if (typeof h === 'function') h(poll);
     }
+  },
+
+  _bindPollElements: function (panel) {
+    var polls = panel.polls || [];
+    var i;
+    var p;
+    var j;
+    for (i = 0; i < polls.length; i++) {
+      p = polls[i];
+      p._el = {};
+      if (p.btnId) p._el.btn = document.getElementById(p.btnId);
+      if (p.indId) p._el.ind = document.getElementById(p.indId);
+      if (p.id) p._el.val = document.getElementById(p.id);
+      if (p.lampIds && p.lampIds.length) {
+        p._el.lamps = [];
+        for (j = 0; j < p.lampIds.length; j++) {
+          p._el.lamps.push(document.getElementById(p.lampIds[j]));
+        }
+      }
+      p._lastEvery = 0;
+    }
+  },
+
+  _applyGridCols: function (grid, panel) {
+    if (!grid || !panel) return;
+    var cols = panel.cols != null ? Number(panel.cols) : 8;
+    if (!isFinite(cols) || cols < 1) cols = 8;
+    grid.style.gridTemplateColumns = 'repeat(' + Math.round(cols) + ', minmax(0, 1fr))';
+  },
+
+  _hookDataRevision: function () {
+    if (SSPRuntime._dataHooked) return;
+    if (typeof webApi === 'undefined' || !webApi || typeof webApi.onData !== 'function') return;
+    SSPRuntime._dataHooked = true;
+    webApi.onData(function () {
+      SSPRuntime._runPollTick(true);
+    });
   },
 
   _appendCell: function (parent, cell) {
@@ -340,6 +387,9 @@ var SSPRuntime = (window.SSPRuntime = {
     var panel = window.SSP_PANELS[panelId];
     if (!panel) return;
     SSPRuntime._panelId = panelId;
+    if (window.SSP_LAYOUT_STORE && typeof window.SSP_LAYOUT_STORE.mergePanel === 'function') {
+      window.SSP_LAYOUT_STORE.mergePanel(panelId, panel);
+    }
     var grid = document.getElementById('grid');
     if (!grid) return;
     SSPRuntime.applyProfile(panel);
@@ -354,6 +404,8 @@ var SSPRuntime = (window.SSPRuntime = {
     } else {
       SSPRuntime._renderRows(grid, panel);
     }
+    SSPRuntime._applyGridCols(grid, panel);
+    SSPRuntime._bindPollElements(panel);
     if (!panel.skipFitGrid && typeof fitGrid === 'function') {
       setTimeout(fitGrid, 20);
     }
@@ -361,10 +413,48 @@ var SSPRuntime = (window.SSPRuntime = {
       clearInterval(SSPRuntime._pollTimer);
       SSPRuntime._pollTimer = null;
     }
+    SSPRuntime._hookDataRevision();
+    SSPRuntime._lastDataRev = -1;
     var pollMs = typeof window.SSP_GET_POLL_MS === 'function' ? window.SSP_GET_POLL_MS() : 100;
     SSPRuntime._pollTimer = setInterval(function () {
-      SSPRuntime._runPollTick();
+      SSPRuntime._runPollTick(false);
     }, pollMs);
+    if (window.SSP_NAV_TOOLS && typeof window.SSP_NAV_TOOLS.mount === 'function') {
+      window.SSP_NAV_TOOLS.mount(panelId, panel);
+    }
+    var q = typeof location !== 'undefined' && location.search ? location.search : '';
+    if (q.indexOf('edit=1') >= 0) SSPRuntime.enterEditMode();
+  },
+
+  _withEditModule: function (cb) {
+    if (window.SSP_PANEL_EDIT) {
+      cb();
+      return;
+    }
+    var s = document.createElement('script');
+    s.src = '../../../common/panel-edit.js';
+    s.onload = function () {
+      if (window.SSP_PANEL_EDIT) cb();
+    };
+    document.body.appendChild(s);
+  },
+
+  isEditing: function () {
+    return !!(window.SSP_PANEL_EDIT && window.SSP_PANEL_EDIT.active);
+  },
+
+  enterEditMode: function (done) {
+    var pid = SSPRuntime._panelId;
+    var panel = pid ? window.SSP_PANELS[pid] : null;
+    if (!panel) return;
+    SSPRuntime._withEditModule(function () {
+      window.SSP_PANEL_EDIT.init(pid, panel);
+      if (typeof done === 'function') done(SSPRuntime.isEditing());
+    });
+  },
+
+  exitEditMode: function () {
+    if (window.SSP_PANEL_EDIT) window.SSP_PANEL_EDIT.exit();
   },
 
   setPollInterval: function (ms) {
@@ -378,12 +468,17 @@ var SSPRuntime = (window.SSPRuntime = {
     interval = Math.max(50, Math.min(2000, Math.round(interval)));
     if (!SSPRuntime._panelId) return;
     SSPRuntime._pollTimer = setInterval(function () {
-      SSPRuntime._runPollTick();
+      SSPRuntime._runPollTick(false);
     }, interval);
   },
 
-  _runPollTick: function () {
+  _runPollTick: function (fromData) {
     if (typeof document !== 'undefined' && document.hidden) return;
+    if (typeof webApi !== 'undefined' && webApi && typeof webApi.getDataRevision === 'function') {
+      var rev = webApi.getDataRevision();
+      if (!fromData && rev === SSPRuntime._lastDataRev) return;
+      SSPRuntime._lastDataRev = rev;
+    }
     if (SSPRuntime._tickPending) return;
     SSPRuntime._tickPending = true;
     var raf = (typeof window !== 'undefined' && window.requestAnimationFrame)
