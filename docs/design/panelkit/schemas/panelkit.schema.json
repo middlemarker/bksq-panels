@@ -1,0 +1,660 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "panelkit.schema.json",
+  "title": "PanelKit authored data (catalog, vendor, library, pack), version 1",
+  "description": "Shape checks for the object passed to PK.defineCatalog / defineVendor / defineLibrary / definePack. PACK-FORMAT.md is normative; where they disagree the schema is a bug. Checks that need context (required fields after template expansion, known names, script labels, adapter support) are validator rules (PACK-FORMAT section 18), not schema rules.",
+  "oneOf": [
+    { "$ref": "#/definitions/catalog" },
+    { "$ref": "#/definitions/vendor" },
+    { "$ref": "#/definitions/library" },
+    { "$ref": "#/definitions/pack" }
+  ],
+  "definitions": {
+    "vendorId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "packId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$" },
+    "alias": { "type": "string", "pattern": "^[a-z][a-zA-Z0-9]*$" },
+    "controlId": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$" },
+    "token": {
+      "type": "string",
+      "pattern": "^([a-zA-Z][a-zA-Z0-9_]*|[a-z][a-zA-Z0-9]*\\.[a-zA-Z][a-zA-Z0-9_]*)$"
+    },
+    "pageId": { "type": "string", "pattern": "^[a-z][a-zA-Z0-9_-]*$" },
+    "name": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]*$" },
+    "group": { "type": "string", "pattern": "^[a-z][a-z0-9]*$" },
+    "style": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "behaviorId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*(\\.[a-zA-Z0-9_-]+)+$" },
+    "scriptLabel": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+$" },
+    "path": { "type": "string", "minLength": 1, "pattern": "^[^\\\\:]+$" },
+    "version": { "const": 1 },
+    "notes": { "type": "string" },
+
+    "source": {
+      "description": "PACK-FORMAT 8.1. L:name[,unit] | A:name[:index],unit | E:name,unit | local:ident | const:literal",
+      "type": "string",
+      "pattern": "^(L:[^,]+(,.+)?|A:[^,]+,.+|E:[^,]+,.+|local:[A-Za-z][A-Za-z0-9_]*|const:.*)$"
+    },
+
+    "test": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "eq": { "type": ["number", "string", "boolean"] },
+        "ne": { "type": ["number", "string", "boolean"] },
+        "gt": { "type": "number" },
+        "gte": { "type": "number" },
+        "lt": { "type": "number" },
+        "lte": { "type": "number" },
+        "in": { "type": "array", "items": { "type": ["number", "string"] }, "minItems": 1 }
+      },
+      "additionalProperties": false
+    },
+
+    "whenValue": {
+      "description": "then / else: number, boolean and null are constants; a string is a source; an object is a state spec.",
+      "oneOf": [
+        { "type": ["number", "boolean", "null"] },
+        { "$ref": "#/definitions/source" },
+        { "$ref": "#/definitions/stateSpecObject" }
+      ]
+    },
+
+    "stateSpec": {
+      "oneOf": [
+        { "$ref": "#/definitions/source" },
+        { "$ref": "#/definitions/stateSpecObject" }
+      ]
+    },
+
+    "stateSpecObject": {
+      "description": "PACK-FORMAT 8.2. At most one producer here; exactly one is required after template expansion (V-026).",
+      "type": "object",
+      "properties": {
+        "src": { "$ref": "#/definitions/source" },
+        "fallback": {
+          "oneOf": [
+            { "$ref": "#/definitions/source" },
+            { "type": "array", "items": { "$ref": "#/definitions/source" }, "minItems": 1 }
+          ]
+        },
+        "first": { "type": "array", "items": { "$ref": "#/definitions/stateSpec" }, "minItems": 1 },
+        "pick": {
+          "type": "object",
+          "required": ["index", "from"],
+          "properties": {
+            "index": { "$ref": "#/definitions/stateSpec" },
+            "from": { "type": "array", "items": { "$ref": "#/definitions/stateSpec" }, "minItems": 1 }
+          },
+          "additionalProperties": false
+        },
+        "when": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["if", "then"],
+            "properties": {
+              "if": { "$ref": "#/definitions/stateSpec" },
+              "then": { "$ref": "#/definitions/whenValue" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "else": { "$ref": "#/definitions/whenValue" },
+        "any": { "type": "array", "items": { "$ref": "#/definitions/stateSpec" }, "minItems": 1 },
+        "all": { "type": "array", "items": { "$ref": "#/definitions/stateSpec" }, "minItems": 1 },
+        "missing": { "type": ["number", "string"] },
+        "everyMs": { "type": "integer", "minimum": 0 },
+        "scale": { "type": "number" },
+        "offset": { "type": "number" },
+        "clamp": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "round": { "type": "integer", "minimum": 0 },
+        "map": { "oneOf": [{ "$ref": "#/definitions/name" }, { "$ref": "#/definitions/map" }] },
+        "test": { "$ref": "#/definitions/test" },
+        "not": { "type": "boolean" }
+      },
+      "additionalProperties": false,
+      "dependencies": {
+        "fallback": ["src"],
+        "else": ["when"],
+        "src": { "not": { "anyOf": [{ "required": ["first"] }, { "required": ["pick"] }, { "required": ["when"] }, { "required": ["any"] }, { "required": ["all"] }] } },
+        "first": { "not": { "anyOf": [{ "required": ["pick"] }, { "required": ["when"] }, { "required": ["any"] }, { "required": ["all"] }] } },
+        "pick": { "not": { "anyOf": [{ "required": ["when"] }, { "required": ["any"] }, { "required": ["all"] }] } },
+        "when": { "not": { "anyOf": [{ "required": ["any"] }, { "required": ["all"] }] } },
+        "any": { "not": { "required": ["all"] } }
+      }
+    },
+
+    "map": {
+      "description": "PACK-FORMAT 9.1",
+      "type": "object",
+      "properties": {
+        "values": { "type": "object" },
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["out"],
+            "properties": {
+              "lt": { "type": "number" },
+              "lte": { "type": "number" },
+              "gt": { "type": "number" },
+              "gte": { "type": "number" },
+              "out": {}
+            },
+            "additionalProperties": false,
+            "minProperties": 2,
+            "maxProperties": 2
+          }
+        },
+        "default": {},
+        "missing": {}
+      },
+      "additionalProperties": false
+    },
+
+    "format": {
+      "description": "PACK-FORMAT 9.2",
+      "type": "object",
+      "properties": {
+        "decimals": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "pad": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "sign": { "type": "boolean" },
+        "enum": { "type": ["array", "object"] },
+        "prefix": { "type": "string" },
+        "suffix": { "type": "string" },
+        "upper": { "type": "boolean" },
+        "missing": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+
+    "formatRef": { "oneOf": [{ "$ref": "#/definitions/name" }, { "$ref": "#/definitions/format" }] },
+
+    "action": {
+      "description": "PACK-FORMAT 10.1",
+      "oneOf": [
+        { "type": "string", "pattern": "^script:[A-Za-z0-9_.-]+$" },
+        { "type": "string", "pattern": "^k:[A-Za-z0-9_]+(=-?[0-9.]+)?$" },
+        { "type": "string", "pattern": "^rpn:.+$" },
+        { "type": "string", "pattern": "^behavior:[a-z][a-z0-9-]*(\\.[a-zA-Z0-9_-]+)+(#[A-Za-z_][A-Za-z0-9_]*)?$" },
+        { "type": "array", "items": { "$ref": "#/definitions/action" }, "minItems": 1 },
+        {
+          "type": "object", "required": ["script"], "additionalProperties": false,
+          "properties": { "script": { "$ref": "#/definitions/scriptLabel" }, "group": { "type": "string", "minLength": 1 } }
+        },
+        {
+          "type": "object", "required": ["k"], "additionalProperties": false,
+          "properties": { "k": { "type": "string", "pattern": "^[A-Za-z0-9_]+$" }, "value": { "type": "number" } }
+        },
+        {
+          "type": "object", "required": ["rpn"], "additionalProperties": false,
+          "properties": { "rpn": { "type": "string", "minLength": 1 } }
+        },
+        {
+          "type": "object", "required": ["set", "value"], "additionalProperties": false,
+          "properties": { "set": { "$ref": "#/definitions/source" }, "value": { "type": ["number", "string", "boolean"] } }
+        },
+        {
+          "type": "object", "required": ["adjust", "by"], "additionalProperties": false,
+          "properties": {
+            "adjust": { "$ref": "#/definitions/source" },
+            "by": { "type": "number" },
+            "min": { "type": "number" },
+            "max": { "type": "number" },
+            "wrap": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object", "required": ["cycle", "values"], "additionalProperties": false,
+          "properties": {
+            "cycle": { "$ref": "#/definitions/source" },
+            "values": { "type": "array", "items": { "type": ["number", "string"] }, "minItems": 2 },
+            "mode": { "enum": ["wrap", "bounce"] },
+            "onUnknown": { "enum": ["first", "skip"] }
+          }
+        },
+        {
+          "type": "object", "required": ["switch"], "additionalProperties": false,
+          "properties": {
+            "switch": { "$ref": "#/definitions/stateSpec" },
+            "cases": {
+              "type": "object",
+              "additionalProperties": { "oneOf": [{ "type": "null" }, { "$ref": "#/definitions/action" }] }
+            },
+            "default": { "oneOf": [{ "type": "null" }, { "$ref": "#/definitions/action" }] }
+          }
+        },
+        {
+          "type": "object", "required": ["behavior"], "additionalProperties": false,
+          "properties": {
+            "behavior": { "$ref": "#/definitions/behaviorId" },
+            "method": { "type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$" },
+            "args": {}
+          }
+        },
+        {
+          "type": "object", "required": ["seq"], "additionalProperties": false,
+          "properties": {
+            "seq": { "type": "array", "items": { "$ref": "#/definitions/action" }, "minItems": 1 },
+            "gapMs": { "type": "integer", "minimum": 0, "maximum": 5000 }
+          }
+        }
+      ]
+    },
+
+    "position": {
+      "type": "object",
+      "required": ["label"],
+      "properties": {
+        "label": { "type": "string" },
+        "value": { "type": ["number", "string", "boolean"] },
+        "action": { "$ref": "#/definitions/action" }
+      },
+      "additionalProperties": false
+    },
+
+    "gaugeRow": {
+      "type": "object",
+      "properties": {
+        "left": { "type": "string" },
+        "value": { "$ref": "#/definitions/stateSpec" },
+        "format": { "$ref": "#/definitions/formatRef" },
+        "right": { "type": "string" },
+        "value2": { "$ref": "#/definitions/stateSpec" },
+        "format2": { "$ref": "#/definitions/formatRef" }
+      },
+      "additionalProperties": false
+    },
+
+    "control": {
+      "description": "PACK-FORMAT 7 and WIDGETS 2. Used for controls and templates. Required fields per type are checked after template expansion (V-010, V-012). Only type 'custom' may carry extra behavior-specific fields.",
+      "type": "object",
+      "properties": {
+        "type": { "enum": ["empty", "label", "button", "toggle", "hold", "multi", "readout", "gauge", "stepper", "custom"] },
+        "use": {
+          "oneOf": [
+            { "$ref": "#/definitions/name" },
+            { "type": "array", "items": { "$ref": "#/definitions/name" }, "minItems": 1 }
+          ]
+        },
+        "label": { "type": "string" },
+        "group": { "$ref": "#/definitions/group" },
+        "style": { "$ref": "#/definitions/style" },
+        "span": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "hint": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "hidden": { "type": "boolean" },
+        "confirm": { "type": ["boolean", "string"] },
+        "enabled": { "$ref": "#/definitions/stateSpec" },
+        "everyMs": { "type": "integer", "minimum": 0 },
+
+        "action": { "$ref": "#/definitions/action" },
+        "release": { "$ref": "#/definitions/action" },
+        "state": { "$ref": "#/definitions/stateSpec" },
+        "sublabel": { "type": "string" },
+        "labels": {
+          "type": "object",
+          "properties": { "on": { "type": "string" }, "off": { "type": "string" } },
+          "additionalProperties": false
+        },
+        "indicator": { "enum": ["dot", "none"] },
+        "mode": { "enum": ["latch", "momentary"] },
+        "holdMs": { "type": "integer", "minimum": 0 },
+        "positions": { "type": "array", "items": { "$ref": "#/definitions/position" }, "minItems": 2, "maxItems": 6 },
+        "advance": { "enum": ["wrap", "bounce", "none"] },
+        "optimistic": { "type": "boolean" },
+        "optimisticMs": { "type": "integer", "minimum": 0 },
+        "initial": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "value": { "$ref": "#/definitions/stateSpec" },
+        "format": { "$ref": "#/definitions/formatRef" },
+        "unit": { "type": "string" },
+        "rows": { "type": "array", "items": { "$ref": "#/definitions/gaugeRow" }, "minItems": 1, "maxItems": 4 },
+        "dec": { "$ref": "#/definitions/action" },
+        "inc": { "$ref": "#/definitions/action" },
+        "repeatMs": { "type": "integer", "minimum": 0 },
+        "decLabel": { "type": "string" },
+        "incLabel": { "type": "string" },
+        "behavior": { "$ref": "#/definitions/behaviorId" },
+        "props": { "type": "object" }
+      },
+      "if": { "required": ["type"], "properties": { "type": { "const": "custom" } } },
+      "then": {},
+      "else": {
+        "propertyNames": {
+          "enum": [
+            "type", "use", "label", "group", "style", "span", "hint", "tags", "hidden", "confirm", "enabled", "everyMs",
+            "action", "release", "state", "sublabel", "labels", "indicator", "mode", "holdMs", "positions", "advance",
+            "optimistic", "optimisticMs", "initial", "value", "format", "unit", "rows", "dec", "inc", "repeatMs",
+            "decLabel", "incLabel", "behavior", "props"
+          ]
+        }
+      }
+    },
+
+    "controls": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/controlId" },
+      "additionalProperties": { "$ref": "#/definitions/control" }
+    },
+
+    "templates": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/name" },
+      "additionalProperties": { "$ref": "#/definitions/control" }
+    },
+
+    "maps": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/name" },
+      "additionalProperties": { "$ref": "#/definitions/map" }
+    },
+
+    "formats": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/name" },
+      "additionalProperties": { "$ref": "#/definitions/format" }
+    },
+
+    "scripts": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/scriptLabel" },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+
+    "colourSet": {
+      "type": "object",
+      "properties": {
+        "bg": { "$ref": "#/definitions/cssValue" },
+        "fg": { "$ref": "#/definitions/cssValue" },
+        "border": { "$ref": "#/definitions/cssValue" },
+        "on": { "$ref": "#/definitions/cssValue" }
+      },
+      "additionalProperties": false
+    },
+
+    "cssValue": { "type": "string", "pattern": "^[^;{}<>]*$" },
+
+    "theme": {
+      "description": "PACK-FORMAT 14. Variable names are checked against DETAILED-DESIGN 11.2 by V-050.",
+      "type": "object",
+      "properties": {
+        "vars": {
+          "type": "object",
+          "propertyNames": { "pattern": "^--pk-[a-z0-9-]+$" },
+          "additionalProperties": { "$ref": "#/definitions/cssValue" }
+        },
+        "groups": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/definitions/group" },
+          "additionalProperties": { "$ref": "#/definitions/colourSet" }
+        },
+        "styles": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/definitions/style" },
+          "additionalProperties": { "$ref": "#/definitions/colourSet" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "conventions": {
+      "type": "object",
+      "properties": { "scriptGroup": { "type": "string", "minLength": 1 } },
+      "additionalProperties": false
+    },
+
+    "settingsDefaults": {
+      "description": "DETAILED-DESIGN 12.1. Ranges here mirror V-081.",
+      "type": "object",
+      "properties": {
+        "pollIntervalMs": { "type": "integer", "minimum": 50, "maximum": 2000 },
+        "panelBtnFontPx": { "type": "integer", "minimum": 10, "maximum": 40 },
+        "panelGridRowMinPx": { "type": "integer", "minimum": 56, "maximum": 220 },
+        "panelGridGapPx": { "type": "integer", "minimum": 4, "maximum": 32 },
+        "panelGridGapXPx": { "type": "integer", "minimum": 4, "maximum": 32 },
+        "panelRowAlign": { "enum": ["top", "center", "bottom"] },
+        "navFontPx": { "type": "integer", "minimum": 10, "maximum": 22 },
+        "navMinHPx": { "type": "integer", "minimum": 32, "maximum": 64 },
+        "uiFontIndex": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "uiBrightnessPct": { "type": "integer", "minimum": 70, "maximum": 115 },
+        "dotScalePct": { "type": "integer", "minimum": 70, "maximum": 130 },
+        "gaugeValScalePct": { "type": "integer", "minimum": 85, "maximum": 130 },
+        "reduceMotion": { "type": "boolean" },
+        "showTouchFlash": { "type": "boolean" },
+        "panelScrollable": { "type": "boolean" },
+        "autoHomeIdleSec": { "type": "integer", "minimum": 5, "maximum": 300 }
+      },
+      "additionalProperties": false
+    },
+
+    "placedCell": {
+      "type": "object",
+      "required": ["token", "col", "row"],
+      "properties": {
+        "token": { "$ref": "#/definitions/token" },
+        "col": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "row": { "type": "integer", "minimum": 1 },
+        "colSpan": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "rowSpan": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+
+    "page": {
+      "description": "PACK-FORMAT 11",
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "$ref": "#/definitions/pageId" },
+        "label": { "type": "string", "minLength": 1 },
+        "navLabel": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["grid", "placed"] },
+        "cols": { "type": "integer", "minimum": 1, "maximum": 12 },
+        "layout": { "type": "array", "items": { "$ref": "#/definitions/token" } },
+        "rows": { "type": "integer", "minimum": 1 },
+        "cells": { "type": "array", "items": { "$ref": "#/definitions/placedCell" } },
+        "noEdit": { "type": "boolean" },
+        "hiddenByDefault": { "type": "boolean" },
+        "scroll": { "type": "boolean" },
+        "legacyIds": { "type": "array", "items": { "$ref": "#/definitions/pageId" }, "uniqueItems": true }
+      },
+      "additionalProperties": false,
+      "if": { "required": ["kind"], "properties": { "kind": { "const": "placed" } } },
+      "then": { "required": ["rows", "cells"] },
+      "else": { "required": ["layout"] }
+    },
+
+    "mockRule": {
+      "oneOf": [
+        { "type": "object", "required": ["toggle"], "additionalProperties": false, "properties": { "toggle": { "$ref": "#/definitions/source" } } },
+        {
+          "type": "object", "required": ["set", "value"], "additionalProperties": false,
+          "properties": { "set": { "$ref": "#/definitions/source" }, "value": { "type": ["number", "string", "boolean"] } }
+        },
+        {
+          "type": "object", "required": ["adjust", "by"], "additionalProperties": false,
+          "properties": {
+            "adjust": { "$ref": "#/definitions/source" }, "by": { "type": "number" },
+            "min": { "type": "number" }, "max": { "type": "number" }, "wrap": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object", "required": ["cycle", "values"], "additionalProperties": false,
+          "properties": {
+            "cycle": { "$ref": "#/definitions/source" },
+            "values": { "type": "array", "items": { "type": ["number", "string"] }, "minItems": 2 },
+            "mode": { "enum": ["wrap", "bounce"] }
+          }
+        }
+      ]
+    },
+
+    "mock": {
+      "description": "PACK-FORMAT 15. Keys are canonical source keys and canonical action strings.",
+      "type": "object",
+      "properties": {
+        "values": { "type": "object", "additionalProperties": { "type": ["number", "string", "boolean"] } },
+        "rules": {
+          "type": "object",
+          "additionalProperties": { "type": "array", "items": { "$ref": "#/definitions/mockRule" }, "minItems": 1 }
+        },
+        "drift": {
+          "type": "object",
+          "additionalProperties": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "catalog": {
+      "description": "PACK-FORMAT 3",
+      "type": "object",
+      "required": ["format", "version", "vendors", "packs"],
+      "properties": {
+        "format": { "const": "panelkit-catalog" },
+        "version": { "$ref": "#/definitions/version" },
+        "vendors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "file"],
+            "properties": {
+              "id": { "$ref": "#/definitions/vendorId" },
+              "title": { "type": "string", "minLength": 1 },
+              "file": { "$ref": "#/definitions/path" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "libraries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "file"],
+            "properties": {
+              "id": { "$ref": "#/definitions/packId" },
+              "file": { "$ref": "#/definitions/path" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "packs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "vendor", "dir", "files", "uses"],
+            "properties": {
+              "id": { "$ref": "#/definitions/packId" },
+              "title": { "type": "string", "minLength": 1 },
+              "vendor": { "$ref": "#/definitions/vendorId" },
+              "dir": { "type": "string", "pattern": "^[^\\\\:]+/$" },
+              "files": {
+                "type": "array",
+                "items": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+\\.js$" },
+                "minItems": 1,
+                "uniqueItems": true,
+                "contains": { "const": "pack.js" }
+              },
+              "uses": { "type": "array", "items": { "$ref": "#/definitions/packId" }, "uniqueItems": true },
+              "legacyIds": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }, "uniqueItems": true },
+              "hidden": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "notes": { "$ref": "#/definitions/notes" }
+      },
+      "additionalProperties": false
+    },
+
+    "vendor": {
+      "description": "PACK-FORMAT 4",
+      "type": "object",
+      "required": ["format", "version", "id", "title"],
+      "properties": {
+        "format": { "const": "panelkit-vendor" },
+        "version": { "$ref": "#/definitions/version" },
+        "id": { "$ref": "#/definitions/vendorId" },
+        "title": { "type": "string", "minLength": 1 },
+        "adapter": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "conventions": { "$ref": "#/definitions/conventions" },
+        "settingsDefaults": { "$ref": "#/definitions/settingsDefaults" },
+        "theme": { "$ref": "#/definitions/theme" },
+        "templates": { "$ref": "#/definitions/templates" },
+        "maps": { "$ref": "#/definitions/maps" },
+        "formats": { "$ref": "#/definitions/formats" },
+        "notes": { "$ref": "#/definitions/notes" }
+      },
+      "additionalProperties": false
+    },
+
+    "library": {
+      "description": "PACK-FORMAT 5",
+      "type": "object",
+      "required": ["format", "version", "id", "title", "defaultAlias", "controls"],
+      "properties": {
+        "format": { "const": "panelkit-library" },
+        "version": { "$ref": "#/definitions/version" },
+        "id": { "$ref": "#/definitions/packId" },
+        "title": { "type": "string", "minLength": 1 },
+        "defaultAlias": { "$ref": "#/definitions/alias" },
+        "templates": { "$ref": "#/definitions/templates" },
+        "maps": { "$ref": "#/definitions/maps" },
+        "formats": { "$ref": "#/definitions/formats" },
+        "controls": { "$ref": "#/definitions/controls" },
+        "scripts": { "$ref": "#/definitions/scripts" },
+        "notes": { "$ref": "#/definitions/notes" }
+      },
+      "additionalProperties": false
+    },
+
+    "pack": {
+      "description": "PACK-FORMAT 6",
+      "type": "object",
+      "required": ["format", "version", "id", "title", "controls", "pages"],
+      "properties": {
+        "format": { "const": "panelkit-pack" },
+        "version": { "$ref": "#/definitions/version" },
+        "id": { "$ref": "#/definitions/packId" },
+        "title": { "type": "string", "minLength": 1 },
+        "extends": { "$ref": "#/definitions/vendorId" },
+        "sim": { "type": "string" },
+        "adapter": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "storageKey": { "type": "string", "minLength": 1, "pattern": "^[^:]+$" },
+        "conventions": { "$ref": "#/definitions/conventions" },
+        "uses": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/packId" },
+              {
+                "type": "object",
+                "required": ["id"],
+                "properties": { "id": { "$ref": "#/definitions/packId" }, "as": { "$ref": "#/definitions/alias" } },
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "overrides": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-zA-Z0-9]*\\.[a-zA-Z][a-zA-Z0-9_]*$" },
+          "additionalProperties": { "type": "object" }
+        },
+        "settingsDefaults": { "$ref": "#/definitions/settingsDefaults" },
+        "theme": { "$ref": "#/definitions/theme" },
+        "templates": { "$ref": "#/definitions/templates" },
+        "maps": { "$ref": "#/definitions/maps" },
+        "formats": { "$ref": "#/definitions/formats" },
+        "controls": { "$ref": "#/definitions/controls" },
+        "pages": { "type": "array", "items": { "$ref": "#/definitions/page" }, "minItems": 1 },
+        "scripts": { "$ref": "#/definitions/scripts" },
+        "scriptsXml": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+\\.xml$" },
+        "mock": { "$ref": "#/definitions/mock" },
+        "notes": { "$ref": "#/definitions/notes" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

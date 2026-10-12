@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "layout-export.schema.json",
+  "title": "PanelKit layout export / import, version 1",
+  "description": "PACK-FORMAT 17. Edit mode writes only the two panelkit-* forms. Import also accepts the v0.3 bksq-* forms and a bare { layout, cols }. On import, non-string tokens become 'empty', cols outside 1-12 fall back to the page's cols, and unknown pages are skipped; the lenient item and cols schemas of the import-only forms reflect that.",
+  "oneOf": [
+    { "$ref": "#/definitions/panelkitLayout" },
+    { "$ref": "#/definitions/panelkitLayouts" },
+    { "$ref": "#/definitions/legacyLayout" },
+    { "$ref": "#/definitions/legacyLayouts" },
+    { "$ref": "#/definitions/bareLayout" }
+  ],
+  "definitions": {
+    "token": {
+      "type": "string",
+      "pattern": "^([a-zA-Z][a-zA-Z0-9_]*|[a-z][a-zA-Z0-9]*\\.[a-zA-Z][a-zA-Z0-9_]*)$"
+    },
+    "packId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$" },
+    "pageId": { "type": "string", "pattern": "^[a-z][a-zA-Z0-9_-]*$" },
+    "cols": { "type": "integer", "minimum": 1, "maximum": 12 },
+    "strictLayout": { "type": "array", "items": { "$ref": "#/definitions/token" } },
+    "lenientLayout": { "type": "array" },
+
+    "strictPage": {
+      "type": "object",
+      "required": ["cols", "layout"],
+      "properties": {
+        "cols": { "$ref": "#/definitions/cols" },
+        "layout": { "$ref": "#/definitions/strictLayout" }
+      },
+      "additionalProperties": false
+    },
+    "lenientPage": {
+      "type": "object",
+      "required": ["layout"],
+      "properties": {
+        "cols": {},
+        "layout": { "$ref": "#/definitions/lenientLayout" }
+      }
+    },
+
+    "panelkitLayout": {
+      "description": "One page, written by edit mode.",
+      "type": "object",
+      "required": ["format", "version", "pack", "page", "cols", "layout"],
+      "properties": {
+        "format": { "const": "panelkit-layout" },
+        "version": { "const": 1 },
+        "pack": { "$ref": "#/definitions/packId" },
+        "page": { "$ref": "#/definitions/pageId" },
+        "cols": { "$ref": "#/definitions/cols" },
+        "layout": { "$ref": "#/definitions/strictLayout" }
+      },
+      "additionalProperties": false
+    },
+
+    "panelkitLayouts": {
+      "description": "All saved pages of one pack, written by edit mode. Pages without a saved layout are omitted.",
+      "type": "object",
+      "required": ["format", "version", "pack", "pages"],
+      "properties": {
+        "format": { "const": "panelkit-layouts" },
+        "version": { "const": 1 },
+        "pack": { "$ref": "#/definitions/packId" },
+        "pages": {
+          "type": "object",
+          "propertyNames": { "$ref": "#/definitions/pageId" },
+          "additionalProperties": { "$ref": "#/definitions/strictPage" }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "legacyLayout": {
+      "description": "v0.3 single-page export (import only). 'aircraft' is matched against the pack's legacyIds; 'page' through PK.resolvePageId.",
+      "type": "object",
+      "required": ["format", "layout"],
+      "properties": {
+        "format": { "const": "bksq-layout" },
+        "version": {},
+        "aircraft": { "type": "string" },
+        "page": { "type": "string" },
+        "cols": {},
+        "layout": { "$ref": "#/definitions/lenientLayout" }
+      }
+    },
+
+    "legacyLayouts": {
+      "description": "v0.3 all-pages export (import only).",
+      "type": "object",
+      "required": ["format", "pages"],
+      "properties": {
+        "format": { "const": "bksq-layouts" },
+        "version": {},
+        "aircraft": { "type": "string" },
+        "pages": { "type": "object", "additionalProperties": { "$ref": "#/definitions/lenientPage" } }
+      }
+    },
+
+    "bareLayout": {
+      "description": "Hand-written or copied layout for the current page (import only).",
+      "type": "object",
+      "required": ["layout"],
+      "properties": {
+        "format": false,
+        "pages": false,
+        "cols": {},
+        "layout": { "$ref": "#/definitions/lenientLayout" }
+      }
+    }
+  }
+}

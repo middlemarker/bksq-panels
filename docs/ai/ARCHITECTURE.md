@@ -1,5 +1,7 @@
 # Architecture (AI reference)
 
+This describes the shipped v0.x engine. A vendor-neutral successor, **PanelKit**, is designed in [docs/design/panelkit/](../design/panelkit/README.md) and will be built next to this engine (nothing here changes until its switch-over work package is approved).
+
 ## Layers
 
 ```

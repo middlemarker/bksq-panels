@@ -170,7 +170,12 @@ Every change updates the docs it affects, in the same change. Use this map:
 | Layouts or buttons | re-run `node tools/audit-layouts.js` (`docs/LAYOUT-AUDIT.md`) |
 | Script labels / sim bindings | aircraft `CONFIG.md` |
 | Agent rules | `AGENTS.md` |
+| PanelKit design | the affected `docs/design/panelkit/*` files (keep `PACK-FORMAT.md` and `schemas/` in agreement) |
 | Anything user-visible | `CHANGELOG.txt` |
+
+## PanelKit (planned successor)
+
+A vendor- and aircraft-neutral engine is designed in [docs/design/panelkit/](design/panelkit/README.md): aircraft become data packs (no HTML or DOM ids), sim access goes through adapters, and the AAO script XML is generated from the pack. It will be built next to this engine following [IMPLEMENTATION-PLAN.md](design/panelkit/IMPLEMENTATION-PLAN.md); until the approved switch-over, everything in this guide stays authoritative.
 
 ## Script reference
 

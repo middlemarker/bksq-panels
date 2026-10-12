@@ -12,6 +12,13 @@ Tools
 - tools/audit-layouts.js also checks that each page id matches its boot
   call, panel registration and nav links.
 
+Documentation
+- PanelKit design (docs/design/panelkit/): a proposed generic touch-panel
+  engine for other vendors and aircraft — high-level design, pack format,
+  widgets, adapters, detailed design, decisions, authoring guide, migration
+  plan, JSON schemas and a step-by-step implementation plan. Design only;
+  the shipped panels are unchanged by it.
+
 Version: v0.3 (2026-10-12)
 =========================================
 Panels

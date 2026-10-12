@@ -44,6 +44,7 @@ On a tablet on the same Wi‑Fi, use `http://<PC_IP>:<AAO_PORT>/bksq-panels/inde
 | Authors / contributors | [docs/DEVELOPER-GUIDE.md](docs/DEVELOPER-GUIDE.md) — architecture, buttons, polls, tools |
 | AI coding agents | [AGENTS.md](AGENTS.md) and [docs/ai/](docs/ai/) |
 | Layout review | [docs/LAYOUT-AUDIT.md](docs/LAYOUT-AUDIT.md) — per-page findings (regenerate with `node tools/audit-layouts.js`) |
+| Future engine (design only) | [docs/design/panelkit/](docs/design/panelkit/README.md) — PanelKit, a generic touch-panel system for other vendors and aircraft: high-level design, specs, migration and implementation plan |
 
 **Aircraft notes:** [aircraft/starship/README.md](aircraft/starship/README.md), [aircraft/tbm850/README.md](aircraft/tbm850/README.md)
 

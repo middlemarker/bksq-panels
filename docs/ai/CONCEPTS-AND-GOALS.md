@@ -30,6 +30,7 @@
 4. Clear **audit trail** for layout mistakes (unknown tokens, dead polls).
 5. **Consistent chrome**: the bottom bar looks and behaves the same on every page and on the settings screen.
 6. **Documentation kept current** with every change (see `AGENTS.md`).
+7. **Longer term:** a vendor- and aircraft-neutral engine (PanelKit) where new aircraft are data packs; design in [docs/design/panelkit/](../design/panelkit/README.md), goals G1–G8 in its HLD.
 
 ## Non-goals
 
