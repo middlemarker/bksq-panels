@@ -5,7 +5,8 @@
  * panels/overrides.js) in a Node vm sandbox and analyses what they produce:
  * unknown/duplicate tokens, duplicate DOM ids, dead poll targets, custom polls
  * without a handler, row comments that don't match the rendered rows, dead
- * panel files, and buttons not placed on any page.
+ * panel files, page ids that differ between aircraft.js / boot() / nav links,
+ * and buttons not placed on any page.
  *
  * Usage: node tools/audit-layouts.js
  */
@@ -262,8 +263,48 @@ function auditAircraft(acId) {
     });
   });
 
+  sections.push(auditPageIds(acId, ctx, pageFiles, pageText));
+
   var unused = Object.keys(buttons).filter(function (t) { return t !== 'empty' && !placed[t]; }).sort();
   return { sections: sections, unused: unused, buttonCount: Object.keys(buttons).length - (buttons.empty ? 1 : 0) };
+}
+
+/** aircraft.js page id = boot() argument = SSP_PANELS key = data-panel-nav value. */
+function auditPageIds(acId, ctx, pageFiles, pageText) {
+  var pages = (ctx.BKSQ_AIRCRAFT && ctx.BKSQ_AIRCRAFT.pages) || [];
+  var known = {};
+  var byHref = {};
+  var findings = [];
+  pages.forEach(function (p) {
+    known[p.id] = true;
+    byHref[p.href] = p;
+  });
+  pages.forEach(function (p) {
+    var html = pageText[p.href];
+    if (html === undefined) {
+      findings.push('**Missing page file:** `' + p.id + '` points to `pages/' + p.href + '`.');
+      return;
+    }
+    var m = /SSPRuntime\.boot\('([^']*)'\)/.exec(html);
+    var bootId = m ? m[1] : null;
+    if (bootId !== p.id) {
+      findings.push('**Page id mismatch:** `aircraft.js` id `' + p.id + '` but `pages/' + p.href + '` boots `' + bootId +
+        '`. Nav visibility and auto-home use the first; last page and saved layouts the second.');
+    }
+    if (!ctx.SSP_PANELS || !ctx.SSP_PANELS[p.id]) {
+      findings.push('**No panel registered** as `SSP_PANELS.' + p.id + '`.');
+    }
+  });
+  pageFiles.forEach(function (f) {
+    var redirect = /http-equiv="refresh"/i.test(pageText[f]);
+    if (!byHref[f] && !redirect) findings.push('**Unlisted page file:** `pages/' + f + '` is not in `aircraft.js` `pages[]`.');
+    var re = /data-panel-nav="([^"]*)"/g;
+    var m;
+    while ((m = re.exec(pageText[f])) !== null) {
+      if (!known[m[1]]) findings.push('**Unknown nav id:** `pages/' + f + '` links `data-panel-nav="' + m[1] + '"`.');
+    }
+  });
+  return { aircraft: acId, id: 'page ids', cols: '—', tokens: pages.length + ' pages', findings: findings };
 }
 
 var results = AIRCRAFT.map(function (ac) { return { id: ac, data: auditAircraft(ac) }; });

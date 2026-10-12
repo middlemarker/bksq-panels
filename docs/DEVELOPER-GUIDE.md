@@ -81,10 +81,12 @@ Optional **`everyMs`** on a poll rule throttles DOM updates (slow gauges).
 ## Adding a page
 
 1. Add `{ id, label, navLabel, href }` to `aircraft.js` `pages[]` (plus `noEdit: true` if CSS-positioned).
-2. Create `pages/<name>.html` by copying an existing page: fix the nav (`class="active"` on the new tab) and the `SSPRuntime.boot('<id>')` call, and keep `panel-nav.js` after `panel-runtime.js`.
+2. Create `pages/<name>.html` by copying an existing page: fix the nav (`class="active"` on the new tab) and the `SSPRuntime.boot('<id>')` call, and keep `panel-nav.js` after `panel-runtime.js`. The page `id`, the `boot('<id>')` argument, the `window.SSP_PANELS.<id>` key and every `data-panel-nav="<id>"` must be the same string — settings, auto-home, last page and saved layouts are all keyed by it.
 3. Create `config/panels/<name>.js` with the layout.
 4. Add the nav link in all sibling `pages/*.html` for that aircraft (the hub builds its tabs from `pages[]` automatically).
 5. Run `node tools/audit-layouts.js` and update the docs (see [Keeping docs current](#keeping-docs-current)).
+
+To rename a page id later, keep the old one in the entry's `aliases: ['old']` so stored settings (`navPages`, `autoHomePage`) carry over. Saved layouts are keyed by the id too and are not migrated; the TBM entry `{ id: 'avionics', aliases: ['avnenv'] }` is an example.
 
 ## Adding an aircraft
 
@@ -100,7 +102,7 @@ All keys are prefixed with the aircraft `storageKey`:
 
 | Key | Contents | Written by |
 |-----|----------|------------|
-| `<storageKey>` | Settings object (poll ms, fonts, nav tabs, `autoHomePage`, `autoHomeIdleSec`, …) | `panel-settings.js` |
+| `<storageKey>` | Settings object (poll ms, fonts, nav tabs `navPages: { pageId: bool }`, `autoHomePage`, `autoHomeIdleSec`, …). Page ids listed in a page's `aliases` are mapped to its `id` on load | `panel-settings.js` |
 | `<storageKey>:layout:<pageId>` | `{ layout: [...], cols }` saved layout | `panel-edit.js` |
 | `<storageKey>:edit-recent` | Recently placed tokens (picker **Recent**) | `panel-edit.js` |
 | `<storageKey>:last-page` | Last panel page id (hub EDIT button, tab underline) | `panel-nav.js` |
@@ -125,7 +127,7 @@ Import also accepts a bare `{ "layout": [...], "cols": n }`. Non-string entries 
 | Script | Purpose |
 |--------|---------|
 | `tools/check-es5.js` | ES5 / iOS 12.5 syntax guard (comments are ignored) |
-| `tools/audit-layouts.js` | Runs the real configs in a Node `vm` sandbox and writes `docs/LAYOUT-AUDIT.md`: unknown/duplicate tokens, duplicate DOM ids, dead poll targets, custom polls without a handler, row-comment mismatches, dead panel files, unplaced buttons |
+| `tools/audit-layouts.js` | Runs the real configs in a Node `vm` sandbox and writes `docs/LAYOUT-AUDIT.md`: unknown/duplicate tokens, duplicate DOM ids, dead poll targets, custom polls without a handler, row-comment mismatches, dead panel files, page ids that differ between `aircraft.js`, `boot()`, `SSP_PANELS` and nav links (redirect stubs are skipped), unplaced buttons |
 | `aircraft/*/tools/check-manifest.js` | SSP labels in JS vs XML |
 
 TBM binding verification (local `ref/AnalogTBM.xml`, gitignored):

@@ -60,7 +60,11 @@ function AaoWebApi(){
 		dxhttp.addEventListener("load", function () {
 			_inFlight = false;
 			_lastRtt = Date.now() - started;
-			_dataRequestListener.call(dxhttp);
+			try {
+				_dataRequestListener.call(dxhttp);
+			} catch (e) {
+				_lastRtt = 2000;
+			}
 			scheduleNextLoop();
 		});
 		dxhttp.addEventListener("error", function () {

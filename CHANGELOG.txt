@@ -1,3 +1,17 @@
+Version: v0.4 (unreleased)
+=========================================
+Fixes
+- Polling keeps running after a malformed AAO response (previously the
+  lamps and readouts froze until the page was reloaded).
+- TBM 850 AVN/ENV page: auto-home no longer reloads the page every idle
+  period when AVN/ENV itself is the home page; the ⌂ button on that page
+  works; the settings screen marks it as the last page; "export all" in edit
+  mode includes its layout. Existing settings for this page carry over.
+
+Tools
+- tools/audit-layouts.js also checks that each page id matches its boot
+  call, panel registration and nav links.
+
 Version: v0.3 (2026-10-12)
 =========================================
 Panels

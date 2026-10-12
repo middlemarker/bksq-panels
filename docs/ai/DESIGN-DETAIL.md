@@ -70,7 +70,9 @@ Public: `init(pageId, panel)`, `exit()`, `active`, `mode` (`'move'` | `'delete'`
 
 ### `aircraft.js` page entry
 
-`{ id, label, navLabel, href, hiddenByDefault?, noEdit? }` — `noEdit` marks CSS-positioned pages for the hub EDIT button.
+`{ id, label, navLabel, href, hiddenByDefault?, noEdit?, aliases? }` — `noEdit` marks CSS-positioned pages for the hub EDIT button. `aliases` lists retired ids; `panel-settings.js` maps them to `id` when loading `navPages` and `autoHomePage`.
+
+`id` must equal the `SSPRuntime.boot()` argument, the `SSP_PANELS` key and the page's `data-panel-nav` value; nav tools, settings and layout storage all key on it. `tools/audit-layouts.js` reports a mismatch.
 
 ### `AaoWebApi` instance `webApi`
 
@@ -79,6 +81,7 @@ Public: `init(pageId, panel)`, `exit()`, `active`, `mode` (`'move'` | `'delete'`
 - `StartAPI(ms)`, `StopAPI()`, `setPollInterval(ms)` (if extended)
 - `getDataRevision()` — monotonic counter after each GET parse
 - `onData(callback)` — optional listener after cache update
+- A response that fails to parse (or throws in the listener) counts as a slow poll (`_lastRtt = 2000`, widening the adaptive interval); the loop always schedules the next request, so polling never stops on bad data.
 
 ### `common.js` helpers
 

@@ -36,6 +36,7 @@ Entry point for AI coding agents working in this repository.
 
 - Events: `(>K:<eventGroup>-<SSP_LABEL>)` where `eventGroup` is in `BKSQ_AIRCRAFT.eventGroup`.
 - Panel registry: `window.SSP_PANELS[pageId]` built by `SSPPanel` / `SSP_PANEL_FACTORY`.
+- One page id everywhere: `aircraft.js` page `id` = `SSPRuntime.boot()` argument = `SSP_PANELS` key = `data-panel-nav`. A renamed id goes in the page's `aliases`. `tools/audit-layouts.js` flags mismatches.
 - Boot: `SSPRuntime.boot('pageId')` after scripts load; panel pages load `panel-nav.js` after `panel-runtime.js`.
 - Settings: `localStorage` key from `BKSQ_AIRCRAFT.storageKey`; poll ms via `SSP_GET_POLL_MS()`. Other keys are `<storageKey>:layout:<pageId>`, `:edit-recent`, `:last-page`.
 - Nav bar (panel pages and hub): page tabs → ⌂ → EDIT → gear. Keep them identical; the hub gets its tools from `SSP_NAV_TOOLS.mountHub()`.

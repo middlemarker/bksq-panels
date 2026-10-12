@@ -74,14 +74,25 @@
     };
   }
 
-  function normalizeAutoHomePage(id) {
+  /** Page id for `id`, resolving retired ids listed in a page's `aliases`; '' if unknown. */
+  function canonicalPageId(id) {
     var pages = getMeta().pages || [];
-    var i;
+    var i, j, aliases;
     if (typeof id !== 'string' || !id) return '';
     for (i = 0; i < pages.length; i++) {
       if (pages[i].id === id) return id;
     }
+    for (i = 0; i < pages.length; i++) {
+      aliases = pages[i].aliases || [];
+      for (j = 0; j < aliases.length; j++) {
+        if (aliases[j] === id) return pages[i].id;
+      }
+    }
     return '';
+  }
+
+  function normalizeAutoHomePage(id) {
+    return canonicalPageId(id);
   }
 
   function storageKey() {
@@ -95,10 +106,12 @@
   }
 
   function mergeNavPages(dst, src) {
-    var k;
+    var k, id;
     if (!src || typeof src !== 'object' || !dst) return;
     for (k in src) {
-      if (Object.prototype.hasOwnProperty.call(src, k) && Object.prototype.hasOwnProperty.call(dst, k)) dst[k] = !!src[k];
+      if (!Object.prototype.hasOwnProperty.call(src, k)) continue;
+      id = canonicalPageId(k);
+      if (id && Object.prototype.hasOwnProperty.call(dst, id)) dst[id] = !!src[k];
     }
   }
 
