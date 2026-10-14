@@ -43,7 +43,7 @@ The v0.3 engine works well for two Black Square aircraft, but adding a third air
 | C2 | Served as static files (AxisAndOhs web server or any static server); also openable from `file://` for desktop dev | Synchronous `<script>` loading; no server-side code |
 | C3 | AxisAndOhs HTTP API: reads register vars on first `GetSimVar`; actions are K-events, RPN scripts | Adapter must register lazily and avoid registering fallbacks every tick |
 | C4 | Tools run on plain Node (no `npm install`) | Hand-written validator and test runner |
-| C5 | Repository rules in `AGENTS.md` (docs updated in the same change, ES5 check, don't rearrange shipped layouts, never commit `ref/`) | Apply to every work package |
+| C5 | Repository rules in `AGENTS.md` (docs updated in the same change, ES5 check, don't rearrange shipped layouts) | Apply to every work package |
 
 ## 5. Architecture overview
 

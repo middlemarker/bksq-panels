@@ -7,9 +7,6 @@
 | Command | Purpose |
 |---------|---------|
 | `node aircraft/tbm850/tools/check-manifest.js` | `SSP_TBM_*` labels in JS ↔ `bksq-tbm850-scripts.xml` |
-| `node aircraft/tbm850/tools/verify-analogtbm.js` | L:/H:/circuit indices in panel XML ↔ local `ref/AnalogTBM.xml` (gitignored) |
-
-`ref/` holds local aircraft reference files only — not tracked in git. Place `AnalogTBM.xml` there for binding audits.
 
 ## AAO dispatch
 
@@ -83,7 +80,7 @@ This package ships **overhead**, **avionics (AVN/ENV)**, and **EFB** pages. Swit
 
 ## Reserved labels (defined, not yet on a page)
 
-These `SSP_TBM_*` labels are defined in `bksq-tbm850-scripts.xml` and have matching button entries in `config/buttons.js` under the **UNUSED** banner. They are not placed on any `config/panels/*.js` layout yet — drop the button key into a layout array to activate one. Run `node tools/verify-analogtbm.js` against a local `AnalogTBM.xml` copy to re-check L:/H:/circuit bindings.
+These `SSP_TBM_*` labels are defined in `bksq-tbm850-scripts.xml` and have matching button entries in `config/buttons.js` under the **UNUSED** banner. They are not placed on any `config/panels/*.js` layout yet — drop the button key into a layout array to activate one.
 
 ### Anti-Ice (intended for a future `pages/antiice.html`)
 

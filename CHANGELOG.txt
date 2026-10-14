@@ -11,6 +11,8 @@ Fixes
 Tools
 - tools/audit-layouts.js also checks that each page id matches its boot
   call, panel registration and nav links.
+- Removed the TBM binding-verification script; it depended on local
+  reference files that are no longer kept alongside the repository.
 
 Documentation
 - PanelKit design (docs/design/panelkit/): a proposed generic touch-panel

@@ -130,12 +130,6 @@ Import also accepts a bare `{ "layout": [...], "cols": n }`. Non-string entries 
 | `tools/audit-layouts.js` | Runs the real configs in a Node `vm` sandbox and writes `docs/LAYOUT-AUDIT.md`: unknown/duplicate tokens, duplicate DOM ids, dead poll targets, custom polls without a handler, row-comment mismatches, dead panel files, page ids that differ between `aircraft.js`, `boot()`, `SSP_PANELS` and nav links (redirect stubs are skipped), unplaced buttons |
 | `aircraft/*/tools/check-manifest.js` | SSP labels in JS vs XML |
 
-TBM binding verification (local `ref/AnalogTBM.xml`, gitignored):
-
-```text
-node aircraft/tbm850/tools/verify-analogtbm.js
-```
-
 ## iOS 12.5 / ES5 rules
 
 - No `let`/`const`, arrow functions, template literals, spread, `async`/`await`, optional chaining.

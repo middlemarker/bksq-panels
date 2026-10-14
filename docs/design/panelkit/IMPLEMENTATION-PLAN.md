@@ -15,7 +15,7 @@ Work packages (WPs) for building PanelKit. Each WP is sized for one agent sessio
 9. **Tests ship with the code.** Every WP adds `panelkit/tests/*.test.js` covering its acceptance criteria. Use the fake clock (`PK.util.now`) and fake timers from the test helpers; tests MUST NOT sleep.
 10. **No public API beyond the spec.** Internal helpers are fine; anything other modules call MUST be in DETAILED-DESIGN §23 (add it there in the same change if a WP requires it).
 11. **Keep the docs current** (`AGENTS.md` rule 1). Each WP lists the docs it must update; also update these design docs if the implementation reveals a needed clarification.
-12. **Git hygiene.** Never commit `ref/`. Never push, force-push or rewrite history unless the user asks.
+12. **Git hygiene.** Never push, force-push or rewrite history unless the user asks.
 
 ## 2. WP format
 
@@ -72,8 +72,7 @@ WP-00 ─ WP-01 ─ WP-02 ─┬─ WP-03 ─ WP-04 ─ WP-05 ─ WP-06
 - **Spec:** DETAILED-DESIGN §2, §22; `AGENTS.md` constraint 2
 - **Tasks:**
   1. Make `check-es5.js` usable as a module (`module.exports = { scanText: fn }`, CLI only when `require.main === module`).
-  2. Skip the `ref/` directory.
-  3. For files under `panelkit/`, `packs/` and `tools/pk-*.js` / `tools/lib/`, also flag: `class ` declarations, `for (… of …)`, `.includes(`, `.startsWith(`, `.endsWith(`, `.padStart(`, `.padEnd(`, `Object.values(`, `Object.entries(`, `.forEach(` on `querySelectorAll` results (pattern `querySelectorAll(...).forEach`), destructuring in `var` (`var {` / `var [`). Legacy files keep the current rule set.
+  2. For files under `panelkit/`, `packs/` and `tools/pk-*.js` / `tools/lib/`, also flag: `class ` declarations, `for (… of …)`, `.includes(`, `.startsWith(`, `.endsWith(`, `.padStart(`, `.padEnd(`, `Object.values(`, `Object.entries(`, `.forEach(` on `querySelectorAll` results (pattern `querySelectorAll(...).forEach`), destructuring in `var` (`var {` / `var [`). Legacy files keep the current rule set.
 - **Acceptance:** repository still passes; each new pattern is flagged in a fixture string; legacy files unaffected.
 - **Tests:** `scanText` positive and negative cases for every pattern, including path scoping.
 - **Docs:** `docs/DEVELOPER-GUIDE.md` (what the ES5 check covers); `AGENTS.md` verification list unchanged.

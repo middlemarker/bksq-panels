@@ -16,8 +16,7 @@ Entry point for AI coding agents working in this repository.
 3. **Do not rearrange shipped layouts** to “fix” UX — report issues in `docs/LAYOUT-AUDIT.md` via `tools/audit-layouts.js`.
 4. Every `SSP_*` label in buttons must exist in the aircraft `bksq-*-scripts.xml`.
 5. `getLVar` / `getAVar` are **cache reads**; first read registers vars on the AAO poll URL. Avoid registering fallback A-vars every tick.
-6. Never commit `ref/` (gitignored local AnalogTBM copies).
-7. **PanelKit** (the planned generic engine) is built only by following `docs/design/panelkit/IMPLEMENTATION-PLAN.md`: one work package per change, the spec is normative, and legacy files (`common/`, `aircraft/`, `index.html`) change only where the work package lists them. Switch-over (WP-28) and legacy removal (WP-29) need explicit user approval.
+6. **PanelKit** (the planned generic engine) is built only by following `docs/design/panelkit/IMPLEMENTATION-PLAN.md`: one work package per change, the spec is normative, and legacy files (`common/`, `aircraft/`, `index.html`) change only where the work package lists them. Switch-over (WP-28) and legacy removal (WP-29) need explicit user approval.
 
 ## Documentation map (what to update)
 
